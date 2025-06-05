@@ -53,6 +53,9 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
     public let accessibility: Accessibility?
+    public let minimumScaleFactor: Float?
+    public let isEnabled: Bool?
+    public let allowsDefaultTighteningForTruncation: Bool?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -60,7 +63,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     enum ColorsCodingKeys: CodingKey { case key }
     enum StringsCodingKeys: CodingKey { case key }
     enum MutableStringsCodingKeys: CodingKey { case key }
-    
+
     static func decode(_ xml: XMLIndexerType) throws -> Label {
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
@@ -69,6 +72,8 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
                 case .isAmbiguous: return "ambiguous"
                 case .isHidden: return "hidden"
                 case .attributedText: return "attributedString"
+                case .isEnabled: return "enabled"
+                case .allowsDefaultTighteningForTruncation: return "adjustsLetterSpacingToFitWidth"
                 default: return key.stringValue
                 }
             }()
@@ -136,7 +141,10 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             adjustsFontForContentSizeCategory:         container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            minimumScaleFactor:                        container.attributeIfPresent(of: .minimumScaleFactor),
+            isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
+            allowsDefaultTighteningForTruncation:      container.attributeIfPresent(of: .allowsDefaultTighteningForTruncation)
         )
     }
 

@@ -450,6 +450,36 @@ class Tests: XCTestCase {
         }
     }
 
+    func testLabelsAttrIsEnabled() throws {
+        let url = self.url(forResource: "LabelsAttrIsEnabled", withExtension: "storyboard")
+        let file = try StoryboardFile(url: url)
+        guard let rootView = file.document.scenes?.first?.viewController?.viewController.rootView else {
+            throw NSError(domain: "rootView not found", code: 0)
+        }
+        guard let labels = (rootView.subviews?.compactMap { $0.view as? Label }) else {
+            throw NSError(domain: "labels not found", code: 0)
+        }
+        let labelWithEnableDefault = labels[0]
+        XCTAssertNil(labelWithEnableDefault.isEnabled)
+        let labelWithEnableTrue = labels[1]
+        XCTAssertEqual(labelWithEnableTrue.isEnabled, false)
+    }
+
+    func testLabelsAttrAllowsDefaultTighteningForTruncation() throws {
+        let url = self.url(forResource: "LabelsAttrAllowsDefaultTighteningForTruncation", withExtension: "storyboard")
+        let file = try StoryboardFile(url: url)
+        guard let rootView = file.document.scenes?.first?.viewController?.viewController.rootView else {
+            throw NSError(domain: "rootView not found", code: 0)
+        }
+        guard let labels = (rootView.subviews?.compactMap { $0.view as? Label }) else {
+            throw NSError(domain: "labels not found", code: 0)
+        }
+        let labelWithDefaultValue = labels[0]
+        XCTAssertNil(labelWithDefaultValue.allowsDefaultTighteningForTruncation)
+        let labelWithValueTrue = labels[1]
+        XCTAssertEqual(labelWithValueTrue.allowsDefaultTighteningForTruncation, true)
+    }
+
     func testLabelsWithFonts() {
         let url = self.url(forResource: "LabelsWithFonts", withExtension: "xib")
         do {
