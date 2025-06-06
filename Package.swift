@@ -4,16 +4,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "IBDecodable",
+    name: "StoryboardDecoder",
     products: [
-        .library(name: "IBDecodable", targets: ["IBDecodable"])
+        .library(name: "StoryboardDecoder", targets: ["Decoder"])
     ],
     dependencies: [
         .package(url: "https://github.com/drmohundro/SWXMLHash.git", from: "7.0.2")
     ],
     targets: [
-        .target(name: "IBDecodable", dependencies: ["SWXMLHash"], path: "Sources"),
-        .testTarget(name: "IBDecodableTests", dependencies: ["IBDecodable"]),
-        .testTarget(name: "DiscoverTests", dependencies: ["IBDecodable"])
+        .target(name: "Decoder", dependencies: ["SWXMLHash"], path: "Sources"),
+        .testTarget(name: "DecoderTests", dependencies: ["Decoder"]),
+        .testTarget(name: "DiscoverTests", dependencies: ["Decoder"])
     ]
 )
