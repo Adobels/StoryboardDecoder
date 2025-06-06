@@ -23,6 +23,9 @@ public struct ImageView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let colorLabel: String?
     public let fixedFrame: Bool?
     public let image: String?
+    public let highlightedImage: String?
+    public let highlighted: Bool?
+    public let adjustsImageSizeForAccessibilityContentSizeCategory: Bool?
     public let catalog: String?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let isMisplaced: Bool?
@@ -84,6 +87,9 @@ public struct ImageView: IBDecodable, ViewProtocol, IBIdentifiable {
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             fixedFrame:                                container.attributeIfPresent(of: .fixedFrame),
             image:                                     container.attributeIfPresent(of: .image),
+            highlightedImage:                          container.attributeIfPresent(of: .highlightedImage),
+            highlighted:                               container.attributeIfPresent(of: .highlighted),
+            adjustsImageSizeForAccessibilityContentSizeCategory: container.attributeIfPresent(of: .adjustsImageSizeForAccessibilityContentSizeCategory),
             catalog:                                   container.attributeIfPresent(of: .catalog),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
