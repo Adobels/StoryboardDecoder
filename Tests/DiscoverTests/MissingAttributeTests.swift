@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import IBDecodable
+@testable import StoryboardDecoder
 
 #if DISABLE_REMOTE_RESOURCES_TEST
 #else

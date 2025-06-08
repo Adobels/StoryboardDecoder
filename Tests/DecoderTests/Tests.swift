@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import IBDecodable
+@testable import StoryboardDecoder
 import Foundation
 
 class Tests: XCTestCase {
