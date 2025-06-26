@@ -51,6 +51,8 @@ public struct Switch: IBDecodable, ControlProtocol, IBIdentifiable {
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let accessibility: Accessibility?
+    public let title: String?
+    public let preferredStyle: PreferredStyle?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -64,7 +66,6 @@ public struct Switch: IBDecodable, ControlProtocol, IBIdentifiable {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
                 case .isHidden: return "hidden"
-                case .onTintColor: return "color"
                 case .isEnabled: return "enabled"
                 case .isHighlighted: return "highlighted"
                 case .isSelected: return "selected"
@@ -117,7 +118,23 @@ public struct Switch: IBDecodable, ControlProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            title:                                     container.attributeIfPresent(of: .title),
+            preferredStyle:                            container.attributeIfPresent(of: .preferredStyle),
         )
+    }
+
+    public enum PreferredStyle: XMLAttributeDecodable, KeyDecodable {
+        case automatic
+        case checkbox
+        case sliding
+
+        static func decode(_ attribute: XMLAttribute) throws -> Self {
+            switch attribute.text {
+            case "checkbox": return .checkbox
+            case "sliding": return .sliding
+            default: return .automatic
+            }
+        }
     }
 }
