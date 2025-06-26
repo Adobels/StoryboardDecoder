@@ -49,6 +49,9 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
     public let verticalHuggingPriority: Int?
 
     public let accessibility: Accessibility?
+    public let numberOfPages: Int?
+    public let pageIndicatorTintColor: Color?
+    public let currentPageIndicatorTintColor: Color?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -112,7 +115,10 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            numberOfPages:                             container.attributeIfPresent(of: .numberOfPages),
+            pageIndicatorTintColor:                    colorsContainer?.withAttributeElement(.key, CodingKeys.pageIndicatorTintColor.stringValue),
+            currentPageIndicatorTintColor:             colorsContainer?.withAttributeElement(.key, CodingKeys.currentPageIndicatorTintColor.stringValue),
         )
     }
 }
