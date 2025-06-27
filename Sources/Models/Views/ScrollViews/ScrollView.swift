@@ -55,6 +55,12 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let verticalHuggingPriority: Int?
     public let accessibility: Accessibility?
 
+    public let indicatorStyle: IndicatorStyle?
+    public let scrollEnabled: Bool?
+    public let alwaysBounceHorizontal: Bool?
+    public let delaysContentTouches: Bool?
+    public let canCancelContentTouches: Bool?
+
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
     enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide }
@@ -126,7 +132,27 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            indicatorStyle:                            container.attributeIfPresent(of: .indicatorStyle),
+            scrollEnabled:                             container.attributeIfPresent(of: .scrollEnabled),
+            alwaysBounceHorizontal:                    container.attributeIfPresent(of: .alwaysBounceHorizontal),
+            delaysContentTouches:                      container.attributeIfPresent(of: .delaysContentTouches),
+
+            canCancelContentTouches:                   container.attributeIfPresent(of: .canCancelContentTouches),
         )
+    }
+
+    public enum IndicatorStyle: XMLAttributeDecodable, Encodable {
+        case black
+        case white
+        case unknown(String)
+
+        static func decode(_ attribute: XMLAttribute) throws -> ScrollView.IndicatorStyle {
+            switch attribute.text {
+            case "black": .black
+            case "white": .white
+            default: .unknown(attribute.text)
+            }
+        }
     }
 }
