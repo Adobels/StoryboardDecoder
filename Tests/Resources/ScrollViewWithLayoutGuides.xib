@@ -13,6 +13,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <viewLayoutGuide key="safeArea" id="xxI-Vn-owq"/>
+            <keyboardLayoutGuide key="keyboard" id="SGN-EC-PyD"/>
             <viewLayoutGuide key="contentLayoutGuide" id="gIB-vp-IUT"/>
             <viewLayoutGuide key="frameLayoutGuide" id="Rvc-ob-et2"/>
             <point key="canvasLocation" x="-641" y="174"/>

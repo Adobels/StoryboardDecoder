@@ -60,10 +60,12 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let alwaysBounceHorizontal: Bool?
     public let delaysContentTouches: Bool?
     public let canCancelContentTouches: Bool?
+    public let keyboard: LayoutGuide?
+    public let safeArea: LayoutGuide?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide }
+    enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide, keyboardLayoutGuide }
     enum ColorsCodingKeys: CodingKey { case key }
     enum ViewLayoutCodingKeys: CodingKey { case key }
 
@@ -88,6 +90,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
             .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
         let viewLayoutGuidesContainer = externalContainer
             .nestedContainerIfPresent(of: .viewLayoutGuide, keys: ViewLayoutCodingKeys.self)
+        let keyboardLayoutGuideContainer = externalContainer.nestedContainerIfPresent(of: .keyboardLayoutGuide, keys: ViewLayoutCodingKeys.self)
 
         return ScrollView(
             id:                                        try container.attribute(of: .id),
@@ -137,8 +140,9 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
             scrollEnabled:                             container.attributeIfPresent(of: .scrollEnabled),
             alwaysBounceHorizontal:                    container.attributeIfPresent(of: .alwaysBounceHorizontal),
             delaysContentTouches:                      container.attributeIfPresent(of: .delaysContentTouches),
-
             canCancelContentTouches:                   container.attributeIfPresent(of: .canCancelContentTouches),
+            keyboard:                                  keyboardLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.keyboard.stringValue),
+            safeArea:                                  viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.safeArea.stringValue),
         )
     }
 

@@ -706,10 +706,11 @@ class Tests: XCTestCase {
             let scrollView = file.document.views?.first?.view as? ScrollView
             XCTAssertNotNil(scrollView, "There should be a scroll view")
             XCTAssertEqual(scrollView?.elementClass, "UIScrollView")
-            
+
+            XCTAssertEqual(scrollView?.safeArea?.id, "xxI-Vn-owq")
+            XCTAssertEqual(scrollView?.keyboard?.id, "SGN-EC-PyD")
             XCTAssertEqual(scrollView?.contentLayoutGuide?.id, "gIB-vp-IUT")
             XCTAssertEqual(scrollView?.frameLayoutGuide?.id, "Rvc-ob-et2")
-            
         } catch {
             XCTFail("\(error)  \(url)")
         }
