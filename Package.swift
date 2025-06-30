@@ -13,7 +13,9 @@ let package = Package(
     ],
     targets: [
         .target(name: "StoryboardDecoder", dependencies: ["SWXMLHash"], path: "Sources"),
-        .testTarget(name: "DecoderTests", dependencies: ["StoryboardDecoder"]),
+        .testTarget(name: "DecoderTests", dependencies: ["StoryboardDecoder"], resources: [
+            .process("Resources")
+        ]),
         .testTarget(name: "DiscoverTests", dependencies: ["StoryboardDecoder"])
     ]
 )
