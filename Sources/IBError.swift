@@ -17,6 +17,7 @@ public enum IBError: Swift.Error, CustomStringConvertible {
     case unsupportedFontDescription
     case unsupportedDependency
     case unsupportedGestureRecognizer(String)
+    case unsupportedTextInputTraits
 
     public var description: String {
         switch self {
@@ -38,6 +39,7 @@ public enum IBError: Swift.Error, CustomStringConvertible {
             return "unssupported dependency"
         case .unsupportedGestureRecognizer(let name):
             return "unsupported gesture recognizer '\(name)'"
+        case .unsupportedTextInputTraits: return "unsupported text input traits"
         }
     }
 }
