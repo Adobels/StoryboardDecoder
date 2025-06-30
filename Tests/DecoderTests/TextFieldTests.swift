@@ -88,7 +88,7 @@ struct TextFieldTests {
         #expect(textField.minimumFontSize == 18)
         #expect(textField.adjustsFontSizeToFit == false)
         #expect(textField.sizingRule == .oversize)
-        #expect(textField.textInputTraits?.textContentType == "name")
+        #expect(textField.textInputTraits?.textContentType == .name)
         #expect(textField.textInputTraits?.autocapitalizationType == .words)
         #expect(textField.textInputTraits?.autocorrectionType == false)
         #expect(textField.textInputTraits?.smartDashesType == false)

@@ -42,6 +42,11 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     var horizontalHuggingPriority: Int? { get }
     var verticalHuggingPriority: Int? { get }
     var accessibility: Accessibility? { get }
+    var tag: Int? { get }
+    var autoresizesSubviews: Bool? { get }
+    var clearsContextBeforeDrawing: Bool? { get }
+    var multipleTouchEnabled: Bool? { get }
+    var semanticContentAttribute: String? { get }
 }
 
 // MARK: - AnyView

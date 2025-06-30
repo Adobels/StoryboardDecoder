@@ -56,6 +56,11 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let minimumScaleFactor: Float?
     public let isEnabled: Bool?
     public let allowsDefaultTighteningForTruncation: Bool?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -144,7 +149,12 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             accessibility:                             container.elementIfPresent(of: .accessibility),
             minimumScaleFactor:                        container.attributeIfPresent(of: .minimumScaleFactor),
             isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
-            allowsDefaultTighteningForTruncation:      container.attributeIfPresent(of: .allowsDefaultTighteningForTruncation)
+            allowsDefaultTighteningForTruncation:      container.attributeIfPresent(of: .allowsDefaultTighteningForTruncation),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 

@@ -48,6 +48,11 @@ public struct ProgressView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let accessibility: Accessibility?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -108,7 +113,12 @@ public struct ProgressView: IBDecodable, ViewProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 }

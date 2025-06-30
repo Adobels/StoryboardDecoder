@@ -62,6 +62,11 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let canCancelContentTouches: Bool?
     public let keyboard: LayoutGuide?
     public let safeArea: LayoutGuide?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -143,6 +148,11 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
             canCancelContentTouches:                   container.attributeIfPresent(of: .canCancelContentTouches),
             keyboard:                                  keyboardLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.keyboard.stringValue),
             safeArea:                                  viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.safeArea.stringValue),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 

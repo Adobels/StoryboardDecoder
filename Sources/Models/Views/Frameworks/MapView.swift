@@ -34,7 +34,6 @@ public struct MapView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let connections: [AnyConnection]?
     public let variations: [Variation]?
     public let mapType: String?
-    public let multipleTouchEnabled: Bool?
     public let showsTraffic: Bool?
     public let scrollEnabled: Bool?
     public let appearanceType: String?
@@ -58,6 +57,11 @@ public struct MapView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let verticalHuggingPriority: Int?
 
     public let accessibility: Accessibility?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -106,7 +110,6 @@ public struct MapView: IBDecodable, ViewProtocol, IBIdentifiable {
             connections:                               container.childrenIfPresent(of: .connections),
             variations:                                variationContainer.elementsIfPresent(of: .variation),
             mapType:                                   container.attributeIfPresent(of: .mapType),
-            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             showsTraffic:                              container.attributeIfPresent(of: .showsTraffic),
             scrollEnabled:                             container.attributeIfPresent(of: .scrollEnabled),
             appearanceType:                            container.attributeIfPresent(of: .appearanceType),
@@ -127,7 +130,12 @@ public struct MapView: IBDecodable, ViewProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                              container.elementIfPresent(of: .accessibility)
+            accessibility:                              container.elementIfPresent(of: .accessibility),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 }

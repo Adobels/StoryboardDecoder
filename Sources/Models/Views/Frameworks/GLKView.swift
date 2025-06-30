@@ -33,10 +33,8 @@ public struct GLKView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let connections: [AnyConnection]?
     public let variations: [Variation]?
-    public let tag: String?
     public let enableSetNeedsDisplay: Bool?
     public let drawableDepthFormat: String?
-    public let multipleTouchEnabled: Bool?
     public let backgroundColor: Color?
     public let tintColor: Color?
     public let isHidden: Bool?
@@ -47,6 +45,11 @@ public struct GLKView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let accessibility: Accessibility?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -94,10 +97,8 @@ public struct GLKView: IBDecodable, ViewProtocol, IBIdentifiable {
             userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
             connections:                               container.childrenIfPresent(of: .connections),
             variations:                                variationContainer.elementsIfPresent(of: .variation),
-            tag:                                       container.attributeIfPresent(of: .tag),
             enableSetNeedsDisplay:                     container.attributeIfPresent(of: .enableSetNeedsDisplay),
             drawableDepthFormat:                       container.attributeIfPresent(of: .drawableDepthFormat),
-            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
             isHidden:                                  container.attributeIfPresent(of: .isHidden),
@@ -106,7 +107,12 @@ public struct GLKView: IBDecodable, ViewProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 }

@@ -52,6 +52,11 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
     public let numberOfPages: Int?
     public let pageIndicatorTintColor: Color?
     public let currentPageIndicatorTintColor: Color?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -119,6 +124,11 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
             numberOfPages:                             container.attributeIfPresent(of: .numberOfPages),
             pageIndicatorTintColor:                    colorsContainer?.withAttributeElement(.key, CodingKeys.pageIndicatorTintColor.stringValue),
             currentPageIndicatorTintColor:             colorsContainer?.withAttributeElement(.key, CodingKeys.currentPageIndicatorTintColor.stringValue),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 }

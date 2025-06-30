@@ -53,6 +53,11 @@ public struct Switch: IBDecodable, ControlProtocol, IBIdentifiable {
     public let accessibility: Accessibility?
     public let title: String?
     public let preferredStyle: PreferredStyle?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -121,6 +126,11 @@ public struct Switch: IBDecodable, ControlProtocol, IBIdentifiable {
             accessibility:                             container.elementIfPresent(of: .accessibility),
             title:                                     container.attributeIfPresent(of: .title),
             preferredStyle:                            container.attributeIfPresent(of: .preferredStyle),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 

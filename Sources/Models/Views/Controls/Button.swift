@@ -51,6 +51,11 @@ public struct Button: IBDecodable, ControlProtocol, IBIdentifiable {
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let accessibility: Accessibility?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     public struct State: IBDecodable, IBKeyable {
         public let key: String?
@@ -145,7 +150,12 @@ public struct Button: IBDecodable, ControlProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 }

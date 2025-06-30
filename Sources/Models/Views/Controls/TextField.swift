@@ -63,6 +63,11 @@ public struct TextField: IBDecodable, ControlProtocol, IBIdentifiable {
     public let adjustsFontSizeToFit: Bool?
     public let sizingRule: LetterformAwareSizingRule?
     public let textInputTraits: TextInputTraits?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -156,7 +161,12 @@ public struct TextField: IBDecodable, ControlProtocol, IBIdentifiable {
             clearsOnBeginEditing:                      container.attributeIfPresent(of: .clearsOnBeginEditing),
             adjustsFontSizeToFit:                      container.attributeIfPresent(of: .adjustsFontSizeToFit),
             sizingRule:                                container.attributeIfPresent(of: .sizingRule),
-            textInputTraits:                           textInputTraits?.withAttributeElement(.key, CodingKeys.textInputTraits.stringValue)
+            textInputTraits:                           textInputTraits?.withAttributeElement(.key, CodingKeys.textInputTraits.stringValue),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 
@@ -204,7 +214,7 @@ public struct TextField: IBDecodable, ControlProtocol, IBIdentifiable {
         public var smartDashesType: Bool?
         public var smartInsertDeleteType: Bool?
         public var smartQuotesType: Bool?
-        public var textContentType: String?
+        public var textContentType: TextContentType?
         public var enablesReturnKeyAutomatically: Bool?
         public var secureTextEntry: Bool?
 

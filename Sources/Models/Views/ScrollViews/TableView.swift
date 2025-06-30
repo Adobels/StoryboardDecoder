@@ -70,6 +70,11 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let accessibility: Accessibility?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     public enum DataMode: XMLAttributeDecodable, KeyDecodable, Equatable {
         case `static`, prototypes
@@ -177,7 +182,13 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+
         )
     }
 }
@@ -253,6 +264,11 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let accessibility: Accessibility?
+    public let tag: Int?
+    public let autoresizesSubviews: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let semanticContentAttribute: String?
 
     public var children: [IBElement] {
         // do not let default implementation which lead to duplicate element contentView
@@ -306,6 +322,11 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
         public let horizontalHuggingPriority: Int?
         public let verticalHuggingPriority: Int?
         public let accessibility: Accessibility?
+        public let tag: Int?
+        public let autoresizesSubviews: Bool?
+        public let clearsContextBeforeDrawing: Bool?
+        public let multipleTouchEnabled: Bool?
+        public let semanticContentAttribute: String?
 
         static func decode(_ xml: XMLIndexerType) throws -> TableViewCell.TableViewContentView {
             let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
@@ -355,7 +376,12 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
                 horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
                 verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-                accessibility:                             container.elementIfPresent(of: .accessibility)
+                accessibility:                             container.elementIfPresent(of: .accessibility),
+                tag:                                       container.attributeIfPresent(of: .tag),
+                autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+                clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+                multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+                semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
             )
         }
     }
@@ -417,7 +443,12 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility)
+            accessibility:                             container.elementIfPresent(of: .accessibility),
+            tag:                                       container.attributeIfPresent(of: .tag),
+            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
+            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
+            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
+            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
         )
     }
 }
