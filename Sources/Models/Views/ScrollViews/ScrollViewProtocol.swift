@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol ScrollViewProtocol {
+public protocol ScrollViewProtocol: ViewProtocol {
     // UIScrollView Attributes Inspector
     var indicatorStyle: IndicatorStyle? { get }
     var showsHorizontalScrollIndicator: Bool? { get }

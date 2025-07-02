@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
+public struct TextView: IBDecodable, ScrollViewProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UITextView"
 
@@ -48,12 +48,6 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
     public let hidden: Bool?
     public let alpha: Float?
 
-    public let isEnabled: Bool?
-    public let isHighlighted: Bool?
-    public let isSelected: Bool?
-    public let contentHorizontalAlignment: String?
-    public let contentVerticalAlignment: String?
-    
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
     public let horizontalHuggingPriority: Int?
@@ -69,12 +63,33 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
     public let edgeInset: EdgeInset?
+    public var indicatorStyle: IndicatorStyle?
+    // MARK: ScrollView Protocol
+    public let pagingEnabled: Bool?
+    public let directionalLockEnabled: Bool?
+    public let alwaysBounceHorizontal: Bool?
+    public let alwaysBounceVertical: Bool?
+    public let minimumZoomScale: Float?
+    public let maximumZoomScale: Float?
+    public let delaysContentTouches: Bool?
+    public let canCancelContentTouches: Bool?
+    public let keyboardDismissMode: String?
+    public let scrollIndicatorInsets: Inset?
+    public let contentInsetAdjustmentBehavior: String?
+    public let contentLayoutGuide: LayoutGuide?
+    public let frameLayoutGuide: LayoutGuide?
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color, string }
-    enum ColorsCodingKeys: CodingKey { case key }
-    enum StringsCodingKeys: CodingKey { case key }
+    enum ElementKey: CodingKey {
+        case color
+        case string
+        case constraint
+        case directionalEdgeInsets
+        case edgeInsets
+        case inset
+        case variation
+        case viewLayoutGuide
+    }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> TextView {
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
@@ -82,23 +97,19 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                
-                case .isEnabled: return "enabled"
-                case .isHighlighted: return "highlighted"
-                case .isSelected: return "selected"
                 default: return key.stringValue
                 }
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
-        let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
-        let variationContainer = xml.container(keys: VariationCodingKey.self)
-        let externalContainer = xml.container(keys: ExternalCodingKeys.self)
-        let colorsContainer = externalContainer
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
-        let stringsContainer = externalContainer
-            .nestedContainerIfPresent(of: .string, keys: StringsCodingKeys.self)
-
+        let elementContainer = xml.container(keys: ElementKey.self)
+        let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ElementKey.self)
+        let colorsContainer = elementContainer.nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
+        let stringsContainer = elementContainer.nestedContainerIfPresent(of: .string, keys: KeyCodingKeys.self)
+        let viewLayoutGuidesContainer = elementContainer.nestedContainerIfPresent(of: .viewLayoutGuide, keys: KeyCodingKeys.self)
+        let directionalEdgeInsetsContainer = elementContainer.nestedContainerIfPresent(of: .directionalEdgeInsets, keys: KeyCodingKeys.self)
+        let edgeInsetsContainer = elementContainer.nestedContainerIfPresent(of: .edgeInsets, keys: KeyCodingKeys.self)
+        let insetContainer = elementContainer.nestedContainerIfPresent(of: .inset, keys: KeyCodingKeys.self)
         var text: String? = container.attributeIfPresent(of: .text)
         if text == nil {
             let multiLineText: StringElement? = stringsContainer?.withAttributeElement(.key, CodingKeys.text.stringValue)
@@ -137,17 +148,12 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
             userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
             userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
             connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
+            variations:                                elementContainer.elementsIfPresent(of: .variation),
             editable:                                  container.attributeIfPresent(of: .editable),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, TextView.CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, TextView.CodingKeys.tintColor.stringValue),
-            hidden:                                  container.attributeIfPresent(of: .hidden),
+            hidden:                                    container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
-            isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
-            isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
-            isSelected:                                container.attributeIfPresent(of: .isSelected),
-            contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
-            contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
@@ -161,8 +167,21 @@ public struct TextView: IBDecodable, ControlProtocol, IBIdentifiable {
             preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                  container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            pagingEnabled:                             container.attributeIfPresent(of: .pagingEnabled),
+            directionalLockEnabled:                    container.attributeIfPresent(of: .directionalLockEnabled),
+            alwaysBounceHorizontal:                    container.attributeIfPresent(of: .alwaysBounceHorizontal),
+            alwaysBounceVertical:                      container.attributeIfPresent(of: .alwaysBounceVertical),
+            minimumZoomScale:                          container.attributeIfPresent(of: .minimumZoomScale),
+            maximumZoomScale:                          container.attributeIfPresent(of: .maximumZoomScale),
+            delaysContentTouches:                      container.attributeIfPresent(of: .delaysContentTouches),
+            canCancelContentTouches:                   container.attributeIfPresent(of: .canCancelContentTouches),
+            keyboardDismissMode:                       container.attributeIfPresent(of: .keyboardDismissMode),
+            scrollIndicatorInsets:                     insetContainer?.withAttributeElement(.key, CodingKeys.scrollIndicatorInsets.stringValue),
+            contentInsetAdjustmentBehavior:            container.attributeIfPresent(of: .contentInsetAdjustmentBehavior),
+            contentLayoutGuide:                        viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.contentLayoutGuide.stringValue),
+            frameLayoutGuide:                          viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.frameLayoutGuide.stringValue),
         )
     }
 }

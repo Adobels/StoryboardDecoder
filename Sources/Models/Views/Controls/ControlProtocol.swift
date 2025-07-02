@@ -7,11 +7,13 @@
 
 import Foundation
 
-/// Protocol to decode UIControl https://developer.apple.com/documentation/uikit/uicontrol
 public protocol ControlProtocol: ViewProtocol {
-    var isEnabled: Bool? { get }
-    var isHighlighted: Bool? { get }
-    var isSelected: Bool? { get }
+    // MARK: Attributes Inspector
     var contentHorizontalAlignment: String? { get }
     var contentVerticalAlignment: String? { get }
+    var showsMenuAsPrimaryAction: Bool? { get }
+    var isSelected: Bool? { get }
+    var isEnabled: Bool? { get }
+    var isHighlighted: Bool? { get }
+    var toolTip: String? { get }
 }

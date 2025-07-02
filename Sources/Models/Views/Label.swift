@@ -53,7 +53,6 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
-
     // MARK: UILabel Attributes Instpector
     public let text: String?
     public let attributedText: AttributedString?

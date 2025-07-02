@@ -9,7 +9,7 @@ import Testing
 import StoryboardDecoder
 import Foundation
 
-@Suite("View Default")
+@Suite("View Tests")
 struct ViewTests {
     @Test func defaultView() throws {
         guard let url = Bundle.module.url(forResource: "View_Default", withExtension: "xml") else { throw IBError.elementNotFound }

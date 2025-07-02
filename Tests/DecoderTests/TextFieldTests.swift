@@ -7,7 +7,7 @@
 
 import Testing
 import Foundation
-@testable import StoryboardDecoder
+import StoryboardDecoder
 
 struct TextFieldTests {
 

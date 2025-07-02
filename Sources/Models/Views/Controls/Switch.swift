@@ -64,6 +64,8 @@ public struct Switch: IBDecodable, ControlProtocol, IBIdentifiable {
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
     public let edgeInset: EdgeInset?
+    public let toolTip: String?
+    public let showsMenuAsPrimaryAction: Bool?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -143,6 +145,8 @@ public struct Switch: IBDecodable, ControlProtocol, IBIdentifiable {
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            toolTip:                                   container.attributeIfPresent(of: .toolTip),
+            showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
         )
     }
 
