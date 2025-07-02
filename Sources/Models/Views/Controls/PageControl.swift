@@ -7,7 +7,16 @@
 
 import SWXMLHash
 
-public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
+protocol PageControlProtocol {
+    var numberOfPages: Int? { get }
+    var currentPage: Int? { get }
+    var hidesForSinglePage: Bool? { get }
+    var defersCurrentPageDisplay: Bool? { get }
+    var pageIndicatorTintColor: Color? { get }
+    var currentPageIndicatorTintColor: Color? { get }
+}
+
+public struct PageControl: IBDecodable, ControlProtocol, PageControlProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIPageControl"
 
@@ -65,6 +74,9 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
     public let edgeInset: EdgeInset?
     public let toolTip: String?
     public let showsMenuAsPrimaryAction: Bool?
+    public let currentPage: Int?
+    public let hidesForSinglePage: Bool?
+    public let defersCurrentPageDisplay: Bool?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -145,6 +157,9 @@ public struct PageControl: IBDecodable, ControlProtocol, IBIdentifiable {
             edgeInset:                                 container.elementIfPresent(of: .edgeInset),
             toolTip:                                   container.attributeIfPresent(of: .toolTip),
             showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
+            currentPage:                               container.attributeIfPresent(of: .currentPage),
+            hidesForSinglePage:                        container.attributeIfPresent(of: .hidesForSinglePage),
+            defersCurrentPageDisplay: container.attributeIfPresent(of: .defersCurrentPageDisplay),
         )
     }
 }
