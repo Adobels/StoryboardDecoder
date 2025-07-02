@@ -7,46 +7,59 @@
 
 import SWXMLHash
 
-// MARK: - ViewProtocol
-
 public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBConnectionOwner {
-    var elementClass: String { get }
-
     var key: String? { get }
-    var autoresizingMask: AutoresizingMask? { get }
-    var clipsSubviews: Bool? { get }
-    var constraints: [Constraint]? { get }
-    var contentMode: String? { get }
+    //MARK: Identity Inspector
+    var elementClass: String { get }
     var customClass: String? { get }
     var customModule: String? { get }
     var customModuleProvider: String? { get }
+    var restorationIdentifier: String? { get }
+    var userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]? { get }
     var userLabel: String? { get }
     var colorLabel: String? { get }
-    var isMisplaced: Bool? { get }
-    var isAmbiguous: Bool? { get }
-    var verifyAmbiguity: VerifyAmbiguity? { get }
-    var opaque: Bool? { get }
-    var rect: Rect? { get }
     var subviews: [AnyView]? { get }
-    var translatesAutoresizingMaskIntoConstraints: Bool? { get }
-    var userInteractionEnabled: Bool? { get }
-    var userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]? { get }
-    var connections: [AnyConnection]? { get }
     var variations: [Variation]? { get }
+    var accessibility: Accessibility? { get }
+    //MARK: Attributes Inspector
+    var contentMode: String? { get }
+    var semanticContentAttribute: String? { get }
+    var tag: Int? { get }
+    // Attributes Inspector - Interaction
+    var userInteractionEnabled: Bool? { get }
+    var multipleTouchEnabled: Bool? { get }
+    // Attributes Inspector
+    var alpha: Float? {get}
     var backgroundColor: Color? { get }
     var tintColor: Color? { get }
-    var isHidden: Bool? { get }
-    var alpha: Float? {get}
+    // Attributes Inspector - Drawing
+    var opaque: Bool? { get }
+    var hidden: Bool? { get }
+    var clearsContextBeforeDrawing: Bool? { get }
+    var clipsSubviews: Bool? { get }
+    var autoresizesSubviews: Bool? { get }
+    //MARK: Size Inspector
+    var rect: Rect? { get }
+    var translatesAutoresizingMaskIntoConstraints: Bool? { get }
+    var autoresizingMask: AutoresizingMask? { get }
+    var directionalLayoutMargins: DirectionalEdgeInsets? { get }
+    var edgeInset: EdgeInset? { get }
+    var preservesSuperviewLayoutMargins: Bool? { get }
+    var layoutMarginsFollowReadableWidth: Bool? { get }
+    var insetsLayoutMarginsFromSafeArea: Bool? { get }
+    // viewLayoutGuide: LayoutGuide? // property specific to UIView in IB
+    // keyboardLayoutGuide: LayoutGuide? // propserty specific to UIView in IB
+    var constraints: [Constraint]? { get }
     var horizontalCompressionResistancePriority: Int? { get }
     var verticalCompressionResistancePriority: Int? { get }
     var horizontalHuggingPriority: Int? { get }
     var verticalHuggingPriority: Int? { get }
-    var accessibility: Accessibility? { get }
-    var tag: Int? { get }
-    var autoresizesSubviews: Bool? { get }
-    var clearsContextBeforeDrawing: Bool? { get }
-    var multipleTouchEnabled: Bool? { get }
-    var semanticContentAttribute: String? { get }
+    // Connections Inspector
+    var connections: [AnyConnection]? { get }
+    // IB Specific Attributes
+    var isMisplaced: Bool? { get }
+    var isAmbiguous: Bool? { get }
+    var verifyAmbiguity: VerifyAmbiguity? { get }
 }
 
 // MARK: - AnyView

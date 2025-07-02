@@ -14,6 +14,7 @@ public struct TapGestureRecognizer: IBDecodable, GestureRecognizerProtocol, IBCo
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     
     public let userLabel: String?
     public let colorLabel: String?
@@ -35,6 +36,7 @@ public struct TapGestureRecognizer: IBDecodable, GestureRecognizerProtocol, IBCo
             customClass:            container.attributeIfPresent(of: .customClass),
             customModule:           container.attributeIfPresent(of: .customModule),
             customModuleProvider:   container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:  container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:              container.attributeIfPresent(of: .userLabel),
             colorLabel:             container.attributeIfPresent(of: .colorLabel),
             enabled:                container.attributeIfPresent(of: .enabled),

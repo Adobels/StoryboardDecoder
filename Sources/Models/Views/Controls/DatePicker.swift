@@ -19,6 +19,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let isMisplaced: Bool?
@@ -35,7 +36,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
     public let variations: [Variation]?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
 
     public let isEnabled: Bool?
@@ -62,6 +63,11 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -75,7 +81,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 case .isEnabled: return "enabled"
                 case .isHighlighted: return "highlighted"
                 case .isSelected: return "selected"
@@ -101,6 +107,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -117,7 +124,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
             variations:                                variationContainer.elementsIfPresent(of: .variation),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
             isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
@@ -142,6 +149,11 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
         )
     }
 }

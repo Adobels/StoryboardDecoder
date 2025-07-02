@@ -61,7 +61,7 @@ struct TextFieldTests {
         #expect(textField.backgroundColor == nil)
         #expect(textField.tintColor == nil)
         #expect(textField.opaque == false)
-        #expect(textField.isHidden == nil)
+        #expect(textField.hidden == nil)
         // missing support for clears graphics context
         #expect(textField.clipsSubviews == nil)
         // missing support for autoresize subviews
@@ -118,7 +118,7 @@ struct TextFieldTests {
         #expect(textField.backgroundColor != nil)
         #expect(textField.tintColor != nil)
         #expect(textField.opaque == nil)
-        #expect(textField.isHidden == true)
+        #expect(textField.hidden == true)
         // missing support for clears graphics context
         #expect(textField.clipsSubviews == true)
         // missing support for autoresize subviews

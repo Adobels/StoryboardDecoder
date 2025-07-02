@@ -22,6 +22,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let isMisplaced: Bool?
@@ -58,7 +59,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let isPrefetchingEnabled: Bool?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
     
     public let horizontalCompressionResistancePriority: Int?
@@ -71,6 +72,11 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -83,7 +89,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 case .isPagingEnabled: return "pagingEnabled"
                 case .layout: return "collectionViewLayout"
                 case .flowLayout: return "collectionViewFlowLayout"
@@ -111,6 +117,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -141,7 +148,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
             isPrefetchingEnabled:                      container.attributeIfPresent(of: .isPrefetchingEnabled),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
@@ -153,6 +160,11 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
         )
     }
 }
@@ -172,6 +184,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let isMisplaced: Bool?
@@ -191,7 +204,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
     public let reuseIdentifier: String?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
     
     public let horizontalCompressionResistancePriority: Int?
@@ -204,6 +217,11 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
 
     public var children: [IBElement] {
         // do not let default implementation which lead to duplicate element contentView
@@ -238,6 +256,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
         public let customClass: String?
         public let customModule: String?
         public let customModuleProvider: String?
+    public let restorationIdentifier: String?
         public let userLabel: String?
         public let colorLabel: String?
         public let isMisplaced: Bool?
@@ -254,7 +273,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
         public let variations: [Variation]?
         public let backgroundColor: Color?
         public let tintColor: Color?
-        public let isHidden: Bool?
+        public let hidden: Bool?
         public let alpha: Float?
         
         public let horizontalCompressionResistancePriority: Int?
@@ -267,6 +286,11 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
         public let clearsContextBeforeDrawing: Bool?
         public let multipleTouchEnabled: Bool?
         public let semanticContentAttribute: String?
+        public let preservesSuperviewLayoutMargins: Bool?
+        public let layoutMarginsFollowReadableWidth: Bool?
+        public let insetsLayoutMarginsFromSafeArea: Bool?
+        public let directionalLayoutMargins: DirectionalEdgeInsets?
+        public let edgeInset: EdgeInset?
 
         enum ConstraintsCodingKeys: CodingKey { case constraint }
         enum VariationCodingKey: CodingKey { case variation }
@@ -279,7 +303,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
                     switch key {
                     case .isMisplaced: return "misplaced"
                     case .isAmbiguous: return "ambiguous"
-                    case .isHidden: return "hidden"
+                    
                     default: return key.stringValue
                     }
                 }()
@@ -300,6 +324,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
                 customClass:                               container.attributeIfPresent(of: .customClass),
                 customModule:                              container.attributeIfPresent(of: .customModule),
                 customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
                 userLabel:                                 container.attributeIfPresent(of: .userLabel),
                 colorLabel:                                container.attributeIfPresent(of: .colorLabel),
                 isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -316,7 +341,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
                 variations:                                variationContainer.elementsIfPresent(of: .variation),
                 backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
                 tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-                isHidden:                                  container.attributeIfPresent(of: .isHidden),
+                hidden:                                  container.attributeIfPresent(of: .hidden),
                 alpha:                                     container.attributeIfPresent(of: .alpha),
                 horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
                 verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
@@ -328,6 +353,11 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
                 clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
                 multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
                 semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+                preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+                layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+                insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+                directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+                edgeInset:                                 container.elementIfPresent(of: .edgeInset),
             )
         }
     }
@@ -343,7 +373,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 case ._subviews: return "subview"
                 case .contentView:
                     if xml.childrenElements.contains(where: {$0.elementName == "collectionViewCellContentView"}) {
@@ -371,6 +401,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -387,7 +418,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
             reuseIdentifier:                           container.attributeIfPresent(of: .reuseIdentifier),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
@@ -399,6 +430,11 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
         )
     }
 }
@@ -418,6 +454,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let isMisplaced: Bool?
@@ -435,7 +472,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
     public let reuseIdentifier: String?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
@@ -447,6 +484,11 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -459,7 +501,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 default: return key.stringValue
                 }
             }()
@@ -480,6 +522,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -497,7 +540,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
             reuseIdentifier:                           container.attributeIfPresent(of: .reuseIdentifier),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
@@ -509,6 +552,11 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
         )
     }
 }
@@ -522,6 +570,7 @@ public struct CollectionViewLayout: IBDecodable, IBIdentifiable, IBKeyable, IBCu
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
 
@@ -533,6 +582,7 @@ public struct CollectionViewLayout: IBDecodable, IBIdentifiable, IBKeyable, IBCu
             customClass:              container.attributeIfPresent(of: .customClass),
             customModule:             container.attributeIfPresent(of: .customModule),
             customModuleProvider:     container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:    container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                container.attributeIfPresent(of: .userLabel),
             colorLabel:               container.attributeIfPresent(of: .colorLabel)
         )
@@ -552,6 +602,7 @@ public struct CollectionViewFlowLayout: IBDecodable, IBIdentifiable, IBKeyable {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let scrollDirection: String? // vertical, horizontal
     public let automaticEstimatedItemSize: Bool?
 
@@ -577,6 +628,7 @@ public struct CollectionViewFlowLayout: IBDecodable, IBIdentifiable, IBKeyable {
             customClass:                container.attributeIfPresent(of: .customClass),
             customModule:               container.attributeIfPresent(of: .customModule),
             customModuleProvider:       container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:      container.attributeIfPresent(of: .restorationIdentifier),
             scrollDirection:            container.attributeIfPresent(of: .scrollDirection),
             automaticEstimatedItemSize: container.attributeIfPresent(of: .automaticEstimatedItemSize)
         )

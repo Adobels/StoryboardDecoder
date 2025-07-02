@@ -6,8 +6,9 @@
 //
 
 import SWXMLHash
+import Foundation
 
-public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
+public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIScrollView"
 
@@ -19,6 +20,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let isMisplaced: Bool?
@@ -44,7 +46,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let isDirectionalLockEnabled: Bool?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
     public let contentLayoutGuide: LayoutGuide?
     public let frameLayoutGuide: LayoutGuide?
@@ -67,12 +69,26 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
+
+    // UIScrollView Properties in Attributes Inspector
+    public let pagingEnabled: Bool?
+    public let directionalLockEnabled: Bool?
+    // UIScrollView Properties in Size Inspector
+    public let scrollIndicatorInsets: Inset?
+    public let contentInsetAdjustmentBehavior: String?
+    // move here the contentLayoutGuide and frameLayoutGuide properties
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide, keyboardLayoutGuide }
+    enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide, keyboardLayoutGuide, inset }
     enum ColorsCodingKeys: CodingKey { case key }
     enum ViewLayoutCodingKeys: CodingKey { case key }
+    enum InsetCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> ScrollView {
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
@@ -80,7 +96,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 case .isPagingEnabled: return "pagingEnabled"
                 case .isDirectionalLockEnabled: return "directionalLockEnabled"
                 default: return key.stringValue
@@ -96,6 +112,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
         let viewLayoutGuidesContainer = externalContainer
             .nestedContainerIfPresent(of: .viewLayoutGuide, keys: ViewLayoutCodingKeys.self)
         let keyboardLayoutGuideContainer = externalContainer.nestedContainerIfPresent(of: .keyboardLayoutGuide, keys: ViewLayoutCodingKeys.self)
+        let insetContainer = externalContainer.nestedContainerIfPresent(of: .inset, keys: InsetCodingKeys.self)
 
         return ScrollView(
             id:                                        try container.attribute(of: .id),
@@ -107,6 +124,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -132,7 +150,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
             isDirectionalLockEnabled:                  container.attributeIfPresent(of: .isDirectionalLockEnabled),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             contentLayoutGuide:                        viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.contentLayoutGuide.stringValue),
             frameLayoutGuide:                          viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.frameLayoutGuide.stringValue),
@@ -153,20 +171,29 @@ public struct ScrollView: IBDecodable, ViewProtocol, IBIdentifiable {
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            pagingEnabled:                             container.attributeIfPresent(of: .pagingEnabled),
+            directionalLockEnabled:                    container.attributeIfPresent(of: .directionalLockEnabled),
+            scrollIndicatorInsets:                     insetContainer?.withAttributeElement(.key, CodingKeys.scrollIndicatorInsets.stringValue),
+            contentInsetAdjustmentBehavior:            container.attributeIfPresent(of: .contentInsetAdjustmentBehavior),
         )
     }
+}
 
-    public enum IndicatorStyle: XMLAttributeDecodable, Encodable {
-        case black
-        case white
-        case unknown(String)
+public enum IndicatorStyle: XMLAttributeDecodable, Encodable, Equatable {
+    case black
+    case white
+    case unknown(String)
 
-        static func decode(_ attribute: XMLAttribute) throws -> ScrollView.IndicatorStyle {
-            switch attribute.text {
-            case "black": .black
-            case "white": .white
-            default: .unknown(attribute.text)
-            }
+    static func decode(_ attribute: XMLAttribute) throws -> Self {
+        switch attribute.text {
+        case "black": .black
+        case "white": .white
+        default: .unknown(attribute.text)
         }
     }
 }

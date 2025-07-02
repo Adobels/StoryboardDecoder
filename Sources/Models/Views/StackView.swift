@@ -19,6 +19,7 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let isMisplaced: Bool?
@@ -34,7 +35,7 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let variations: [Variation]?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
 
     public let axis: String
@@ -52,6 +53,11 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
 
     public var isVertical: Bool {
         return axis == "vertical"
@@ -72,7 +78,7 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 default: return key.stringValue
                 }
             }()
@@ -93,6 +99,7 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -108,7 +115,7 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
             variations:                                variationContainer.elementsIfPresent(of: .variation),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             axis:                                      container.attributeIfPresent(of: .axis) ?? "horizontal",
             distribution:                              container.attributeIfPresent(of: .distribution),
@@ -125,6 +132,11 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
         )
     }
 }

@@ -177,7 +177,7 @@ class Tests: XCTestCase {
             let viewControllers = file.document.scenes?.map { $0.viewController?.viewController } ?? []
             let rootConnections = viewControllers.compactMap { $0?.connections }.flatMap { $0 }.compactMap { $0.connection }
             let gestures = file.document.scenes?.compactMap { $0.gestureRecognizers }.flatMap { $0 } ?? []
-            XCTAssertEqual(gestures.count, 3)
+            XCTAssertEqual(gestures.count, 2)
             XCTAssertFalse(rootConnections.isEmpty)
 
             let connections: [AnyConnection] = file.document.children(of: AnyConnection.self, recursive: false)
@@ -187,7 +187,7 @@ class Tests: XCTestCase {
             XCTAssertEqual(connectionsVc.count, 2)
             XCTAssertEqual(Set(connectionsVc.map { $0.connection.id}).count, 2)
 
-            let fullIDs = ["bfr-3x-8Cu", "NCO-CC-AeV", "70a-Qv-I1V", "0Zt-4d-vGk", "T6v-mS-lhn", "71I-4Y-Tjy", "E9O-7R-REh", "o8d-bM-qoT", "4xW-di-6F5", "bnm-eN-VfU"]
+            let fullIDs = ["bfr-3x-8Cu", "NCO-CC-AeV", "70a-Qv-I1V", "0Zt-4d-vGk", "T6v-mS-lhn", "E9O-7R-REh", "71I-4Y-Tjy", "o8d-bM-qoT", "4xW-di-6F5", "n6E-lg-YcL", "bnm-eN-VfU"]
             let connectionsFull: [AnyConnection] = file.document.children(of: AnyConnection.self, recursive: true)
             XCTAssertEqual(connectionsFull.count, fullIDs.count)
             XCTAssertEqual(Set(connectionsFull.map { $0.connection.id}).count, fullIDs.count)
@@ -475,9 +475,9 @@ class Tests: XCTestCase {
             throw NSError(domain: "labels not found", code: 0)
         }
         let labelWithDefaultValue = labels[0]
-        XCTAssertNil(labelWithDefaultValue.allowsDefaultTighteningForTruncation)
+        XCTAssertNil(labelWithDefaultValue.adjustsLetterSpacingToFitWidth)
         let labelWithValueTrue = labels[1]
-        XCTAssertEqual(labelWithValueTrue.allowsDefaultTighteningForTruncation, true)
+        XCTAssertEqual(labelWithValueTrue.adjustsLetterSpacingToFitWidth, true)
     }
 
     func testLabelsWithFonts() {

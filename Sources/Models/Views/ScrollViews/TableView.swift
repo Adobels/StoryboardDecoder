@@ -9,8 +9,7 @@ import SWXMLHash
 
 // MARK: - TableView
 
-public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
-
+public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UITableView"
 
@@ -22,6 +21,7 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let dataMode: DataMode?
@@ -40,7 +40,6 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
     public var subviews: [AnyView]? {
         return (_subviews ?? []) + (headersFooters ?? [])
     }
-    public let translatesAutoresizingMaskIntoConstraints: Bool?
     public let userInteractionEnabled: Bool?
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let connections: [AnyConnection]?
@@ -62,7 +61,7 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let allowsMultipleSelection: Bool?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
     
     public let horizontalCompressionResistancePriority: Int?
@@ -75,6 +74,41 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    // UITableView Attributes Inspector
+    public let separatorColor: Color?
+    public let separatorInset: Inset?
+    public let separatorInsetReference: String?
+    public let allowsSelectionDuringEditing: Bool?
+    public let allowsMultipleSelectionDuringEditing: Bool?
+    public let springLoaded: Bool?
+    public let sectionIndexMinimumDisplayRowCount: Int?
+    public let sectionIndexColor: Color?
+    public let sectionIndexBackgroundColor: Color?
+    public let sectionIndexTrackingBackgroundColor: Color?
+    // UITableView Size Inspector
+    public let estimatedSectionHeaderHeight: Int?
+    public let estimatedSectionFooterHeight: Int?
+    public let contentViewInsetsToSafeArea: Bool?
+    // UIScrollView Attributes Inspector
+    public let indicatorStyle: IndicatorStyle?
+    public let scrollEnabled: Bool?
+    public let pagingEnabled: Bool?
+    public let directionalLockEnabled: Bool?
+    public let alwaysBounceHorizontal: Bool?
+    public let delaysContentTouches: Bool?
+    public let canCancelContentTouches: Bool?
+    // UIScrollView Size Inspector
+    public let scrollIndicatorInsets: Inset?
+    public let contentInsetAdjustmentBehavior: String?
+    public let contentLayoutGuide: LayoutGuide?
+    public let frameLayoutGuide: LayoutGuide?
+    // UIView Size Inspector
+    public let translatesAutoresizingMaskIntoConstraints: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
 
     public enum DataMode: XMLAttributeDecodable, KeyDecodable, Equatable {
         case `static`, prototypes
@@ -104,8 +138,18 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color }
-    enum ColorsCodingKeys: CodingKey { case key }
+    enum ExternalCodingKeys: CodingKey {
+        case color
+        case inset
+        case viewLayoutGuide
+        case directionalEdgeInsets
+        case edgeInsets
+    }
+    enum KeyCodingKeys: CodingKey { case key }
+    enum InsetCodingKeys: CodingKey { case separatorInset, scrollIndicatorInsets }
+    enum ViewLayoutGuideKeys: CodingKey { case contentLayoutGuide, frameLayoutGuide}
+    enum DirectionalEdgeInsetsKeys: CodingKey { case directionalLayoutMargins }
+    enum EdgeInsetsKeys: CodingKey { case layoutMargins }
 
     static func decode(_ xml: XMLIndexerType) throws -> TableView {
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
@@ -113,7 +157,7 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 case .prototypeCells: return "prototypes"
                 case .isPagingEnabled: return "pagingEnabled"
                 case .isDirectionalLockEnabled: return "directionalLockEnabled"
@@ -127,8 +171,15 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
         let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
         let variationContainer = xml.container(keys: VariationCodingKey.self)
         let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
-
+            .nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
+        let insetsContainer = xml.container(keys: ExternalCodingKeys.self)
+            .nestedContainerIfPresent(of: .inset, keys: KeyCodingKeys.self)
+        let viewLayoutGuideContainer = xml.container(keys: ExternalCodingKeys.self)
+            .nestedContainerIfPresent(of: .viewLayoutGuide, keys: KeyCodingKeys.self)
+        let directionalLayoutMarginsContainer = xml.container(keys: ExternalCodingKeys.self)
+            .nestedContainerIfPresent(of: .directionalEdgeInsets, keys: KeyCodingKeys.self)
+        let edgeInsetsContainer = xml.container(keys: ExternalCodingKeys.self)
+            .nestedContainerIfPresent(of: .edgeInsets, keys: KeyCodingKeys.self)
         return TableView(
             id:                                        try container.attribute(of: .id),
             key:                                       container.attributeIfPresent(of: .key),
@@ -139,6 +190,7 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             dataMode:                                  container.attributeIfPresent(of: .dataMode),
@@ -154,7 +206,6 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
             separatorStyle:                            container.attributeIfPresent(of: .separatorStyle),
             style:                                     container.attributeIfPresent(of: .style),
             _subviews:                                 container.childrenIfPresent(of: ._subviews),
-            translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
             userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
             userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
             connections:                               container.childrenIfPresent(of: .connections),
@@ -176,7 +227,7 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
             allowsMultipleSelection:                   container.attributeIfPresent(of: .allowsMultipleSelection),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
@@ -188,7 +239,39 @@ public struct TableView: IBDecodable, ViewProtocol, IBIdentifiable {
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
-
+            separatorColor:                            colorsContainer?.withAttributeElement(.key, CodingKeys.separatorColor.stringValue),
+            separatorInset:                            insetsContainer?.withAttributeElement(.key, CodingKeys.separatorInset.stringValue),
+            separatorInsetReference:                   container.attributeIfPresent(of: .separatorInsetReference),
+            allowsSelectionDuringEditing:              container.attributeIfPresent(of: .allowsSelectionDuringEditing),
+            allowsMultipleSelectionDuringEditing:      container.attributeIfPresent(of: .allowsMultipleSelectionDuringEditing),
+            springLoaded:                              container.attributeIfPresent(of: .springLoaded),
+            sectionIndexMinimumDisplayRowCount:        container.attributeIfPresent(of: .sectionIndexMinimumDisplayRowCount),
+            sectionIndexColor:                         colorsContainer?.withAttributeElement(.key, CodingKeys.sectionIndexColor.stringValue),
+            sectionIndexBackgroundColor:               colorsContainer?.withAttributeElement(.key, CodingKeys.sectionIndexBackgroundColor.stringValue),
+            sectionIndexTrackingBackgroundColor:       colorsContainer?.withAttributeElement(.key, CodingKeys.sectionIndexTrackingBackgroundColor.stringValue),
+            estimatedSectionHeaderHeight: container.attributeIfPresent(of: .estimatedSectionHeaderHeight),
+            estimatedSectionFooterHeight:              container.attributeIfPresent(of: .estimatedSectionFooterHeight),
+            contentViewInsetsToSafeArea: container.attributeIfPresent(of: .contentViewInsetsToSafeArea),
+            // UIScrollView Attributes Inspector
+            indicatorStyle: container.attributeIfPresent(of: .indicatorStyle),
+            scrollEnabled: container.attributeIfPresent(of: .scrollEnabled),
+            pagingEnabled: container.attributeIfPresent(of: .pagingEnabled),
+            directionalLockEnabled: container.attributeIfPresent(of: .directionalLockEnabled),
+            alwaysBounceHorizontal: container.attributeIfPresent(of: .alwaysBounceHorizontal),
+            delaysContentTouches: container.attributeIfPresent(of: .delaysContentTouches),
+            canCancelContentTouches: container.attributeIfPresent(of: .canCancelContentTouches),
+            // UIScrollView Size Inspector
+            scrollIndicatorInsets: insetsContainer?.withAttributeElement(.key, CodingKeys.scrollIndicatorInsets.stringValue),
+            contentInsetAdjustmentBehavior: container.attributeIfPresent(of: .contentInsetAdjustmentBehavior),
+            contentLayoutGuide:                        viewLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.contentLayoutGuide.stringValue),
+            frameLayoutGuide:                          viewLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.frameLayoutGuide.stringValue),
+            // UIView Size Inspector
+            translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
+            directionalLayoutMargins:                  directionalLayoutMarginsContainer?.withAttributeElement(.key, CodingKeys.directionalLayoutMargins.stringValue),
+            edgeInset:                                 edgeInsetsContainer?.withAttributeElement(.key, CodingKeys.edgeInset.stringValue),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
         )
     }
 }
@@ -238,6 +321,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let isMisplaced: Bool?
@@ -257,7 +341,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
     public let reuseIdentifier: String?
     public let backgroundColor: Color?
     public let tintColor: Color?
-    public let isHidden: Bool?
+    public let hidden: Bool?
     public let alpha: Float?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
@@ -269,6 +353,11 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
     public let clearsContextBeforeDrawing: Bool?
     public let multipleTouchEnabled: Bool?
     public let semanticContentAttribute: String?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let edgeInset: EdgeInset?
 
     public var children: [IBElement] {
         // do not let default implementation which lead to duplicate element contentView
@@ -300,6 +389,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
         public let customClass: String?
         public let customModule: String?
         public let customModuleProvider: String?
+    public let restorationIdentifier: String?
         public let userLabel: String?
         public let colorLabel: String?
         public let isMisplaced: Bool?
@@ -315,7 +405,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
         public let variations: [Variation]?
         public let backgroundColor: Color?
         public let tintColor: Color?
-        public let isHidden: Bool?
+        public let hidden: Bool?
         public let alpha: Float?
         public let horizontalCompressionResistancePriority: Int?
         public let verticalCompressionResistancePriority: Int?
@@ -327,6 +417,11 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
         public let clearsContextBeforeDrawing: Bool?
         public let multipleTouchEnabled: Bool?
         public let semanticContentAttribute: String?
+        public let preservesSuperviewLayoutMargins: Bool?
+        public let layoutMarginsFollowReadableWidth: Bool?
+        public let insetsLayoutMarginsFromSafeArea: Bool?
+        public let directionalLayoutMargins: DirectionalEdgeInsets?
+        public let edgeInset: EdgeInset?
 
         static func decode(_ xml: XMLIndexerType) throws -> TableViewCell.TableViewContentView {
             let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
@@ -334,7 +429,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                     switch key {
                     case .isMisplaced: return "misplaced"
                     case .isAmbiguous: return "ambiguous"
-                    case .isHidden: return "hidden"
+                    
                     default: return key.stringValue
                     }
                 }()
@@ -355,6 +450,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 customClass:                               container.attributeIfPresent(of: .customClass),
                 customModule:                              container.attributeIfPresent(of: .customModule),
                 customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
                 userLabel:                                 container.attributeIfPresent(of: .userLabel),
                 colorLabel:                                container.attributeIfPresent(of: .colorLabel),
                 isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -370,7 +466,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 variations:                                variationContainer.elementsIfPresent(of: .variation),
                 backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
                 tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-                isHidden:                                  container.attributeIfPresent(of: .isHidden),
+                hidden:                                  container.attributeIfPresent(of: .hidden),
                 alpha:                                     container.attributeIfPresent(of: .alpha),
                 horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
                 verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
@@ -382,6 +478,11 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
                 multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
                 semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+                preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+                layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+                insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+                directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+                edgeInset:                                 container.elementIfPresent(of: .edgeInset),
             )
         }
     }
@@ -397,7 +498,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                case .isHidden: return "hidden"
+                
                 case ._subviews: return "subview"
                 case .contentView: return "tableViewCellContentView"
                 default: return key.stringValue
@@ -421,6 +522,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:                                 container.attributeIfPresent(of: .userLabel),
             colorLabel:                                container.attributeIfPresent(of: .colorLabel),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
@@ -437,7 +539,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
             reuseIdentifier:                           container.attributeIfPresent(of: .reuseIdentifier),
             backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
             tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            isHidden:                                  container.attributeIfPresent(of: .isHidden),
+            hidden:                                  container.attributeIfPresent(of: .hidden),
             alpha:                                     container.attributeIfPresent(of: .alpha),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
@@ -449,6 +551,11 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
             semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
+            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
+            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
+            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
         )
     }
 }

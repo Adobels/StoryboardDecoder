@@ -14,6 +14,7 @@ public struct PinchGestureRecognizer: IBDecodable, GestureRecognizerProtocol {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
+    public let restorationIdentifier: String?
     
     public let userLabel: String?
     public let colorLabel: String?
@@ -27,6 +28,7 @@ public struct PinchGestureRecognizer: IBDecodable, GestureRecognizerProtocol {
             customClass:            container.attributeIfPresent(of: .customClass),
             customModule:           container.attributeIfPresent(of: .customModule),
             customModuleProvider:   container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier:  container.attributeIfPresent(of: .restorationIdentifier),
             userLabel:              container.attributeIfPresent(of: .userLabel),
             colorLabel:             container.attributeIfPresent(of: .colorLabel),
             connections:            container.childrenIfPresent(of: .connections)
