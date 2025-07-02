@@ -16,6 +16,5 @@ let package = Package(
         .testTarget(name: "DecoderTests", dependencies: ["StoryboardDecoder"], resources: [
             .process("Resources")
         ]),
-        .testTarget(name: "DiscoverTests", dependencies: ["StoryboardDecoder"])
     ]
 )
