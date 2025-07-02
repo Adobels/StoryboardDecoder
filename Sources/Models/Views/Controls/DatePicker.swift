@@ -7,10 +7,19 @@
 
 import SWXMLHash
 
-public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
+protocol DatePickerProtocol {
+    var style: String? { get } // IB: Preferred Style; UIKit datePickerStyle: UIDatePickerStyle
+    var datePickerMode: String? { get } // IB: Mode; UIKit: datePickerMode: UIDatePicker.Mode
+    var locale: DatePickerLocale? { get }
+    var minuteInterval: Int { get }
+    var date: IBDate? { get }
+    var minimumDate: IBDate? { get }
+    var maximumDate: IBDate? { get }
+}
+
+public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIDatePicker"
-
     public let key: String?
     public let autoresizingMask: AutoresizingMask?
     public let clipsSubviews: Bool?
@@ -46,7 +55,6 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
     public let contentVerticalAlignment: String?
 
     public let datePickerMode: String?
-    public let minuteInterval: String? // Integer??
     public let date: IBDate?
     public let style: String?
     public let useCurrentDate: Bool?
@@ -68,6 +76,10 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
     public let edgeInset: EdgeInset?
+    public let toolTip: String?
+    public let showsMenuAsPrimaryAction: Bool?
+    public let locale: DatePickerLocale?
+    public let minuteInterval: Int
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -132,7 +144,6 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
             contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
             contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
             datePickerMode:                            container.attributeIfPresent(of: .datePickerMode),
-            minuteInterval:                            container.attributeIfPresent(of: .minuteInterval),
             date:                                      dateContainer?.withAttributeElement(.key, CodingKeys.date.stringValue),
             style:                                     container.attributeIfPresent(of: .style),
             useCurrentDate:                            container.attributeIfPresent(of: .useCurrentDate),
@@ -154,6 +165,24 @@ public struct DatePicker: IBDecodable, ControlProtocol, IBIdentifiable {
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            toolTip:                                   container.attributeIfPresent(of: .toolTip),
+            showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
+            locale:                                    container.elementIfPresent(of: .locale),
+            minuteInterval:                            try container.attribute(of: .minuteInterval),
+        )
+    }
+}
+
+public struct DatePickerLocale: IBDecodable, IBKeyable {
+
+    public let key: String?
+    public let localeIdentifier: String
+
+    static func decode(_ xml: any XMLIndexerType) throws -> Self {
+        let container = xml.container(keys: CodingKeys.self)
+        return .init(
+            key: container.attributeIfPresent(of: .key),
+            localeIdentifier: try container.attribute(of: .localeIdentifier)
         )
     }
 }
