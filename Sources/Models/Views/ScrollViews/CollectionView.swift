@@ -76,7 +76,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -164,7 +164,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, IBIdentifiable {
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
         )
     }
 }
@@ -221,7 +221,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
 
     public var children: [IBElement] {
         // do not let default implementation which lead to duplicate element contentView
@@ -290,7 +290,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
         public let layoutMarginsFollowReadableWidth: Bool?
         public let insetsLayoutMarginsFromSafeArea: Bool?
         public let directionalLayoutMargins: DirectionalEdgeInsets?
-        public let edgeInset: EdgeInset?
+        public let layoutMargins: EdgeInset?
 
         enum ConstraintsCodingKeys: CodingKey { case constraint }
         enum VariationCodingKey: CodingKey { case variation }
@@ -357,7 +357,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
                 layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
                 insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
                 directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-                edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+                layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
             )
         }
     }
@@ -434,7 +434,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBR
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
         )
     }
 }
@@ -488,7 +488,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -556,7 +556,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, IBIdentifiable,
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
         )
     }
 }

@@ -38,7 +38,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let translatesAutoresizingMaskIntoConstraints: Bool?
     public let autoresizingMask: AutoresizingMask?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
@@ -147,7 +147,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
             autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
             directionalLayoutMargins:                  container.elementIfPresent(of: .directionalLayoutMargins),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
             preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),

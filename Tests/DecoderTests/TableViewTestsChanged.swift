@@ -87,7 +87,7 @@ struct TableViewTestsChanged {
         // UIView Size Inspector
         #expect(sut.translatesAutoresizingMaskIntoConstraints == false)
         #expect(sut.directionalLayoutMargins != nil)
-        #expect(sut.edgeInset == nil)
+        #expect(sut.layoutMargins == nil)
         #expect(sut.preservesSuperviewLayoutMargins == true)
         #expect(sut.layoutMarginsFollowReadableWidth == true)
         #expect(sut.insetsLayoutMarginsFromSafeArea == false)

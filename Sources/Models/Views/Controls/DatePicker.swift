@@ -75,7 +75,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
     public let toolTip: String?
     public let showsMenuAsPrimaryAction: Bool?
     public let locale: DatePickerLocale?
@@ -164,7 +164,7 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
             toolTip:                                   container.attributeIfPresent(of: .toolTip),
             showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
             locale:                                    container.elementIfPresent(of: .locale),

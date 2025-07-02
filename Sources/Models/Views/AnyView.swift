@@ -43,7 +43,7 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     var translatesAutoresizingMaskIntoConstraints: Bool? { get }
     var autoresizingMask: AutoresizingMask? { get }
     var directionalLayoutMargins: DirectionalEdgeInsets? { get }
-    var edgeInset: EdgeInset? { get }
+    var layoutMargins: EdgeInset? { get }
     var preservesSuperviewLayoutMargins: Bool? { get }
     var layoutMarginsFollowReadableWidth: Bool? { get }
     var insetsLayoutMarginsFromSafeArea: Bool? { get }

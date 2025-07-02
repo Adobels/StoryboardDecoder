@@ -55,7 +55,7 @@ public struct GLKView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -124,7 +124,7 @@ public struct GLKView: IBDecodable, ViewProtocol, IBIdentifiable {
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
         )
     }
 }

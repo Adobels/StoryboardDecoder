@@ -71,7 +71,7 @@ public struct PageControl: IBDecodable, ControlProtocol, PageControlProtocol, IB
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
     public let toolTip: String?
     public let showsMenuAsPrimaryAction: Bool?
     public let currentPage: Int?
@@ -154,7 +154,7 @@ public struct PageControl: IBDecodable, ControlProtocol, PageControlProtocol, IB
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
             toolTip:                                   container.attributeIfPresent(of: .toolTip),
             showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
             currentPage:                               container.attributeIfPresent(of: .currentPage),

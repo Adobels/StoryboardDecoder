@@ -7,7 +7,15 @@
 
 import SWXMLHash
 
-public struct Button: IBDecodable, ControlProtocol, IBIdentifiable {
+protocol ButtonProtocol {
+    var buttonType: String? { get }
+    // MARK: Size Inspector
+    /*var contentEdgeInsets: Inset? { get }
+    var titleEdgeInsets: Inset? { get }
+    var imageEdgeInsets: Inset? { get }*/
+}
+
+public struct Button: IBDecodable, ControlProtocol, ButtonProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIButton"
 
@@ -61,7 +69,7 @@ public struct Button: IBDecodable, ControlProtocol, IBIdentifiable {
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
     public let toolTip: String?
     public let showsMenuAsPrimaryAction: Bool?
 
@@ -169,7 +177,7 @@ public struct Button: IBDecodable, ControlProtocol, IBIdentifiable {
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
             toolTip:                                   container.attributeIfPresent(of: .toolTip),
             showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
         )

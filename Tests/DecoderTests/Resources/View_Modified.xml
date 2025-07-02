@@ -27,6 +27,7 @@
                                     <constraint firstAttribute="width" priority="111" constant="240" id="Qze-kV-C1P"/>
                                 </constraints>
                                 <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
+                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="myString" value="myValue"/>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="myBool" value="YES"/>

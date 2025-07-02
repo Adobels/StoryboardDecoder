@@ -105,7 +105,7 @@ public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdenti
     // UIView Size Inspector
     public let translatesAutoresizingMaskIntoConstraints: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
@@ -268,7 +268,7 @@ public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdenti
             // UIView Size Inspector
             translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
             directionalLayoutMargins:                  directionalLayoutMarginsContainer?.withAttributeElement(.key, CodingKeys.directionalLayoutMargins.stringValue),
-            edgeInset:                                 edgeInsetsContainer?.withAttributeElement(.key, CodingKeys.edgeInset.stringValue),
+            layoutMargins:                                 edgeInsetsContainer?.withAttributeElement(.key, CodingKeys.layoutMargins.stringValue),
             preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
@@ -357,7 +357,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let edgeInset: EdgeInset?
+    public let layoutMargins: EdgeInset?
 
     public var children: [IBElement] {
         // do not let default implementation which lead to duplicate element contentView
@@ -421,7 +421,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
         public let layoutMarginsFollowReadableWidth: Bool?
         public let insetsLayoutMarginsFromSafeArea: Bool?
         public let directionalLayoutMargins: DirectionalEdgeInsets?
-        public let edgeInset: EdgeInset?
+        public let layoutMargins: EdgeInset?
 
         static func decode(_ xml: XMLIndexerType) throws -> TableViewCell.TableViewContentView {
             let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
@@ -482,7 +482,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
                 insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
                 directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-                edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+                layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
             )
         }
     }
@@ -555,7 +555,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            edgeInset:                                 container.elementIfPresent(of: .edgeInset),
+            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
         )
     }
 }

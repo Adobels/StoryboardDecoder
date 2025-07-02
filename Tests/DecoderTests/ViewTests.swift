@@ -47,7 +47,7 @@ struct ViewTests {
         #expect(sut.translatesAutoresizingMaskIntoConstraints == false)
         #expect(sut.autoresizingMask != nil)
         #expect(sut.directionalLayoutMargins == nil)
-        #expect(sut.edgeInset == nil)
+        #expect(sut.layoutMargins == nil)
         #expect(sut.preservesSuperviewLayoutMargins == nil)
         #expect(sut.layoutMarginsFollowReadableWidth == nil)
         #expect(sut.insetsLayoutMarginsFromSafeArea == nil)
@@ -102,7 +102,7 @@ struct ViewTests {
         #expect(sut.translatesAutoresizingMaskIntoConstraints == false)
         #expect(sut.autoresizingMask == nil)
         #expect(sut.directionalLayoutMargins != nil)
-        #expect(sut.edgeInset == nil)
+        #expect(sut.layoutMargins.testDescription == layoutMarginsTestDescription)
         #expect(sut.preservesSuperviewLayoutMargins == true)
         #expect(sut.layoutMarginsFollowReadableWidth == true)
         #expect(sut.insetsLayoutMarginsFromSafeArea == false)
@@ -121,3 +121,7 @@ struct ViewTests {
         #expect(sut.isAmbiguous == nil)
     }
 }
+
+private let layoutMarginsTestDescription = """
+EdgeInset(key: Optional("layoutMargins"), left: Optional(8.0), right: Optional(8.0), bottom: Optional(8.0), top: Optional(8.0))
+"""
