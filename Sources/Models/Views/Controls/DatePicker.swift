@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-protocol DatePickerProtocol {
+protocol DatePickerProtocol: ViewProtocol, ControlProtocol {
     var style: String? { get } // IB: Preferred Style; UIKit datePickerStyle: UIDatePickerStyle
     var datePickerMode: String? { get } // IB: Mode; UIKit: datePickerMode: UIDatePicker.Mode
     var locale: DatePickerLocale? { get }
@@ -17,7 +17,7 @@ protocol DatePickerProtocol {
     var maximumDate: IBDate? { get }
 }
 
-public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBIdentifiable {
+public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIDatePicker"
     public let key: String?
@@ -86,19 +86,9 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
 
     static func decode(_ xml: XMLIndexerType) throws -> DatePicker {
         let view = try View.decode(xml)
-        let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
-            let stringValue: String = {
-                switch key {
-                case .isEnabled: return "enabled"
-                case .isHighlighted: return "highlighted"
-                case .isSelected: return "selected"
-                default: return key.stringValue
-                }
-            }()
-            return MappedCodingKey(stringValue: stringValue)
-        }
-        let dateContainer = xml.container(keys: ViewCodingKeys.self).nestedContainerIfPresent(of: .date, keys: KeyCodingKeys.self)
-
+        let control = try Control.decode(xml)
+        let datePicker = xml.container(keys: CodingKeys.self)
+        let datePickerDateContainer = xml.container(keys: ViewCodingKeys.self).nestedContainerIfPresent(of: .date, keys: KeyCodingKeys.self)
         return DatePicker(
             id:                                        view.id,
             key:                                       view.key,
@@ -128,18 +118,18 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
             tintColor:                                 view.tintColor,
             hidden:                                    view.hidden,
             alpha:                                     view.alpha,
-            isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
-            isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
-            isSelected:                                container.attributeIfPresent(of: .isSelected),
-            contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
-            contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
-            datePickerMode:                            container.attributeIfPresent(of: .datePickerMode),
-            date:                                      dateContainer?.withAttributeElement(.key, CodingKeys.date.stringValue),
-            style:                                     container.attributeIfPresent(of: .style),
-            useCurrentDate:                            container.attributeIfPresent(of: .useCurrentDate),
-            countDownDuration:                         container.attributeIfPresent(of: .countDownDuration),
-            minimumDate:                               dateContainer?.withAttributeElement(.key, CodingKeys.minimumDate.stringValue),
-            maximumDate:                               dateContainer?.withAttributeElement(.key, CodingKeys.maximumDate.stringValue),
+            isEnabled:                                 control.isEnabled,
+            isHighlighted:                             control.isHighlighted,
+            isSelected:                                control.isSelected,
+            contentHorizontalAlignment:                control.contentHorizontalAlignment,
+            contentVerticalAlignment:                  control.contentVerticalAlignment,
+            datePickerMode:                            datePicker.attributeIfPresent(of: .datePickerMode),
+            date:                                      datePickerDateContainer?.withAttributeElement(.key, CodingKeys.date.stringValue),
+            style:                                     datePicker.attributeIfPresent(of: .style),
+            useCurrentDate:                            datePicker.attributeIfPresent(of: .useCurrentDate),
+            countDownDuration:                         datePicker.attributeIfPresent(of: .countDownDuration),
+            minimumDate:                               datePickerDateContainer?.withAttributeElement(.key, CodingKeys.minimumDate.stringValue),
+            maximumDate:                               datePickerDateContainer?.withAttributeElement(.key, CodingKeys.maximumDate.stringValue),
             horizontalCompressionResistancePriority:   view.horizontalCompressionResistancePriority,
             verticalCompressionResistancePriority:     view.verticalCompressionResistancePriority,
             horizontalHuggingPriority:                 view.horizontalHuggingPriority,
@@ -155,10 +145,10 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
             insetsLayoutMarginsFromSafeArea:           view.insetsLayoutMarginsFromSafeArea,
             directionalLayoutMargins:                  view.directionalLayoutMargins,
             layoutMargins:                             view.layoutMargins,
-            toolTip:                                   container.attributeIfPresent(of: .toolTip),
-            showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
-            locale:                                    container.elementIfPresent(of: .locale),
-            minuteInterval:                            try container.attribute(of: .minuteInterval),
+            toolTip:                                   control.toolTip,
+            showsMenuAsPrimaryAction:                  control.showsMenuAsPrimaryAction,
+            locale:                                    datePicker.elementIfPresent(of: .locale),
+            minuteInterval:                            try datePicker.attribute(of: .minuteInterval),
         )
     }
 }

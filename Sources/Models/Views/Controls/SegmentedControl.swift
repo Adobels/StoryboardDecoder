@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-public struct SegmentedControl: IBDecodable, ControlProtocol, IBIdentifiable {
+public struct SegmentedControl: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UISegmentedControl"
 

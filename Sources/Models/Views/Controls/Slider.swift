@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-public struct Slider: IBDecodable, ControlProtocol, IBIdentifiable {
+public struct Slider: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UISlider"
 

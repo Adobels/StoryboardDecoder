@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-protocol PageControlProtocol {
+protocol PageControlProtocol: ViewProtocol, ControlProtocol {
     var numberOfPages: Int? { get }
     var currentPage: Int? { get }
     var hidesForSinglePage: Bool? { get }
@@ -16,7 +16,7 @@ protocol PageControlProtocol {
     var currentPageIndicatorTintColor: Color? { get }
 }
 
-public struct PageControl: IBDecodable, ControlProtocol, PageControlProtocol, IBIdentifiable {
+public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIPageControl"
 
@@ -87,9 +87,6 @@ public struct PageControl: IBDecodable, ControlProtocol, PageControlProtocol, IB
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .isMisplaced: return "misplaced"
-                case .isAmbiguous: return "ambiguous"
-                
                 case .isEnabled: return "enabled"
                 case .isHighlighted: return "highlighted"
                 case .isSelected: return "selected"

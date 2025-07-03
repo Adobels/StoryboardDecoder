@@ -10,12 +10,14 @@ import SWXMLHash
 protocol ButtonProtocol {
     var buttonType: String? { get }
     // MARK: Size Inspector
-    /*var contentEdgeInsets: Inset? { get }
+    /*
+    var contentEdgeInsets: Inset? { get }
     var titleEdgeInsets: Inset? { get }
-    var imageEdgeInsets: Inset? { get }*/
+    var imageEdgeInsets: Inset? { get }
+     */
 }
 
-public struct Button: IBDecodable, ControlProtocol, ButtonProtocol, IBIdentifiable {
+public struct Button: IBDecodable, ControlProtocol, ViewProtocol, ButtonProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIButton"
 

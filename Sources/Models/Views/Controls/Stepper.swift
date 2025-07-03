@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-public struct Stepper: IBDecodable, ControlProtocol, IBIdentifiable {
+public struct Stepper: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiable {
     public let id: String
     public let elementClass: String = "UIStepper"
 
