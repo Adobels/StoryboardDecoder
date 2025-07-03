@@ -66,9 +66,9 @@ struct ButtonTests {
         #expect(sut.constraints?[1].constant == 80)
         #expect(sut.constraints?[1].id == "zNT-vD-wNX")
         #expect(sut.fontDescription.testDescription == TOB71CAfHelper.fontDescription)
-        #expect(sut.tintColor.testDescription == tintColorTOB71CAf)
+        #expect(sut.tintColor.testDescription == TOB71CAfHelper.tintColorTOB71CAf)
         #expect(sut.contentEdgeInsets == nil)
-        #expect(sut.titleEdgeInsets.testDescription == titleEdgeInsetsTOB71CAf)
+        #expect(sut.titleEdgeInsets.testDescription == TOB71CAfHelper.titleEdgeInsetsTOB71CAf)
         #expect(sut.imageEdgeInsets == nil)
         #expect(sut.userDefinedRuntimeAttributes?.count == 1)
         #expect(sut.userDefinedRuntimeAttributes?[0].type == "string")
@@ -86,11 +86,10 @@ struct TOB71CAfHelper {
     static let fontDescription = """
 .system(key: Optional("fontDescription"), type: "system", weight: Optional("medium"), pointSize: 15.0)
 """
-
-}
-private let titleEdgeInsetsTOB71CAf = """
+    static let titleEdgeInsetsTOB71CAf = """
 Inset(key: Optional("titleEdgeInsets"), minX: Optional(12.0), minY: Optional(0.0), maxX: Optional(0.0), maxY: Optional(0.0))
 """
-private let tintColorTOB71CAf = """
+    static let tintColorTOB71CAf = """
 .gamma22Gray(key: Optional("tintColor"), white: 1.0, alpha: 1.0)
 """
+}
