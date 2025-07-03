@@ -13,12 +13,16 @@ protocol ButtonProtocol: ViewProtocol, ControlProtocol {
     var fontDescription: FontDescription? { get }
     var lineBreakMode: String? { get }
     var state: [Button.State]? { get }
+    var reversesTitleShadowWhenHighlighted: Bool? { get }
+    var showsTouchWhenHighlighted: Bool? { get }
+    var adjustsImageWhenHighlighted: Bool? { get }
+    var adjustsImageWhenDisabled: Bool? { get }
+    var backgroundColor: Color? { get }
+    var tintColor: Color? { get }
     // MARK: Size Inspector
-    /*
-     var contentEdgeInsets: Inset? { get }
-     var titleEdgeInsets: Inset? { get }
-     var imageEdgeInsets: Inset? { get }
-     */
+    var contentEdgeInsets: Inset? { get }
+    var titleEdgeInsets: Inset? { get }
+    var imageEdgeInsets: Inset? { get }
 }
 
 public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
@@ -80,16 +84,22 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
     public let fontDescription: FontDescription?
     public let lineBreakMode: String?
     public let state: [State]?
+    public let reversesTitleShadowWhenHighlighted: Bool?
+    public let showsTouchWhenHighlighted: Bool?
+    public let adjustsImageWhenHighlighted: Bool?
+    public let adjustsImageWhenDisabled: Bool?
+    public let contentEdgeInsets: Inset?
+    public let titleEdgeInsets: Inset?
+    public let imageEdgeInsets: Inset?
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color }
-    enum ColorsCodingKeys: CodingKey { case key }
+    enum ExternalCodingKeys: CodingKey { case color, inset }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Button {
         let view = try View.decode(xml)
         let control = try Control.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
+        let containerInset = xml.container(keys: ExternalCodingKeys.self).nestedContainerIfPresent(of: .inset, keys: KeyCodingKeys.self)
         return Button(
             key:                                        view.key,
             id:                                         view.id,
@@ -145,6 +155,13 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
             fontDescription:                            container.elementIfPresent(of: .fontDescription),
             lineBreakMode:                              container.attributeIfPresent(of: .lineBreakMode),
             state:                                      container.elementsIfPresent(of: .state),
+            reversesTitleShadowWhenHighlighted: container.attributeIfPresent(of: .reversesTitleShadowWhenHighlighted),
+            showsTouchWhenHighlighted: container.attributeIfPresent(of: .showsTouchWhenHighlighted),
+            adjustsImageWhenHighlighted: container.attributeIfPresent(of: .adjustsImageWhenHighlighted),
+            adjustsImageWhenDisabled: container.attributeIfPresent(of: .adjustsImageWhenDisabled),
+            contentEdgeInsets: containerInset?.withAttributeElement(.key, CodingKeys.contentEdgeInsets.stringValue),
+            titleEdgeInsets: containerInset?.withAttributeElement(.key, CodingKeys.titleEdgeInsets.stringValue),
+            imageEdgeInsets: containerInset?.withAttributeElement(.key, CodingKeys.imageEdgeInsets.stringValue),
         )
     }
 
@@ -161,7 +178,7 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
         static func decode(_ xml: XMLIndexerType) throws -> Button.State {
             let container = xml.container(keys: CodingKeys.self)
             let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
-                .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
+                .nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
             return State.init(
                 key: try container.attribute(of: .key),
                 title: container.attributeIfPresent(of: .title),

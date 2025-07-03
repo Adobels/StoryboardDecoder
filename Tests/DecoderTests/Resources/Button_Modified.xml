@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6HS-g0-OtC">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="FB4-8t-Ma5">
+            <objects>
+                <viewController id="6HS-g0-OtC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hEb-NI-XeL">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wt6-F6-MuK">
+                                <rect key="frame" x="120" y="251" width="151" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <inset key="contentEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                                <inset key="titleEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                                <inset key="imageEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                                <buttonConfiguration key="configuration" style="filled" image="square.and.arrow.up" catalog="system" title="Buttonzde" subtitle="subtitle text" titlePadding="4" buttonSize="medium" titleAlignment="leading">
+                                    <fontDescription key="titleFontDescription" type="system" weight="medium" pointSize="18"/>
+                                    <fontDescription key="subtitleFontDescription" type="system" pointSize="20"/>
+                                    <color key="baseForegroundColor" white="0.29966517860000003" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="baseBackgroundColor" white="0.29966517860000003" alpha="1" colorSpace="calibratedWhite"/>
+                                </buttonConfiguration>
+                            </button>
+<button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t0B-71-CAf" customClass="CustomButton" customModule="Designable">
+    <rect key="frame" x="334" y="48" width="80" height="56"/>
+    <constraints>
+        <constraint firstAttribute="height" constant="56" id="oqn-rH-8Al"/>
+        <constraint firstAttribute="width" constant="80" id="zNT-vD-wNX"/>
+    </constraints>
+    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+    <inset key="titleEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
+    <userDefinedRuntimeAttributes>
+        <userDefinedRuntimeAttribute type="string" keyPath="locKey" value="button.confirm.top"/>
+    </userDefinedRuntimeAttributes>
+    <connections>
+        <action selector="confirmWithButton:" destination="J0H-ww-VqV" eventType="touchUpInside" id="Lhr-C8-Hnk"/>
+    </connections>
+</button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="z9x-gU-Yik"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Mb-qn-1Qc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-451" y="-705"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="square.and.arrow.up" catalog="system" width="110" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
