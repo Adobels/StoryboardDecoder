@@ -70,6 +70,6 @@ struct StackViewTests {
         #expect(sut.subviews?.count == 1)
         #expect(sut.verifyAmbiguity.testDescription == ".off")
         #expect(sut.isMisplaced == nil)
-        #expect(sut.isAmbiguous == nil)
+        #expect(sut.isAmbiguous == true)
     }
 }

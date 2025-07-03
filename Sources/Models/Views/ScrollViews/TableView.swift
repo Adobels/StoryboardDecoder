@@ -9,71 +9,124 @@ import SWXMLHash
 
 // MARK: - TableView
 
-public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdentifiable {
+protocol TableViewProtocol: ScrollViewProtocol {
+    var dataMode: TableView.DataMode? { get }
+    var estimatedRowHeight: Float? { get }
+    var rowHeight: Float? { get }
+    var sectionFooterHeight: Float? { get }
+    var sectionHeaderHeight: Float? { get }
+    var separatorStyle: String? { get }
+    var style: String? { get }
+    var subviews: [AnyView]? { get }
+    var sections: [TableViewSection]? { get }
+    var prototypeCells: [TableViewCell]? { get }
+    var headersFooters: [AnyView]? { get }
+    var allowsSelection: Bool? { get }
+    var allowsMultipleSelection: Bool? { get }
+    // UITableView Attributes Inspector
+    var separatorColor: Color? { get }
+    var separatorInset: Inset? { get }
+    var separatorInsetReference: String? { get }
+    var allowsSelectionDuringEditing: Bool? { get }
+    var allowsMultipleSelectionDuringEditing: Bool? { get }
+    var springLoaded: Bool? { get }
+    var sectionIndexMinimumDisplayRowCount: Int? { get }
+    var sectionIndexColor: Color? { get }
+    var sectionIndexBackgroundColor: Color? { get }
+    var sectionIndexTrackingBackgroundColor: Color? { get }
+    // UITableView Size Inspector
+    var estimatedSectionHeaderHeight: Int? { get }
+    var estimatedSectionFooterHeight: Int? { get }
+    var contentViewInsetsToSafeArea: Bool? { get }
+}
+
+public struct TableView: IBDecodable, TableViewProtocol, IBIdentifiable {
+    // MARK: UIView
+    public let key: String?
     public let id: String
     public let elementClass: String = "UITableView"
-
-    public let key: String?
-    public let autoresizingMask: AutoresizingMask?
-    public let clipsSubviews: Bool?
-    public let constraints: [Constraint]?
-    public let contentMode: String?
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
     public let restorationIdentifier: String?
+    public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let userLabel: String?
     public let colorLabel: String?
-    public let dataMode: DataMode?
-    public let estimatedRowHeight: Float?
+    public let accessibility: Accessibility?
+    public let contentMode: String?
+    public let semanticContentAttribute: String?
+    public let tag: Int?
+    public let userInteractionEnabled: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let alpha: Float?
+    public let backgroundColor: Color?
+    public let tintColor: Color?
+    public let opaque: Bool?
+    public let hidden: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let clipsSubviews: Bool?
+    public let autoresizesSubviews: Bool?
+    public let rect: Rect?
+    public let translatesAutoresizingMaskIntoConstraints: Bool?
+    public let autoresizingMask: AutoresizingMask?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let layoutMargins: EdgeInset?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let horizontalHuggingPriority: Int?
+    public let verticalHuggingPriority: Int?
+    public let horizontalCompressionResistancePriority: Int?
+    public let verticalCompressionResistancePriority: Int?
+    public let constraints: [Constraint]?
+    public let connections: [AnyConnection]?
+    public let variations: [Variation]?
+    //public let subviews: [AnyView]?
+    public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
-    public let verifyAmbiguity: VerifyAmbiguity?
-    public let opaque: Bool?
-    public let rect: Rect?
+    // MARK: UIScrollView
+    public let isPagingEnabled: Bool?
+    public let bouncesZoom: Bool?
+    public let bounces: Bool?
+    public let alwaysBounceVertical: Bool?
+    public let keyboardDismissMode: String?
+    public let showsVerticalScrollIndicator: Bool? // default true
+    public let showsHorizontalScrollIndicator: Bool? // default true
+    public let maximumZoomScale: Float?
+    public let minimumZoomScale: Float?
+    public let isDirectionalLockEnabled: Bool?
+    public let contentLayoutGuide: LayoutGuide?
+    public let frameLayoutGuide: LayoutGuide?
+    public let indicatorStyle: IndicatorStyle?
+    public let scrollEnabled: Bool?
+    public let alwaysBounceHorizontal: Bool?
+    public let delaysContentTouches: Bool?
+    public let canCancelContentTouches: Bool?
+    public let keyboard: LayoutGuide?
+    public let safeArea: LayoutGuide?
+    // UIScrollView Properties in Attributes Inspector
+    public let pagingEnabled: Bool?
+    public let directionalLockEnabled: Bool?
+    // UIScrollView Properties in Size Inspector
+    public let scrollIndicatorInsets: Inset?
+    public let contentInsetAdjustmentBehavior: String?
+    // move here the contentLayoutGuide and frameLayoutGuide properties
+    // MARK: UITableView
+    public let dataMode: DataMode?
+    public let estimatedRowHeight: Float?
     public let rowHeight: Float?
     public let sectionFooterHeight: Float?
     public let sectionHeaderHeight: Float?
     public let separatorStyle: String?
     public let style: String?
     private let _subviews: [AnyView]?
-    public var subviews: [AnyView]? {
-        return (_subviews ?? []) + (headersFooters ?? [])
-    }
-    public let userInteractionEnabled: Bool?
-    public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
-    public let connections: [AnyConnection]?
-    public let variations: [Variation]?
+    public var subviews: [AnyView]? { (_subviews ?? []) + (headersFooters ?? []) }
     public let sections: [TableViewSection]?
     public let prototypeCells: [TableViewCell]?
-    public let isPagingEnabled: Bool?
-    public let bouncesZoom: Bool?
-    public let bounces: Bool?
-    public let alwaysBounceVertical: Bool?
-    public let keyboardDismissMode: String?
-    public let showsVerticalScrollIndicator: Bool?
-    public let showsHorizontalScrollIndicator: Bool?
-    public let maximumZoomScale: Float?
-    public let minimumZoomScale: Float?
-    public let isDirectionalLockEnabled: Bool?
     public let headersFooters: [AnyView]?
     public let allowsSelection: Bool?
     public let allowsMultipleSelection: Bool?
-    public let backgroundColor: Color?
-    public let tintColor: Color?
-    public let hidden: Bool?
-    public let alpha: Float?
-    
-    public let horizontalCompressionResistancePriority: Int?
-    public let verticalCompressionResistancePriority: Int?
-    public let horizontalHuggingPriority: Int?
-    public let verticalHuggingPriority: Int?
-    public let accessibility: Accessibility?
-    public let tag: Int?
-    public let autoresizesSubviews: Bool?
-    public let clearsContextBeforeDrawing: Bool?
-    public let multipleTouchEnabled: Bool?
-    public let semanticContentAttribute: String?
     // UITableView Attributes Inspector
     public let separatorColor: Color?
     public let separatorInset: Inset?
@@ -89,26 +142,6 @@ public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdenti
     public let estimatedSectionHeaderHeight: Int?
     public let estimatedSectionFooterHeight: Int?
     public let contentViewInsetsToSafeArea: Bool?
-    // UIScrollView Attributes Inspector
-    public let indicatorStyle: IndicatorStyle?
-    public let scrollEnabled: Bool?
-    public let pagingEnabled: Bool?
-    public let directionalLockEnabled: Bool?
-    public let alwaysBounceHorizontal: Bool?
-    public let delaysContentTouches: Bool?
-    public let canCancelContentTouches: Bool?
-    // UIScrollView Size Inspector
-    public let scrollIndicatorInsets: Inset?
-    public let contentInsetAdjustmentBehavior: String?
-    public let contentLayoutGuide: LayoutGuide?
-    public let frameLayoutGuide: LayoutGuide?
-    // UIView Size Inspector
-    public let translatesAutoresizingMaskIntoConstraints: Bool?
-    public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let layoutMargins: EdgeInset?
-    public let preservesSuperviewLayoutMargins: Bool?
-    public let layoutMarginsFollowReadableWidth: Bool?
-    public let insetsLayoutMarginsFromSafeArea: Bool?
 
     public enum DataMode: XMLAttributeDecodable, KeyDecodable, Equatable {
         case `static`, prototypes
@@ -147,17 +180,15 @@ public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdenti
     }
     enum KeyCodingKeys: CodingKey { case key }
     enum InsetCodingKeys: CodingKey { case separatorInset, scrollIndicatorInsets }
-    enum ViewLayoutGuideKeys: CodingKey { case contentLayoutGuide, frameLayoutGuide}
+    enum ViewLayoutGuideKeys: CodingKey { case contentLayoutGuide, frameLayoutGuide, keyboardLayoutGuide }
     enum DirectionalEdgeInsetsKeys: CodingKey { case directionalLayoutMargins }
     enum EdgeInsetsKeys: CodingKey { case layoutMargins }
 
     static func decode(_ xml: XMLIndexerType) throws -> TableView {
+        let scrollView = try ScrollView.decode(xml)
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .isMisplaced: return "misplaced"
-                case .isAmbiguous: return "ambiguous"
-                
                 case .prototypeCells: return "prototypes"
                 case .isPagingEnabled: return "pagingEnabled"
                 case .isDirectionalLockEnabled: return "directionalLockEnabled"
@@ -168,77 +199,95 @@ public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdenti
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
-        let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
-        let variationContainer = xml.container(keys: VariationCodingKey.self)
         let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
             .nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         let insetsContainer = xml.container(keys: ExternalCodingKeys.self)
             .nestedContainerIfPresent(of: .inset, keys: KeyCodingKeys.self)
         let viewLayoutGuideContainer = xml.container(keys: ExternalCodingKeys.self)
             .nestedContainerIfPresent(of: .viewLayoutGuide, keys: KeyCodingKeys.self)
-        let directionalLayoutMarginsContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .directionalEdgeInsets, keys: KeyCodingKeys.self)
-        let edgeInsetsContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .edgeInsets, keys: KeyCodingKeys.self)
+        let keyboardLayoutGuideContainer = xml.container(keys: ViewLayoutGuideKeys.self)
+            .nestedContainerIfPresent(of: .keyboardLayoutGuide, keys: ViewLayoutGuideKeys.self)
         return TableView(
-            id:                                        try container.attribute(of: .id),
-            key:                                       container.attributeIfPresent(of: .key),
-            autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
-            clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
-            contentMode:                               container.attributeIfPresent(of: .contentMode),
-            customClass:                               container.attributeIfPresent(of: .customClass),
-            customModule:                              container.attributeIfPresent(of: .customModule),
-            customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:                                 container.attributeIfPresent(of: .userLabel),
-            colorLabel:                                container.attributeIfPresent(of: .colorLabel),
-            dataMode:                                  container.attributeIfPresent(of: .dataMode),
-            estimatedRowHeight:                        container.attributeIfPresent(of: .estimatedRowHeight),
-            isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
-            opaque:                                    container.attributeIfPresent(of: .opaque),
-            rect:                                      container.elementIfPresent(of: .rect),
-            rowHeight:                                 container.attributeIfPresent(of: .rowHeight),
-            sectionFooterHeight:                       container.attributeIfPresent(of: .sectionFooterHeight),
-            sectionHeaderHeight:                       container.attributeIfPresent(of: .sectionHeaderHeight),
-            separatorStyle:                            container.attributeIfPresent(of: .separatorStyle),
-            style:                                     container.attributeIfPresent(of: .style),
-            _subviews:                                 container.childrenIfPresent(of: ._subviews),
-            userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
-            userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            sections:                                  container.childrenIfPresent(of: .sections),
-            prototypeCells:                            container.childrenIfPresent(of: .prototypeCells),
-            isPagingEnabled:                           container.attributeIfPresent(of: .isPagingEnabled),
-            bouncesZoom:                               container.attributeIfPresent(of: .bouncesZoom),
-            bounces:                                   container.attributeIfPresent(of: .bounces),
-            alwaysBounceVertical:                      container.attributeIfPresent(of: .alwaysBounceVertical),
-            keyboardDismissMode:                       container.attributeIfPresent(of: .keyboardDismissMode),
-            showsVerticalScrollIndicator:              container.attributeIfPresent(of: .showsVerticalScrollIndicator),
-            showsHorizontalScrollIndicator:            container.attributeIfPresent(of: .showsHorizontalScrollIndicator),
-            maximumZoomScale:                          container.attributeIfPresent(of: .maximumZoomScale),
-            minimumZoomScale:                          container.attributeIfPresent(of: .minimumZoomScale),
-            isDirectionalLockEnabled:                  container.attributeIfPresent(of: .isDirectionalLockEnabled),
-            headersFooters:                            container.elementsIfPresent(of: .headersFooters),
-            allowsSelection:                           container.attributeIfPresent(of: .allowsSelection),
-            allowsMultipleSelection:                   container.attributeIfPresent(of: .allowsMultipleSelection),
-            backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
-            tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            hidden:                                  container.attributeIfPresent(of: .hidden),
-            alpha:                                     container.attributeIfPresent(of: .alpha),
-            horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
-            verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
-            horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
-            verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility),
-            tag:                                       container.attributeIfPresent(of: .tag),
-            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
-            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
-            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
-            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
+            key: scrollView.key,
+            id: scrollView.id,
+            customClass: scrollView.customClass,
+            customModule: scrollView.customModule,
+            customModuleProvider: scrollView.customModuleProvider,
+            restorationIdentifier: scrollView.restorationIdentifier,
+            userDefinedRuntimeAttributes: scrollView.userDefinedRuntimeAttributes,
+            userLabel: scrollView.userLabel,
+            colorLabel: scrollView.colorLabel,
+            accessibility: scrollView.accessibility,
+            contentMode: scrollView.contentMode,
+            semanticContentAttribute: scrollView.semanticContentAttribute,
+            tag: scrollView.tag,
+            userInteractionEnabled: scrollView.userInteractionEnabled,
+            multipleTouchEnabled: scrollView.multipleTouchEnabled,
+            alpha: scrollView.alpha,
+            backgroundColor: scrollView.backgroundColor,
+            tintColor: scrollView.tintColor,
+            opaque: scrollView.opaque,
+            hidden: scrollView.hidden,
+            clearsContextBeforeDrawing: scrollView.clearsContextBeforeDrawing,
+            clipsSubviews: scrollView.clipsSubviews,
+            autoresizesSubviews: scrollView.autoresizesSubviews,
+            rect: scrollView.rect,
+            translatesAutoresizingMaskIntoConstraints: scrollView.translatesAutoresizingMaskIntoConstraints,
+            autoresizingMask: scrollView.autoresizingMask,
+            directionalLayoutMargins: scrollView.directionalLayoutMargins,
+            layoutMargins: scrollView.layoutMargins,
+            preservesSuperviewLayoutMargins: scrollView.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth: scrollView.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea: scrollView.insetsLayoutMarginsFromSafeArea,
+            horizontalHuggingPriority: scrollView.horizontalHuggingPriority,
+            verticalHuggingPriority: scrollView.verticalHuggingPriority,
+            horizontalCompressionResistancePriority: scrollView.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority: scrollView.verticalCompressionResistancePriority,
+            constraints: scrollView.constraints,
+            connections: scrollView.connections,
+            variations: scrollView.variations,
+            //subviews: scrollView.subviews,
+            verifyAmbiguity: scrollView.verifyAmbiguity,
+            isMisplaced: scrollView.isMisplaced,
+            isAmbiguous: scrollView.isAmbiguous,
+            // UIScrollView
+            isPagingEnabled: scrollView.isPagingEnabled,
+            bouncesZoom: scrollView.bouncesZoom,
+            bounces: scrollView.bounces,
+            alwaysBounceVertical: scrollView.alwaysBounceVertical,
+            keyboardDismissMode: scrollView.keyboardDismissMode,
+            showsVerticalScrollIndicator: scrollView.showsVerticalScrollIndicator,
+            showsHorizontalScrollIndicator: scrollView.showsHorizontalScrollIndicator,
+            maximumZoomScale: scrollView.maximumZoomScale,
+            minimumZoomScale: scrollView.minimumZoomScale,
+            isDirectionalLockEnabled: scrollView.isDirectionalLockEnabled,
+            contentLayoutGuide:                        viewLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.contentLayoutGuide.stringValue),
+            frameLayoutGuide:                          viewLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.frameLayoutGuide.stringValue),
+            indicatorStyle:                            scrollView.indicatorStyle,
+            scrollEnabled:                             scrollView.scrollEnabled,
+            alwaysBounceHorizontal:                    scrollView.alwaysBounceHorizontal,
+            delaysContentTouches:                      scrollView.delaysContentTouches,
+            canCancelContentTouches:                   scrollView.canCancelContentTouches,
+            keyboard:                                  keyboardLayoutGuideContainer?.withAttributeElement(.keyboardLayoutGuide, CodingKeys.keyboard.stringValue),
+            safeArea:                                  viewLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.safeArea.stringValue),
+            pagingEnabled:                             scrollView.pagingEnabled,
+            directionalLockEnabled:                    scrollView.directionalLockEnabled,
+            scrollIndicatorInsets:                     insetsContainer?.withAttributeElement(.key, CodingKeys.scrollIndicatorInsets.stringValue),
+            contentInsetAdjustmentBehavior:            scrollView.contentInsetAdjustmentBehavior,
+            // MARK: UITableView
+            dataMode: container.attributeIfPresent(of: .dataMode),
+            estimatedRowHeight: container.attributeIfPresent(of: .estimatedRowHeight),
+            rowHeight: container.attributeIfPresent(of: .rowHeight),
+            sectionFooterHeight: container.attributeIfPresent(of: .sectionFooterHeight),
+            sectionHeaderHeight: container.attributeIfPresent(of: .sectionHeaderHeight),
+            separatorStyle: container.attributeIfPresent(of: .separatorStyle),
+            style: container.attributeIfPresent(of: .style),
+            _subviews: container.childrenIfPresent(of: ._subviews),
+            sections: container.childrenIfPresent(of: .sections),
+            prototypeCells: container.childrenIfPresent(of: .prototypeCells),
+            headersFooters: container.elementsIfPresent(of: .headersFooters),
+            allowsSelection: container.attributeIfPresent(of: .allowsSelection),
+            allowsMultipleSelection: container.attributeIfPresent(of: .allowsMultipleSelection),
             separatorColor:                            colorsContainer?.withAttributeElement(.key, CodingKeys.separatorColor.stringValue),
             separatorInset:                            insetsContainer?.withAttributeElement(.key, CodingKeys.separatorInset.stringValue),
             separatorInsetReference:                   container.attributeIfPresent(of: .separatorInsetReference),
@@ -250,28 +299,8 @@ public struct TableView: IBDecodable, ScrollViewProtocol, ViewProtocol, IBIdenti
             sectionIndexBackgroundColor:               colorsContainer?.withAttributeElement(.key, CodingKeys.sectionIndexBackgroundColor.stringValue),
             sectionIndexTrackingBackgroundColor:       colorsContainer?.withAttributeElement(.key, CodingKeys.sectionIndexTrackingBackgroundColor.stringValue),
             estimatedSectionHeaderHeight: container.attributeIfPresent(of: .estimatedSectionHeaderHeight),
-            estimatedSectionFooterHeight:              container.attributeIfPresent(of: .estimatedSectionFooterHeight),
+            estimatedSectionFooterHeight: container.attributeIfPresent(of: .estimatedSectionFooterHeight),
             contentViewInsetsToSafeArea: container.attributeIfPresent(of: .contentViewInsetsToSafeArea),
-            // UIScrollView Attributes Inspector
-            indicatorStyle: container.attributeIfPresent(of: .indicatorStyle),
-            scrollEnabled: container.attributeIfPresent(of: .scrollEnabled),
-            pagingEnabled: container.attributeIfPresent(of: .pagingEnabled),
-            directionalLockEnabled: container.attributeIfPresent(of: .directionalLockEnabled),
-            alwaysBounceHorizontal: container.attributeIfPresent(of: .alwaysBounceHorizontal),
-            delaysContentTouches: container.attributeIfPresent(of: .delaysContentTouches),
-            canCancelContentTouches: container.attributeIfPresent(of: .canCancelContentTouches),
-            // UIScrollView Size Inspector
-            scrollIndicatorInsets: insetsContainer?.withAttributeElement(.key, CodingKeys.scrollIndicatorInsets.stringValue),
-            contentInsetAdjustmentBehavior: container.attributeIfPresent(of: .contentInsetAdjustmentBehavior),
-            contentLayoutGuide:                        viewLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.contentLayoutGuide.stringValue),
-            frameLayoutGuide:                          viewLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.frameLayoutGuide.stringValue),
-            // UIView Size Inspector
-            translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
-            directionalLayoutMargins:                  directionalLayoutMarginsContainer?.withAttributeElement(.key, CodingKeys.directionalLayoutMargins.stringValue),
-            layoutMargins:                                 edgeInsetsContainer?.withAttributeElement(.key, CodingKeys.layoutMargins.stringValue),
-            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
-            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
-            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
         )
     }
 }
@@ -389,12 +418,12 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
         public let customClass: String?
         public let customModule: String?
         public let customModuleProvider: String?
-    public let restorationIdentifier: String?
+        public let restorationIdentifier: String?
         public let userLabel: String?
         public let colorLabel: String?
         public let isMisplaced: Bool?
-    public let isAmbiguous: Bool?
-    public let verifyAmbiguity: VerifyAmbiguity?
+        public let isAmbiguous: Bool?
+        public let verifyAmbiguity: VerifyAmbiguity?
         public let opaque: Bool?
         public let rect: Rect?
         public let subviews: [AnyView]?
@@ -429,16 +458,16 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                     switch key {
                     case .isMisplaced: return "misplaced"
                     case .isAmbiguous: return "ambiguous"
-                    
+
                     default: return key.stringValue
                     }
                 }()
                 return MappedCodingKey(stringValue: stringValue)
             }
             let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
-        let variationContainer = xml.container(keys: VariationCodingKey.self)
-        let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
+            let variationContainer = xml.container(keys: VariationCodingKey.self)
+            let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
+                .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
 
             return TableViewContentView(
                 id:                                        try container.attribute(of: .id),
@@ -450,12 +479,12 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 customClass:                               container.attributeIfPresent(of: .customClass),
                 customModule:                              container.attributeIfPresent(of: .customModule),
                 customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
+                restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
                 userLabel:                                 container.attributeIfPresent(of: .userLabel),
                 colorLabel:                                container.attributeIfPresent(of: .colorLabel),
                 isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
+                isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
+                verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
                 opaque:                                    container.attributeIfPresent(of: .opaque),
                 rect:                                      container.elementIfPresent(of: .rect),
                 subviews:                                  container.childrenIfPresent(of: .subviews),
@@ -498,7 +527,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, IBIdentifiable, IBReusab
                 switch key {
                 case .isMisplaced: return "misplaced"
                 case .isAmbiguous: return "ambiguous"
-                
+
                 case ._subviews: return "subview"
                 case .contentView: return "tableViewCellContentView"
                 default: return key.stringValue

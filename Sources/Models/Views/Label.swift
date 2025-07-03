@@ -7,7 +7,36 @@
 
 import SWXMLHash
 
-public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
+protocol LabelProtocol: ViewProtocol {
+    // MARK: UILabel Attributes Instpector
+    var text: String? { get }
+    var attributedText: AttributedString? { get }
+    var textColor: Color? { get }
+    var fontDescription: FontDescription? { get }
+    var adjustsFontForContentSizeCategory: Bool? { get }
+    var textAlignment: String? { get }
+    var numberOfLines: Int? { get }
+    var isEnabled: Bool? { get }
+    var highlighted: Bool? { get }
+    var showsExpansionTextWhenTruncated: Bool? { get }
+    var baselineAdjustment: String? { get }
+    var lineBreakMode: String? { get }
+    // missing support for lineBreakStrategy
+    var adjustsFontSizeToFit: Bool? { get }
+    var minimumScaleFactor: Float? { get }
+    var minimumFontSize: Float? { get }
+    var fixedFrame: Bool? { get }
+    var adjustsLetterSpacingToFitWidth: Bool? { get } // in UIKit: allowsDefaultTighteningForTruncation { get }
+    var sizingRule: String? { get }
+    var highlightedColor: Color? { get }
+    var shadowColor: Color? { get }
+    var shadowOffset: Size? { get }
+    // MARK: UILabel Size Inspector
+    var preferredMaxLayoutWidth: Float? { get }
+}
+
+public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
+    // MARK: UIView
     public let key: String?
     public let id: String
     public let elementClass: String = "UILabel"
@@ -19,7 +48,6 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let userLabel: String?
     public let colorLabel: String?
     public let accessibility: Accessibility?
-    // MARK: Attribut Inspector
     public let contentMode: String?
     public let semanticContentAttribute: String?
     public let tag: Int?
@@ -33,7 +61,6 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let clearsContextBeforeDrawing: Bool?
     public let clipsSubviews: Bool?
     public let autoresizesSubviews: Bool?
-    // MARK: Size Inspector
     public let rect: Rect?
     public let translatesAutoresizingMaskIntoConstraints: Bool?
     public let autoresizingMask: AutoresizingMask?
@@ -53,7 +80,7 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
-    // MARK: UILabel Attributes Instpector
+    // MARK: UILabel
     public let text: String?
     public let attributedText: AttributedString?
     public let textColor: Color?
@@ -76,22 +103,18 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
     public let highlightedColor: Color?
     public let shadowColor: Color?
     public let shadowOffset: Size?
-    // MARK: UILabel Size Inspector
     public let preferredMaxLayoutWidth: Float?
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
     enum ExternalCodingKeys: CodingKey { case color, string, mutableString }
     enum ColorsCodingKeys: CodingKey { case key }
     enum StringsCodingKeys: CodingKey { case key }
     enum MutableStringsCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Label {
+        let view = try View.decode(xml)
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .isMisplaced: return "misplaced"
-                case .isAmbiguous: return "ambiguous"
                 case .attributedText: return "attributedString"
                 case .isEnabled: return "enabled"
                 default: return key.stringValue
@@ -99,8 +122,6 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
-        let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
-        let variationContainer = xml.container(keys: VariationCodingKey.self)
         let externalContainer = xml.container(keys: ExternalCodingKeys.self)
         let colorsContainer = externalContainer
             .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
@@ -108,7 +129,6 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             .nestedContainerIfPresent(of: .string, keys: StringsCodingKeys.self)
         let mutableStringsContainer = externalContainer
             .nestedContainerIfPresent(of: .mutableString, keys: StringsCodingKeys.self)
-
         var text: String? = container.attributeIfPresent(of: .text)
         if text == nil {
             let multiLineText: StringElement? = stringsContainer?.withAttributeElement(.key, CodingKeys.text.stringValue)
@@ -118,72 +138,71 @@ public struct Label: IBDecodable, ViewProtocol, IBIdentifiable {
             let multiLineText: StringElement? = mutableStringsContainer?.withAttributeElement(.key, CodingKeys.text.stringValue)
             text = multiLineText?.elementValue
         }
-        
         return Label(
-            key:                                       container.attributeIfPresent(of: .key),
-            id:                                        try container.attribute(of: .id),
-            customClass:                               container.attributeIfPresent(of: .customClass),
-            customModule:                              container.attributeIfPresent(of: .customModule),
-            customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
-            userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            userLabel:                                 container.attributeIfPresent(of: .userLabel),
-            colorLabel:                                container.attributeIfPresent(of: .colorLabel),
-            accessibility:                             container.elementIfPresent(of: .accessibility),
-            contentMode:                               container.attributeIfPresent(of: .contentMode),
-            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
-            tag:                                       container.attributeIfPresent(of: .tag),
-            userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
-            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
-            alpha:                                     container.attributeIfPresent(of: .alpha),
-            backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
-            tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            opaque:                                    container.attributeIfPresent(of: .opaque),
-            hidden:                                    container.attributeIfPresent(of: .hidden),
-            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
-            clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
-            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
-            rect:                                      container.elementIfPresent(of: .rect),
-            translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
-            autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
-            directionalLayoutMargins:                  container.elementIfPresent(of: .directionalLayoutMargins),
-            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
-            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
-            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
-            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
-            verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
-            verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
-            connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            subviews:                                  container.childrenIfPresent(of: .subviews),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
-            isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            text:                                      text,
-            attributedText:                            container.elementIfPresent(of: .attributedText),
-            textColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
-            fontDescription:                           container.elementIfPresent(of: .fontDescription),
-            adjustsFontForContentSizeCategory:         container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
-            textAlignment:                             container.attributeIfPresent(of: .textAlignment),
-            numberOfLines:                             container.attributeIfPresent(of: .numberOfLines),
-            isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
-            highlighted:                               container.attributeIfPresent(of: .highlighted),
-            showsExpansionTextWhenTruncated:           container.attributeIfPresent(of: .showsExpansionTextWhenTruncated),
-            baselineAdjustment:                        container.attributeIfPresent(of: .baselineAdjustment),
-            lineBreakMode:                             container.attributeIfPresent(of: .lineBreakMode),
-            adjustsFontSizeToFit:                      container.attributeIfPresent(of: .adjustsFontSizeToFit),
-            minimumScaleFactor:                        container.attributeIfPresent(of: .minimumScaleFactor),
-            minimumFontSize:                           container.attributeIfPresent(of: .minimumFontSize),
-            fixedFrame:                                container.attributeIfPresent(of: .fixedFrame),
-            adjustsLetterSpacingToFitWidth:            container.attributeIfPresent(of: .adjustsLetterSpacingToFitWidth),
-            sizingRule:                                container.attributeIfPresent(of: .sizingRule),
-            highlightedColor:                          colorsContainer?.withAttributeElement(.key, CodingKeys.highlightedColor.stringValue),
-            shadowColor:                               colorsContainer?.withAttributeElement(.key, CodingKeys.shadowColor.stringValue),
-            shadowOffset:                              container.elementIfPresent(of: .shadowOffset),
-            preferredMaxLayoutWidth:                   container.attributeIfPresent(of: .preferredMaxLayoutWidth),
+            key:                                        view.key,
+            id:                                         view.id,
+            customClass:                                view.customClass,
+            customModule:                               view.customModule,
+            customModuleProvider:                       view.customModuleProvider,
+            restorationIdentifier:                      view.restorationIdentifier,
+            userDefinedRuntimeAttributes:               view.userDefinedRuntimeAttributes,
+            userLabel:                                  view.userLabel,
+            colorLabel:                                 view.colorLabel,
+            accessibility:                              view.accessibility,
+            contentMode:                                view.contentMode,
+            semanticContentAttribute:                   view.semanticContentAttribute,
+            tag:                                        view.tag,
+            userInteractionEnabled:                     view.userInteractionEnabled,
+            multipleTouchEnabled:                       view.multipleTouchEnabled,
+            alpha:                                      view.alpha,
+            backgroundColor:                            view.backgroundColor,
+            tintColor:                                  view.tintColor,
+            opaque:                                     view.opaque,
+            hidden:                                     view.hidden,
+            clearsContextBeforeDrawing:                 view.clearsContextBeforeDrawing,
+            clipsSubviews:                              view.clipsSubviews,
+            autoresizesSubviews:                        view.autoresizesSubviews,
+            rect:                                       view.rect,
+            translatesAutoresizingMaskIntoConstraints:  view.translatesAutoresizingMaskIntoConstraints,
+            autoresizingMask:                           view.autoresizingMask,
+            directionalLayoutMargins:                   view.directionalLayoutMargins,
+            layoutMargins:                              view.layoutMargins,
+            preservesSuperviewLayoutMargins:            view.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth:           view.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea:            view.insetsLayoutMarginsFromSafeArea,
+            horizontalHuggingPriority:                  view.horizontalHuggingPriority,
+            verticalHuggingPriority:                    view.verticalHuggingPriority,
+            horizontalCompressionResistancePriority:    view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority:      view.verticalCompressionResistancePriority,
+            constraints:                                view.constraints,
+            connections:                                view.connections,
+            variations:                                 view.variations,
+            subviews:                                   nil,
+            verifyAmbiguity:                            view.verifyAmbiguity,
+            isMisplaced:                                view.isMisplaced,
+            isAmbiguous:                                view.isAmbiguous,
+            text:                                       text,
+            attributedText:                             container.elementIfPresent(of: .attributedText),
+            textColor:                                  colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            fontDescription:                            container.elementIfPresent(of: .fontDescription),
+            adjustsFontForContentSizeCategory:          container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
+            textAlignment:                              container.attributeIfPresent(of: .textAlignment),
+            numberOfLines:                              container.attributeIfPresent(of: .numberOfLines),
+            isEnabled:                                  container.attributeIfPresent(of: .isEnabled),
+            highlighted:                                container.attributeIfPresent(of: .highlighted),
+            showsExpansionTextWhenTruncated:            container.attributeIfPresent(of: .showsExpansionTextWhenTruncated),
+            baselineAdjustment:                         container.attributeIfPresent(of: .baselineAdjustment),
+            lineBreakMode:                              container.attributeIfPresent(of: .lineBreakMode),
+            adjustsFontSizeToFit:                       container.attributeIfPresent(of: .adjustsFontSizeToFit),
+            minimumScaleFactor:                         container.attributeIfPresent(of: .minimumScaleFactor),
+            minimumFontSize:                            container.attributeIfPresent(of: .minimumFontSize),
+            fixedFrame:                                 container.attributeIfPresent(of: .fixedFrame),
+            adjustsLetterSpacingToFitWidth:             container.attributeIfPresent(of: .adjustsLetterSpacingToFitWidth),
+            sizingRule:                                 container.attributeIfPresent(of: .sizingRule),
+            highlightedColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.highlightedColor.stringValue),
+            shadowColor:                                colorsContainer?.withAttributeElement(.key, CodingKeys.shadowColor.stringValue),
+            shadowOffset:                               container.elementIfPresent(of: .shadowOffset),
+            preferredMaxLayoutWidth:                    container.attributeIfPresent(of: .preferredMaxLayoutWidth),
         )
     }
 
@@ -224,18 +243,18 @@ public enum FontDescription: IBDecodable {
                                 type: type,
                                 weight: container.attributeIfPresent(of: .weight),
                                 pointSize: container.attribute(of: .pointSize)
-            ))
+                               ))
         } else if let name: String = container.attributeIfPresent(of: .name),
-            let family: String = container.attributeIfPresent(of: .family) {
+                  let family: String = container.attributeIfPresent(of: .family) {
             return try .custom((key: key,
                                 name: name,
                                 family: family,
                                 pointSize: container.attribute(of: .pointSize)
-            ))
+                               ))
         } else if let style: String = container.attributeIfPresent(of: .style) {
             return .textStyle((key: key,
                                style: style
-            ))
+                              ))
         } else {
             throw IBError.unsupportedFontDescription
         }
@@ -255,3 +274,4 @@ extension FontDescription: AttributeProtocol {
         }
     }
 }
+
