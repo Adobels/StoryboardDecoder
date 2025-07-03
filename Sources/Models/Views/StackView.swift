@@ -7,10 +7,18 @@
 
 import SWXMLHash
 
-public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
+protocol StackViewProtocol {
+    var axis: String { get }
+    var distribution: String? { get }
+    var alignment: String? { get }
+    var spacing: Int? { get }
+    var baselineRelativeArrangement: Bool? { get }
+}
+
+public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentifiable {
+
     public let id: String
     public let elementClass: String = "UIStackView"
-
     public let key: String?
     public let autoresizingMask: AutoresizingMask?
     public let clipsSubviews: Bool?
@@ -37,7 +45,6 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let tintColor: Color?
     public let hidden: Bool?
     public let alpha: Float?
-
     public let axis: String
     public let distribution: String?
     public let alignment: String?
@@ -58,85 +65,62 @@ public struct StackView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let directionalLayoutMargins: DirectionalEdgeInsets?
     public let layoutMargins: EdgeInset?
-
-    public var isVertical: Bool {
-        return axis == "vertical"
-    }
-
-    public var isHorizontal: Bool {
-        return axis == "horizontal"
-    }
-
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color }
-    enum ColorsCodingKeys: CodingKey { case key }
+    /* TODO: Add support for viewLayoutGuide
+     <viewLayoutGuide key="safeArea" id="hJ6-lb-hKq"/>
+     <keyboardLayoutGuide key="keyboard" id="XH4-lu-ej3"/>
+     */
 
     static func decode(_ xml: XMLIndexerType) throws -> StackView {
-        let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
-            let stringValue: String = {
-                switch key {
-                case .isMisplaced: return "misplaced"
-                case .isAmbiguous: return "ambiguous"
-                
-                default: return key.stringValue
-                }
-            }()
-            return MappedCodingKey(stringValue: stringValue)
-        }
-        let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
-        let variationContainer = xml.container(keys: VariationCodingKey.self)
-        let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
-
+        let view = try View.decode(xml)
+        let container = xml.container(keys: CodingKeys.self)
         return StackView(
-            id:                                        try container.attribute(of: .id),
-            key:                                       container.attributeIfPresent(of: .key),
-            autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
-            clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
-            contentMode:                               container.attributeIfPresent(of: .contentMode),
-            customClass:                               container.attributeIfPresent(of: .customClass),
-            customModule:                              container.attributeIfPresent(of: .customModule),
-            customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:                                 container.attributeIfPresent(of: .userLabel),
-            colorLabel:                                container.attributeIfPresent(of: .colorLabel),
-            isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
-            opaque:                                    container.attributeIfPresent(of: .opaque),
-            rect:                                      container.elementIfPresent(of: .rect),
-            subviews:                                  container.childrenIfPresent(of: .subviews),
-            translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
-            userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
-            userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
-            tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            hidden:                                  container.attributeIfPresent(of: .hidden),
-            alpha:                                     container.attributeIfPresent(of: .alpha),
+            id:                                        view.id,
+            key:                                       view.key,
+            autoresizingMask:                          view.autoresizingMask,
+            clipsSubviews:                             view.clipsSubviews,
+            constraints:                               view.constraints,
+            contentMode:                               view.contentMode,
+            customClass:                               view.customClass,
+            customModule:                              view.customModule,
+            customModuleProvider:                      view.customModuleProvider,
+            restorationIdentifier:                     view.restorationIdentifier,
+            userLabel:                                 view.userLabel,
+            colorLabel:                                view.colorLabel,
+            isMisplaced:                               view.isMisplaced,
+            isAmbiguous:                               view.isAmbiguous,
+            verifyAmbiguity:                           view.verifyAmbiguity,
+            opaque:                                    view.opaque,
+            rect:                                      view.rect,
+            subviews:                                  view.subviews,
+            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
+            userInteractionEnabled:                    view.userInteractionEnabled,
+            userDefinedRuntimeAttributes:              view.userDefinedRuntimeAttributes,
+            connections:                               view.connections,
+            variations:                                view.variations,
+            backgroundColor:                           view.backgroundColor,
+            tintColor:                                 view.tintColor,
+            hidden:                                    view.hidden,
+            alpha:                                     view.alpha,
             axis:                                      container.attributeIfPresent(of: .axis) ?? "horizontal",
             distribution:                              container.attributeIfPresent(of: .distribution),
             alignment:                                 container.attributeIfPresent(of: .alignment),
             spacing:                                   container.attributeIfPresent(of: .spacing),
             baselineRelativeArrangement:               container.attributeIfPresent(of: .baselineRelativeArrangement),
-            horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
-            verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
-            horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
-            verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility),
-            tag:                                       container.attributeIfPresent(of: .tag),
-            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
-            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
-            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
-            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
-            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
-            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
-            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
+            horizontalCompressionResistancePriority:   view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority:     view.verticalCompressionResistancePriority,
+            horizontalHuggingPriority:                 view.horizontalHuggingPriority,
+            verticalHuggingPriority:                   view.verticalHuggingPriority,
+            accessibility:                             view.accessibility,
+            tag:                                       view.tag,
+            autoresizesSubviews:                       view.autoresizesSubviews,
+            clearsContextBeforeDrawing:                view.clearsContextBeforeDrawing,
+            multipleTouchEnabled:                      view.multipleTouchEnabled,
+            semanticContentAttribute:                  view.semanticContentAttribute,
+            preservesSuperviewLayoutMargins:           view.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth:          view.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea:           view.insetsLayoutMarginsFromSafeArea,
+            directionalLayoutMargins:                  view.directionalLayoutMargins,
+            layoutMargins:                             view.layoutMargins,
         )
     }
 }

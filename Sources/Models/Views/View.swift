@@ -67,6 +67,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
         case inset
         case variation
         case viewLayoutGuide
+        case rect
     }
     enum KeyCodingKeys: CodingKey { case key }
 
@@ -76,6 +77,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
         let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ViewElementKey.self)
         let variationContainer = xml.container(keys: ViewElementKey.self)
         let colorsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
+        let rectContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .rect, keys: KeyCodingKeys.self)
         let directionalLayoutMarginsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .directionalEdgeInsets, keys: KeyCodingKeys.self)
         let edgeInsetsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .edgeInsets, keys: KeyCodingKeys.self)
         return View(
@@ -102,7 +104,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
             clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
             clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
             autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
-            rect:                                      container.elementIfPresent(of: .rect),
+            rect:                                      rectContainer?.withAttributeElement(.key, "frame"),
             translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
             autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
             directionalLayoutMargins:                  directionalLayoutMarginsContainer?.withAttributeElement(.key, CodingKeys.directionalLayoutMargins.stringValue),

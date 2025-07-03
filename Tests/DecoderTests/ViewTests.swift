@@ -113,6 +113,7 @@ struct ViewTests {
         #expect(sut.horizontalCompressionResistancePriority == 200)
         #expect(sut.verticalCompressionResistancePriority == 200)
         #expect(sut.constraints != nil)
+        #expect(sut.constraints?.count == 2)
         #expect(sut.connections == nil)
         #expect(sut.variations == nil)
         #expect(sut.subviews == nil)
