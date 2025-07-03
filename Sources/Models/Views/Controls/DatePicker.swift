@@ -81,19 +81,14 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
     public let locale: DatePickerLocale?
     public let minuteInterval: Int
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color, date }
-    enum ColorsCodingKeys: CodingKey { case key }
-    enum DateCodingKeys: CodingKey { case key }
+    enum ViewCodingKeys: CodingKey { case date }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> DatePicker {
+        let view = try View.decode(xml)
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .isMisplaced: return "misplaced"
-                case .isAmbiguous: return "ambiguous"
-                
                 case .isEnabled: return "enabled"
                 case .isHighlighted: return "highlighted"
                 case .isSelected: return "selected"
@@ -102,42 +97,37 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
-        let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
-        let variationContainer = xml.container(keys: VariationCodingKey.self)
-        let colorsContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
-        let dateContainer = xml.container(keys: ExternalCodingKeys.self)
-                .nestedContainerIfPresent(of: .date, keys: DateCodingKeys.self)
+        let dateContainer = xml.container(keys: ViewCodingKeys.self).nestedContainerIfPresent(of: .date, keys: KeyCodingKeys.self)
 
         return DatePicker(
-            id:                                        try container.attribute(of: .id),
-            key:                                       container.attributeIfPresent(of: .key),
-            autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
-            clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
-            contentMode:                               container.attributeIfPresent(of: .contentMode),
-            customClass:                               container.attributeIfPresent(of: .customClass),
-            customModule:                              container.attributeIfPresent(of: .customModule),
-            customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:                                 container.attributeIfPresent(of: .userLabel),
-            colorLabel:                                container.attributeIfPresent(of: .colorLabel),
-            isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
-            opaque:                                    container.attributeIfPresent(of: .opaque),
-            rect:                                      container.elementIfPresent(of: .rect),
-            subviews:                                  container.childrenIfPresent(of: .subviews),
-            translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
-            userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
-            viewLayoutGuide:                           container.elementIfPresent(of: .viewLayoutGuide),
-            userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
-            tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            hidden:                                  container.attributeIfPresent(of: .hidden),
-            alpha:                                     container.attributeIfPresent(of: .alpha),
+            id:                                        view.id,
+            key:                                       view.key,
+            autoresizingMask:                          view.autoresizingMask,
+            clipsSubviews:                             view.clipsSubviews,
+            constraints:                               view.constraints,
+            contentMode:                               view.contentMode,
+            customClass:                               view.customClass,
+            customModule:                              view.customModule,
+            customModuleProvider:                      view.customModuleProvider,
+            restorationIdentifier:                     view.restorationIdentifier,
+            userLabel:                                 view.userLabel,
+            colorLabel:                                view.colorLabel,
+            isMisplaced:                               view.isMisplaced,
+            isAmbiguous:                               view.isAmbiguous,
+            verifyAmbiguity:                           view.verifyAmbiguity,
+            opaque:                                    view.opaque,
+            rect:                                      view.rect,
+            subviews:                                  view.subviews,
+            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
+            userInteractionEnabled:                    view.userInteractionEnabled,
+            viewLayoutGuide:                           view.viewLayoutGuide,
+            userDefinedRuntimeAttributes:              view.userDefinedRuntimeAttributes,
+            connections:                               view.connections,
+            variations:                                view.variations,
+            backgroundColor:                           view.backgroundColor,
+            tintColor:                                 view.tintColor,
+            hidden:                                    view.hidden,
+            alpha:                                     view.alpha,
             isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
             isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
             isSelected:                                container.attributeIfPresent(of: .isSelected),
@@ -150,21 +140,21 @@ public struct DatePicker: IBDecodable, ControlProtocol, DatePickerProtocol, IBId
             countDownDuration:                         container.attributeIfPresent(of: .countDownDuration),
             minimumDate:                               dateContainer?.withAttributeElement(.key, CodingKeys.minimumDate.stringValue),
             maximumDate:                               dateContainer?.withAttributeElement(.key, CodingKeys.maximumDate.stringValue),
-            horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
-            verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
-            horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
-            verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility),
-            tag:                                       container.attributeIfPresent(of: .tag),
-            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
-            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
-            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
-            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
-            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
-            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
-            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
+            horizontalCompressionResistancePriority:   view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority:     view.verticalCompressionResistancePriority,
+            horizontalHuggingPriority:                 view.horizontalHuggingPriority,
+            verticalHuggingPriority:                   view.verticalHuggingPriority,
+            accessibility:                             view.accessibility,
+            tag:                                       view.tag,
+            autoresizesSubviews:                       view.autoresizesSubviews,
+            clearsContextBeforeDrawing:                view.clearsContextBeforeDrawing,
+            multipleTouchEnabled:                      view.multipleTouchEnabled,
+            semanticContentAttribute:                  view.semanticContentAttribute,
+            preservesSuperviewLayoutMargins:           view.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth:          view.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea:           view.insetsLayoutMarginsFromSafeArea,
+            directionalLayoutMargins:                  view.directionalLayoutMargins,
+            layoutMargins:                             view.layoutMargins,
             toolTip:                                   container.attributeIfPresent(of: .toolTip),
             showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
             locale:                                    container.elementIfPresent(of: .locale),
