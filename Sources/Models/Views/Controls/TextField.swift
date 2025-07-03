@@ -7,182 +7,179 @@
 
 import SWXMLHash
 
-public struct TextField: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiable {
+protocol TextFieldProtocol: ViewProtocol, ControlProtocol {
+    var borderStyle: String? { get }
+    var fixedFrame: Bool? { get }
+    var fontDescription: FontDescription? { get }
+    var minimumFontSize: Float? { get }
+    var text: String? { get }
+    var textAlignment: String? { get }
+    var placeholder: String? { get }
+    var textColor: Color? { get }
+    var adjustsFontForContentSizeCategory: Bool? { get }
+    var clearButtonMode: TextField.ClearButtonMode? { get }
+    var clearsOnBeginEditing: Bool? { get }
+    var adjustsFontSizeToFit: Bool? { get }
+    var sizingRule: TextField.LetterformAwareSizingRule? { get }
+    var textInputTraits: TextField.TextInputTraits? { get }
+}
+
+public struct TextField: IBDecodable, TextFieldProtocol, IBIdentifiable {
+
+    // MARK: UIView
+    public let key: String?
     public let id: String
     public let elementClass: String = "UITextField"
-
-    public let key: String?
-    public let autoresizingMask: AutoresizingMask?
-    public let borderStyle: String?
-    public let clipsSubviews: Bool?
-    public let constraints: [Constraint]?
-    public let contentMode: String?
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
     public let restorationIdentifier: String?
+    public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let userLabel: String?
     public let colorLabel: String?
+    public let accessibility: Accessibility?
+    public let contentMode: String?
+    public let semanticContentAttribute: String?
+    public let tag: Int?
+    public let userInteractionEnabled: Bool?
+    public let multipleTouchEnabled: Bool?
+    public let alpha: Float?
+    public let backgroundColor: Color?
+    public let tintColor: Color?
+    public let opaque: Bool?
+    public let hidden: Bool?
+    public let clearsContextBeforeDrawing: Bool?
+    public let clipsSubviews: Bool?
+    public let autoresizesSubviews: Bool?
+    public let rect: Rect?
+    public let translatesAutoresizingMaskIntoConstraints: Bool?
+    public let autoresizingMask: AutoresizingMask?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let layoutMargins: EdgeInset?
+    public let preservesSuperviewLayoutMargins: Bool?
+    public let layoutMarginsFollowReadableWidth: Bool?
+    public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let horizontalHuggingPriority: Int?
+    public let verticalHuggingPriority: Int?
+    public let horizontalCompressionResistancePriority: Int?
+    public let verticalCompressionResistancePriority: Int?
+    public let constraints: [Constraint]?
+    public let connections: [AnyConnection]?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
+    public let verifyAmbiguity: VerifyAmbiguity?
+    public let isMisplaced: Bool?
+    public let isAmbiguous: Bool?
+    // MARK: UIControl
+    public let contentHorizontalAlignment: String?
+    public let contentVerticalAlignment: String?
+    public let showsMenuAsPrimaryAction: Bool?
+    public let isSelected: Bool?
+    public let isEnabled: Bool?
+    public let isHighlighted: Bool?
+    public let toolTip: String?
+    // MARK: UITextField
+    public let borderStyle: String?
     public let fixedFrame: Bool?
     public let fontDescription: FontDescription?
     public let minimumFontSize: Float?
-    public let isMisplaced: Bool?
-    public let isAmbiguous: Bool?
-    public let verifyAmbiguity: VerifyAmbiguity?
-    public let opaque: Bool?
-    public let rect: Rect?
-    public let subviews: [AnyView]?
     public let text: String?
     public let textAlignment: String?
     public let placeholder: String?
     public let textColor: Color?
-    public let translatesAutoresizingMaskIntoConstraints: Bool?
-    public let userInteractionEnabled: Bool?
-    public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
-    public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let backgroundColor: Color?
-    public let tintColor: Color?
-    public let hidden: Bool?
-    public let alpha: Float?
-
-    public let isEnabled: Bool?
-    public let isHighlighted: Bool?
-    public let isSelected: Bool?
-    public let contentHorizontalAlignment: String?
-    public let contentVerticalAlignment: String?
-    
-    public let horizontalCompressionResistancePriority: Int?
-    public let verticalCompressionResistancePriority: Int?
-    public let horizontalHuggingPriority: Int?
-    public let verticalHuggingPriority: Int?
-
-    public let accessibility: Accessibility?
     public let adjustsFontForContentSizeCategory: Bool?
     public let clearButtonMode: ClearButtonMode?
     public let clearsOnBeginEditing: Bool?
     public let adjustsFontSizeToFit: Bool?
     public let sizingRule: LetterformAwareSizingRule?
     public let textInputTraits: TextInputTraits?
-    public let tag: Int?
-    public let autoresizesSubviews: Bool?
-    public let clearsContextBeforeDrawing: Bool?
-    public let multipleTouchEnabled: Bool?
-    public let semanticContentAttribute: String?
-    public let preservesSuperviewLayoutMargins: Bool?
-    public let layoutMarginsFollowReadableWidth: Bool?
-    public let insetsLayoutMarginsFromSafeArea: Bool?
-    public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let layoutMargins: EdgeInset?
-    public let toolTip: String?
-    public let showsMenuAsPrimaryAction: Bool?
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color, string, textInputTraits }
-    enum ColorsCodingKeys: CodingKey { case key }
-    enum StringsCodingKeys: CodingKey { case key }
-    enum TextInputTraitsKeys: CodingKey { case key }
+    enum TextFieldElementKeys: CodingKey { case color, string, textInputTraits }
+    enum KeysCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> TextField {
-        let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
-            let stringValue: String = {
-                switch key {
-                case .isMisplaced: return "misplaced"
-                case .isAmbiguous: return "ambiguous"
-                
-                case .isEnabled: return "enabled"
-                case .isHighlighted: return "highlighted"
-                case .isSelected: return "selected"
-                default: return key.stringValue
-                }
-            }()
-            return MappedCodingKey(stringValue: stringValue)
-        }
-        let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ConstraintsCodingKeys.self)
-        let variationContainer = xml.container(keys: VariationCodingKey.self)
-        let externalContainer = xml.container(keys: ExternalCodingKeys.self)
-        let colorsContainer = externalContainer
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
-        let stringsContainer = externalContainer
-            .nestedContainerIfPresent(of: .string, keys: StringsCodingKeys.self)
-        let textInputTraits = externalContainer.nestedContainerIfPresent(of: .textInputTraits, keys: TextInputTraitsKeys.self)
-        var text: String? = container.attributeIfPresent(of: .text)
+        let view = try View.decode(xml)
+        let controlView = try Control.decode(xml)
+        let textFieldView = xml.container(keys: CodingKeys.self)
+        let elements = xml.container(keys: TextFieldElementKeys.self)
+        let colors = elements.nestedContainerIfPresent(of: .color, keys: KeysCodingKeys.self)
+        let strings = elements.nestedContainerIfPresent(of: .string, keys: KeysCodingKeys.self)
+        let textInputTraits = elements.nestedContainerIfPresent(of: .textInputTraits, keys: KeysCodingKeys.self)
+        var text: String? = textFieldView.attributeIfPresent(of: .text)
         if text == nil {
-            let multiLineText: StringElement? = stringsContainer?.withAttributeElement(.key, CodingKeys.text.stringValue)
+            let multiLineText: StringElement? = strings?.withAttributeElement(.key, CodingKeys.text.stringValue)
             text = multiLineText?.elementValue
         }
-        
-        var placeholder: String? = container.attributeIfPresent(of: .placeholder)
+        var placeholder: String? = textFieldView.attributeIfPresent(of: .placeholder)
         if placeholder == nil {
-            let multiLineText: StringElement? = stringsContainer?.withAttributeElement(.key, CodingKeys.placeholder.stringValue)
+            let multiLineText: StringElement? = strings?.withAttributeElement(.key, CodingKeys.placeholder.stringValue)
             placeholder = multiLineText?.elementValue
         }
-        
         return TextField(
-            id:                                        try container.attribute(of: .id),
-            key:                                       container.attributeIfPresent(of: .key),
-            autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
-            borderStyle:                               container.attributeIfPresent(of: .borderStyle),
-            clipsSubviews:                             container.attributeIfPresent(of: .clipsSubviews),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
-            contentMode:                               container.attributeIfPresent(of: .contentMode),
-            customClass:                               container.attributeIfPresent(of: .customClass),
-            customModule:                              container.attributeIfPresent(of: .customModule),
-            customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:                     container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:                                 container.attributeIfPresent(of: .userLabel),
-            colorLabel:                                container.attributeIfPresent(of: .colorLabel),
-            fixedFrame:                                container.attributeIfPresent(of: .fixedFrame),
-            fontDescription:                           container.elementIfPresent(of: .fontDescription),
-            minimumFontSize:                           container.attributeIfPresent(of: .minimumFontSize),
-            isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
-            isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
-            verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
-            opaque:                                    container.attributeIfPresent(of: .opaque),
-            rect:                                      container.elementIfPresent(of: .rect),
-            subviews:                                  container.childrenIfPresent(of: .subviews),
+            key: view.key,
+            id: view.id,
+            customClass: view.customClass,
+            customModule: view.customModule,
+            customModuleProvider: view.customModuleProvider,
+            restorationIdentifier: view.restorationIdentifier,
+            userDefinedRuntimeAttributes: view.userDefinedRuntimeAttributes,
+            userLabel: view.userLabel,
+            colorLabel: view.colorLabel,
+            accessibility: view.accessibility,
+            contentMode: view.contentMode,
+            semanticContentAttribute: view.semanticContentAttribute,
+            tag: view.tag,
+            userInteractionEnabled: view.userInteractionEnabled,
+            multipleTouchEnabled: view.multipleTouchEnabled,
+            alpha: view.alpha,
+            backgroundColor: view.backgroundColor,
+            tintColor: view.tintColor,
+            opaque: view.opaque,
+            hidden: view.hidden,
+            clearsContextBeforeDrawing: view.clearsContextBeforeDrawing,
+            clipsSubviews: view.clipsSubviews,
+            autoresizesSubviews: view.autoresizesSubviews,
+            rect: view.rect,
+            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
+            autoresizingMask: view.autoresizingMask,
+            directionalLayoutMargins: view.directionalLayoutMargins,
+            layoutMargins: view.layoutMargins,
+            preservesSuperviewLayoutMargins: view.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth: view.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea: view.insetsLayoutMarginsFromSafeArea,
+            horizontalHuggingPriority: view.horizontalHuggingPriority,
+            verticalHuggingPriority: view.verticalHuggingPriority,
+            horizontalCompressionResistancePriority: view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority: view.verticalCompressionResistancePriority,
+            constraints: view.constraints,
+            connections: view.connections,
+            variations: view.variations,
+            subviews: view.subviews,
+            verifyAmbiguity: view.verifyAmbiguity,
+            isMisplaced: view.isMisplaced,
+            isAmbiguous: view.isAmbiguous,
+            contentHorizontalAlignment: controlView.contentHorizontalAlignment,
+            contentVerticalAlignment: controlView.contentVerticalAlignment,
+            showsMenuAsPrimaryAction: controlView.showsMenuAsPrimaryAction,
+            isSelected: controlView.isSelected,
+            isEnabled: controlView.isEnabled,
+            isHighlighted: controlView.isHighlighted,
+            toolTip: controlView.toolTip,
+            // TextField Attributes
+            borderStyle:                               textFieldView.attributeIfPresent(of: .borderStyle),
+            fixedFrame:                                textFieldView.attributeIfPresent(of: .fixedFrame),
+            fontDescription:                           textFieldView.elementIfPresent(of: .fontDescription),
+            minimumFontSize:                           textFieldView.attributeIfPresent(of: .minimumFontSize),
             text:                                      text,
-            textAlignment:                             container.attributeIfPresent(of: .textAlignment),
+            textAlignment:                             textFieldView.attributeIfPresent(of: .textAlignment),
             placeholder:                               placeholder,
-            textColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
-            translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
-            userInteractionEnabled:                    container.attributeIfPresent(of: .userInteractionEnabled),
-            userDefinedRuntimeAttributes:              container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            backgroundColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.backgroundColor.stringValue),
-            tintColor:                                 colorsContainer?.withAttributeElement(.key, CodingKeys.tintColor.stringValue),
-            hidden:                                  container.attributeIfPresent(of: .hidden),
-            alpha:                                     container.attributeIfPresent(of: .alpha),
-            isEnabled:                                 container.attributeIfPresent(of: .isEnabled),
-            isHighlighted:                             container.attributeIfPresent(of: .isHighlighted),
-            isSelected:                                container.attributeIfPresent(of: .isSelected),
-            contentHorizontalAlignment:                container.attributeIfPresent(of: .contentHorizontalAlignment),
-            contentVerticalAlignment:                  container.attributeIfPresent(of: .contentVerticalAlignment),
-            horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
-            verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
-            horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
-            verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
-            accessibility:                             container.elementIfPresent(of: .accessibility),
-            adjustsFontForContentSizeCategory:         container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
-            clearButtonMode:                           container.attributeIfPresent(of: .clearButtonMode),
-            clearsOnBeginEditing:                      container.attributeIfPresent(of: .clearsOnBeginEditing),
-            adjustsFontSizeToFit:                      container.attributeIfPresent(of: .adjustsFontSizeToFit),
-            sizingRule:                                container.attributeIfPresent(of: .sizingRule),
+            textColor:                                 colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            adjustsFontForContentSizeCategory:         textFieldView.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
+            clearButtonMode:                           textFieldView.attributeIfPresent(of: .clearButtonMode),
+            clearsOnBeginEditing:                      textFieldView.attributeIfPresent(of: .clearsOnBeginEditing),
+            adjustsFontSizeToFit:                      textFieldView.attributeIfPresent(of: .adjustsFontSizeToFit),
+            sizingRule:                                textFieldView.attributeIfPresent(of: .sizingRule),
             textInputTraits:                           textInputTraits?.withAttributeElement(.key, CodingKeys.textInputTraits.stringValue),
-            tag:                                       container.attributeIfPresent(of: .tag),
-            autoresizesSubviews:                       container.attributeIfPresent(of: .autoresizesSubviews),
-            clearsContextBeforeDrawing:                container.attributeIfPresent(of: .clearsContextBeforeDrawing),
-            multipleTouchEnabled:                      container.attributeIfPresent(of: .multipleTouchEnabled),
-            semanticContentAttribute:                  container.attributeIfPresent(of: .semanticContentAttribute),
-            preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
-            layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
-            insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            directionalLayoutMargins:                     container.elementIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            layoutMargins:                                 container.elementIfPresent(of: .layoutMargins),
-            toolTip:                                   container.attributeIfPresent(of: .toolTip),
-            showsMenuAsPrimaryAction:                  container.attributeIfPresent(of: .showsMenuAsPrimaryAction),
         )
     }
 
