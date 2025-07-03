@@ -135,6 +135,7 @@ public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
             isEnabled: control.isEnabled,
             isHighlighted: control.isHighlighted,
             toolTip: control.toolTip,
+            // PageControl attributes
             numberOfPages: container.attributeIfPresent(of: .numberOfPages),
             pageIndicatorTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.pageIndicatorTintColor.stringValue),
             currentPageIndicatorTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.currentPageIndicatorTintColor.stringValue),
