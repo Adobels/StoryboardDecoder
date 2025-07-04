@@ -6,7 +6,20 @@
 //
 
 protocol TableViewCellProtocol {
+    var style: String? { get }
+    var imageView: String? { get }
+    var textLabel: String? { get }
     var reuseIdentifier: String? { get }
+    var selectionStyle: String? { get }
+    var accessoryType: String? { get }
+    var editingAccessoryType: String? { get }
+    var focusStyle: String? { get }
+    var indentationLevel: Int? { get }
+    var indentationWidth: Float? { get }
+    var shouldIndentWhileEditing: Bool? { get }
+    var showsReorderControl: Bool? { get }
+    var separatorInset: Inset? { get }
+    var rowHeight: Float? { get }
     var contentView: TableViewCell.TableViewContentView { get }
 }
 
@@ -58,7 +71,20 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
     public let variations: [Variation]?
     //public let subviews: [AnyView]?
     // MARK: TableViewCell
+    public let style: String?
+    public let imageView: String?
+    public let textLabel: String?
     public let reuseIdentifier: String?
+    public let selectionStyle: String?
+    public let accessoryType: String?
+    public let editingAccessoryType: String?
+    public let focusStyle: String?
+    public let indentationLevel: Int?
+    public let indentationWidth: Float?
+    public let shouldIndentWhileEditing: Bool?
+    public let showsReorderControl: Bool?
+    public let separatorInset: Inset?
+    public let rowHeight: Float?
     public let contentView: TableViewContentView
     private let _subviews: [AnyView]?
     public var subviews: [AnyView]? {
@@ -83,10 +109,8 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
         return children
     }
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color }
-    enum ColorsCodingKeys: CodingKey { case key }
+    enum ElementKeys: CodingKey { case inset }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
@@ -103,6 +127,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
+        let insets = xml.container(keys: ElementKeys.self).nestedContainerIfPresent(of: .inset, keys: KeyCodingKeys.self)
         return .init(
             id: view.id,
             key: view.key,
@@ -147,7 +172,20 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
             isMisplaced: view.isMisplaced,
             isAmbiguous: view.isAmbiguous,
             variations: view.variations,
+            style: container.attributeIfPresent(of: .style),
+            imageView: container.attributeIfPresent(of: .imageView),
+            textLabel: container.attributeIfPresent(of: .textLabel),
             reuseIdentifier: container.attributeIfPresent(of: .reuseIdentifier),
+            selectionStyle: container.attributeIfPresent(of: .selectionStyle),
+            accessoryType: container.attributeIfPresent(of: .accessoryType),
+            editingAccessoryType: container.attributeIfPresent(of: .editingAccessoryType),
+            focusStyle: container.attributeIfPresent(of: .focusStyle),
+            indentationLevel: container.attributeIfPresent(of: .indentationLevel),
+            indentationWidth: container.attributeIfPresent(of: .indentationWidth),
+            shouldIndentWhileEditing: container.attributeIfPresent(of: .shouldIndentWhileEditing),
+            showsReorderControl: container.attributeIfPresent(of: .showsReorderControl),
+            separatorInset: insets?.withAttributeElement(.key, CodingKeys.separatorInset.stringValue),
+            rowHeight: container.attributeIfPresent(of: .rowHeight),
             contentView: try container.element(of: .contentView),
             _subviews: container.childrenIfPresent(of: ._subviews),
         )
