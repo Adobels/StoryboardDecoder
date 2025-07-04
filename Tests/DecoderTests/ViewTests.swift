@@ -62,7 +62,7 @@ struct ViewTests {
         #expect(sut.variations == nil)
         #expect(sut.subviews == nil)
         #expect(sut.verifyAmbiguity == nil)
-        #expect(sut.isMisplaced == nil)
+        #expect(sut.misplaced == nil)
         #expect(sut.isAmbiguous == nil)
     }
 
@@ -118,7 +118,7 @@ struct ViewTests {
         #expect(sut.variations == nil)
         #expect(sut.subviews == nil)
         #expect(sut.verifyAmbiguity != nil)
-        #expect(sut.isMisplaced == nil)
+        #expect(sut.misplaced == nil)
         #expect(sut.isAmbiguous == nil)
     }
 }

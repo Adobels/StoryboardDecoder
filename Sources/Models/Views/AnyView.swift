@@ -56,7 +56,7 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     var connections: [AnyConnection]? { get }
     var verifyAmbiguity: VerifyAmbiguity? { get }
     // MARK: IB Specific Attributes
-    var isMisplaced: Bool? { get }
+    var misplaced: Bool? { get }
     var isAmbiguous: Bool? { get }
     // MARK: Others
     var variations: [Variation]? { get }

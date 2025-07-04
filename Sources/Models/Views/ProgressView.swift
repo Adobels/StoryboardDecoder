@@ -58,7 +58,7 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
     public let verticalCompressionResistancePriority: Int?
     public let connections: [AnyConnection]?
     public let verifyAmbiguity: VerifyAmbiguity?
-    public let isMisplaced: Bool?
+    public let misplaced: Bool?
     public let isAmbiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
@@ -117,7 +117,7 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
             verticalCompressionResistancePriority:      view.verticalCompressionResistancePriority,
             connections:                                view.connections,
             verifyAmbiguity:                            view.verifyAmbiguity,
-            isMisplaced:                                view.isMisplaced,
+            misplaced:                                view.misplaced,
             isAmbiguous:                                view.isAmbiguous,
             variations:                                 view.variations,
             subviews:                                   view.subviews,
