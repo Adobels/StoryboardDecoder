@@ -398,6 +398,7 @@ class Tests: XCTestCase {
         do {
             let file = try XibFile(url: url)
             let rootView = file.document.views?.first?.view
+            XCTAssertEqual(file.document.views?.count, 1)
             XCTAssertNotNil(rootView, "There should be a root view")
             XCTAssertEqual(rootView?.elementClass, "UICollectionViewCell")
 
@@ -406,7 +407,7 @@ class Tests: XCTestCase {
                 return
             }
             XCTAssertEqual(cell.contentView.key, "contentView")
-            XCTAssertNil(cell.contentView.id)
+            XCTAssertEqual(cell.contentView.id, "a8U-qf-ut0")
         } catch {
             XCTFail("\(error)  \(url)")
         }

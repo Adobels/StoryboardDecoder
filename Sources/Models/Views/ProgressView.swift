@@ -17,8 +17,8 @@ protocol ProgressViewProtocol: ViewProtocol {
 
 public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
     // MARK: UIView
-    public let key: String?
     public let id: String
+    public let key: String?
     public let elementClass: String = "UIProgressView"
     public let customClass: String?
     public let customModule: String?
@@ -49,17 +49,19 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
     // MARK: UIProgressView
     public let progressTintColor: Color?
     public let trackTintColor: Color?
@@ -75,8 +77,8 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
         let container = xml.container(keys: CodingKeys.self)
         let containerColors = xml.container(keys: ExternalCodingKeys.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         return ProgressView(
-            key:                                        view.key,
             id:                                         view.id,
+            key:                                        view.key,
             customClass:                                view.customClass,
             customModule:                               view.customModule,
             customModuleProvider:                       view.customModuleProvider,
@@ -106,17 +108,19 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
             preservesSuperviewLayoutMargins:            view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth:           view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea:            view.insetsLayoutMarginsFromSafeArea,
+            safeArea:                                   view.safeArea,
+            keyboard:                                   view.keyboard,
+            constraints:                                view.constraints,
             horizontalHuggingPriority:                  view.horizontalHuggingPriority,
             verticalHuggingPriority:                    view.verticalHuggingPriority,
             horizontalCompressionResistancePriority:    view.horizontalCompressionResistancePriority,
             verticalCompressionResistancePriority:      view.verticalCompressionResistancePriority,
-            constraints:                                view.constraints,
             connections:                                view.connections,
-            variations:                                 view.variations,
-            subviews:                                   nil,
             verifyAmbiguity:                            view.verifyAmbiguity,
             isMisplaced:                                view.isMisplaced,
             isAmbiguous:                                view.isAmbiguous,
+            variations:                                 view.variations,
+            subviews:                                   view.subviews,
             progressTintColor:                          containerColors?.withAttributeElement(.key, CodingKeys.progressTintColor.stringValue),
             trackTintColor:                             containerColors?.withAttributeElement(.key, CodingKeys.trackTintColor.stringValue),
             progress:                                   container.attributeIfPresent(of: .progress),

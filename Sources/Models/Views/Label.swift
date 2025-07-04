@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-protocol LabelProtocol: ViewProtocol {
+protocol LabelProtocol {
     // MARK: UILabel Attributes Instpector
     var text: String? { get }
     var attributedText: AttributedString? { get }
@@ -35,10 +35,10 @@ protocol LabelProtocol: ViewProtocol {
     var preferredMaxLayoutWidth: Float? { get }
 }
 
-public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
+public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
     // MARK: UIView
-    public let key: String?
     public let id: String
+    public let key: String?
     public let elementClass: String = "UILabel"
     public let customClass: String?
     public let customModule: String?
@@ -69,17 +69,19 @@ public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
     // MARK: UILabel
     public let text: String?
     public let attributedText: AttributedString?
@@ -140,8 +142,8 @@ public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
         }
         _ = consume mutableStringsContainer
         return Label(
-            key:                                        view.key,
             id:                                         view.id,
+            key:                                        view.key,
             customClass:                                view.customClass,
             customModule:                               view.customModule,
             customModuleProvider:                       view.customModuleProvider,
@@ -171,17 +173,19 @@ public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
             preservesSuperviewLayoutMargins:            view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth:           view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea:            view.insetsLayoutMarginsFromSafeArea,
+            safeArea:                                   view.safeArea,
+            keyboard:                                   view.keyboard,
+            constraints:                                view.constraints,
             horizontalHuggingPriority:                  view.horizontalHuggingPriority,
             verticalHuggingPriority:                    view.verticalHuggingPriority,
             horizontalCompressionResistancePriority:    view.horizontalCompressionResistancePriority,
             verticalCompressionResistancePriority:      view.verticalCompressionResistancePriority,
-            constraints:                                view.constraints,
             connections:                                view.connections,
-            variations:                                 view.variations,
-            subviews:                                   nil,
             verifyAmbiguity:                            view.verifyAmbiguity,
             isMisplaced:                                view.isMisplaced,
             isAmbiguous:                                view.isAmbiguous,
+            variations:                                 view.variations,
+            subviews:                                   view.subviews,
             text:                                       text,
             attributedText:                             container.elementIfPresent(of: .attributedText),
             textColor:                                  colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),

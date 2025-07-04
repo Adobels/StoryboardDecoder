@@ -16,9 +16,9 @@ protocol TextViewProtocol: ViewProtocol, ScrollViewProtocol {
 }
 
 public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
-    // MARK: UIView
-    public let key: String?
+    // MARK: View
     public let id: String
+    public let key: String?
     public let elementClass: String = "UITextView"
     public let customClass: String?
     public let customModule: String?
@@ -49,44 +49,40 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
-    // MARK: UIScrollView
-    public let isPagingEnabled: Bool?
-    public let bouncesZoom: Bool?
-    public let bounces: Bool?
-    public let alwaysBounceVertical: Bool?
-    public let keyboardDismissMode: String?
-    public let showsVerticalScrollIndicator: Bool? // default true
-    public let showsHorizontalScrollIndicator: Bool? // default true
-    public let maximumZoomScale: Float?
-    public let minimumZoomScale: Float?
-    public let isDirectionalLockEnabled: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
+    // MARK: ScrollView
     public let indicatorStyle: IndicatorStyle?
+    public let showsHorizontalScrollIndicator: Bool?
+    public let showsVerticalScrollIndicator: Bool?
     public let scrollEnabled: Bool?
-    public let alwaysBounceHorizontal: Bool?
-    public let delaysContentTouches: Bool?
-    public let canCancelContentTouches: Bool?
-    public let keyboard: LayoutGuide?
-    public let safeArea: LayoutGuide?
-    // UIScrollView Properties in Attributes Inspector
     public let pagingEnabled: Bool?
     public let directionalLockEnabled: Bool?
-    // UIScrollView Properties in Size Inspector
+    public let bounces: Bool?
+    public let bouncesZoom: Bool?
+    public let alwaysBounceHorizontal: Bool?
+    public let alwaysBounceVertical: Bool?
+    public let minimumZoomScale: Float?
+    public let maximumZoomScale: Float?
+    public let delaysContentTouches: Bool?
+    public let canCancelContentTouches: Bool?
+    public let keyboardDismissMode: String?
     public let scrollIndicatorInsets: Inset?
     public let contentInsetAdjustmentBehavior: String?
     public let contentLayoutGuide: LayoutGuide?
     public let frameLayoutGuide: LayoutGuide?
-
+    // MARK: TextView
     public let fontDescription: FontDescription?
     public let text: String?
     public let textAlignment: String?
@@ -118,76 +114,74 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
             text = multiLineText?.elementValue
         }
         return TextView(
-            key:                                        view.key,
-            id:                                         view.id,
-            customClass:                                view.customClass,
-            customModule:                               view.customModule,
-            customModuleProvider:                       view.customModuleProvider,
-            restorationIdentifier:                      view.restorationIdentifier,
-            userDefinedRuntimeAttributes:               view.userDefinedRuntimeAttributes,
-            userLabel:                                  view.userLabel,
-            colorLabel:                                 view.colorLabel,
-            accessibility:                              view.accessibility,
-            contentMode:                                view.contentMode,
-            semanticContentAttribute:                   view.semanticContentAttribute,
-            tag:                                        view.tag,
-            userInteractionEnabled:                     view.userInteractionEnabled,
-            multipleTouchEnabled:                       view.multipleTouchEnabled,
-            alpha:                                      view.alpha,
-            backgroundColor:                            view.backgroundColor,
-            tintColor:                                  view.tintColor,
-            opaque:                                     view.opaque,
-            hidden:                                     view.hidden,
-            clearsContextBeforeDrawing:                 view.clearsContextBeforeDrawing,
-            clipsSubviews:                              view.clipsSubviews,
-            autoresizesSubviews:                        view.autoresizesSubviews,
-            rect:                                       view.rect,
-            translatesAutoresizingMaskIntoConstraints:  view.translatesAutoresizingMaskIntoConstraints,
-            autoresizingMask:                           view.autoresizingMask,
-            directionalLayoutMargins:                   view.directionalLayoutMargins,
-            layoutMargins:                              view.layoutMargins,
-            preservesSuperviewLayoutMargins:            view.preservesSuperviewLayoutMargins,
-            layoutMarginsFollowReadableWidth:           view.layoutMarginsFollowReadableWidth,
-            insetsLayoutMarginsFromSafeArea:            view.insetsLayoutMarginsFromSafeArea,
-            horizontalHuggingPriority:                  view.horizontalHuggingPriority,
-            verticalHuggingPriority:                    view.verticalHuggingPriority,
-            horizontalCompressionResistancePriority:    view.horizontalCompressionResistancePriority,
-            verticalCompressionResistancePriority:      view.verticalCompressionResistancePriority,
-            constraints:                                view.constraints,
-            connections:                                view.connections,
-            variations:                                 view.variations,
-            subviews:                                   nil,
-            verifyAmbiguity:                            view.verifyAmbiguity,
-            isMisplaced:                                view.isMisplaced,
-            isAmbiguous:                                view.isAmbiguous,
-            isPagingEnabled:                            scrollView.isPagingEnabled,
-            bouncesZoom:                                scrollView.bouncesZoom,
-            bounces:                                    scrollView.bounces,
-            alwaysBounceVertical:                       scrollView.alwaysBounceVertical,
-            keyboardDismissMode:                        scrollView.keyboardDismissMode,
-            showsVerticalScrollIndicator:               scrollView.showsVerticalScrollIndicator,
-            showsHorizontalScrollIndicator:             scrollView.showsHorizontalScrollIndicator,
-            maximumZoomScale:                           scrollView.maximumZoomScale,
-            minimumZoomScale:                           scrollView.minimumZoomScale,
-            isDirectionalLockEnabled:                   scrollView.isDirectionalLockEnabled,
-            indicatorStyle:                             scrollView.indicatorStyle,
-            scrollEnabled:                              scrollView.scrollEnabled,
-            alwaysBounceHorizontal:                     scrollView.alwaysBounceHorizontal,
-            delaysContentTouches:                       scrollView.delaysContentTouches,
-            canCancelContentTouches:                    scrollView.canCancelContentTouches,
-            keyboard:                                   nil,
-            safeArea:                                   nil,
-            pagingEnabled:                              scrollView.pagingEnabled,
-            directionalLockEnabled:                     scrollView.directionalLockEnabled,
-            scrollIndicatorInsets:                      scrollView.scrollIndicatorInsets,
-            contentInsetAdjustmentBehavior:             scrollView.contentInsetAdjustmentBehavior,
-            contentLayoutGuide:                         scrollView.contentLayoutGuide,
-            frameLayoutGuide:                           scrollView.frameLayoutGuide,
-            fontDescription:                            container.elementIfPresent(of: .fontDescription),
-            text:                                       text,
-            textAlignment:                              container.attributeIfPresent(of: .textAlignment),
-            textColor:                                  colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
-            editable:                                   container.attributeIfPresent(of: .editable),
+            id: view.id,
+            key: view.key,
+            customClass: view.customClass,
+            customModule: view.customModule,
+            customModuleProvider: view.customModuleProvider,
+            restorationIdentifier: view.restorationIdentifier,
+            userDefinedRuntimeAttributes: view.userDefinedRuntimeAttributes,
+            userLabel: view.userLabel,
+            colorLabel: view.colorLabel,
+            accessibility: view.accessibility,
+            contentMode: view.contentMode,
+            semanticContentAttribute: view.semanticContentAttribute,
+            tag: view.tag,
+            userInteractionEnabled: view.userInteractionEnabled,
+            multipleTouchEnabled: view.multipleTouchEnabled,
+            alpha: view.alpha,
+            backgroundColor: view.backgroundColor,
+            tintColor: view.tintColor,
+            opaque: view.opaque,
+            hidden: view.hidden,
+            clearsContextBeforeDrawing: view.clearsContextBeforeDrawing,
+            clipsSubviews: view.clipsSubviews,
+            autoresizesSubviews: view.autoresizesSubviews,
+            rect: view.rect,
+            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
+            autoresizingMask: view.autoresizingMask,
+            directionalLayoutMargins: view.directionalLayoutMargins,
+            layoutMargins: view.layoutMargins,
+            preservesSuperviewLayoutMargins: view.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth: view.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea: view.insetsLayoutMarginsFromSafeArea,
+            safeArea: view.safeArea,
+            keyboard: view.keyboard,
+            constraints: view.constraints,
+            horizontalHuggingPriority: view.horizontalHuggingPriority,
+            verticalHuggingPriority: view.verticalHuggingPriority,
+            horizontalCompressionResistancePriority: view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority: view.verticalCompressionResistancePriority,
+            connections: view.connections,
+            verifyAmbiguity: view.verifyAmbiguity,
+            isMisplaced: view.isMisplaced,
+            isAmbiguous: view.isAmbiguous,
+            variations: view.variations,
+            subviews: view.subviews,
+            indicatorStyle: scrollView.indicatorStyle,
+            showsHorizontalScrollIndicator: scrollView.showsHorizontalScrollIndicator,
+            showsVerticalScrollIndicator: scrollView.showsVerticalScrollIndicator,
+            scrollEnabled: scrollView.scrollEnabled,
+            pagingEnabled: scrollView.pagingEnabled,
+            directionalLockEnabled: scrollView.directionalLockEnabled,
+            bounces: scrollView.bounces,
+            bouncesZoom: scrollView.bouncesZoom,
+            alwaysBounceHorizontal: scrollView.alwaysBounceHorizontal,
+            alwaysBounceVertical: scrollView.alwaysBounceVertical,
+            minimumZoomScale: scrollView.minimumZoomScale,
+            maximumZoomScale: scrollView.maximumZoomScale,
+            delaysContentTouches: scrollView.delaysContentTouches,
+            canCancelContentTouches: scrollView.canCancelContentTouches,
+            keyboardDismissMode: scrollView.keyboardDismissMode,
+            scrollIndicatorInsets: scrollView.scrollIndicatorInsets,
+            contentInsetAdjustmentBehavior: scrollView.contentInsetAdjustmentBehavior,
+            contentLayoutGuide: scrollView.contentLayoutGuide,
+            frameLayoutGuide: scrollView.frameLayoutGuide,
+            fontDescription: container.elementIfPresent(of: .fontDescription),
+            text: text,
+            textAlignment: container.attributeIfPresent(of: .textAlignment),
+            textColor: colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            editable: container.attributeIfPresent(of: .editable),
         )
     }
 }

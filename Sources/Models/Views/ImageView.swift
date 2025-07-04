@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-protocol ImageViewProtocol: ViewProtocol {
+protocol ImageViewProtocol {
     var fixedFrame: Bool? { get }
     var image: String? { get }
     var highlightedImage: String? { get }
@@ -16,10 +16,10 @@ protocol ImageViewProtocol: ViewProtocol {
     var catalog: String? { get }
 }
 
-public struct ImageView: IBDecodable, ImageViewProtocol, IBIdentifiable {
+public struct ImageView: IBDecodable, ViewProtocol, ImageViewProtocol, IBIdentifiable {
     // MARK: UIView
-    public let key: String?
     public let id: String
+    public let key: String?
     public let elementClass: String = "UIImageView"
     public let customClass: String?
     public let customModule: String?
@@ -50,17 +50,19 @@ public struct ImageView: IBDecodable, ImageViewProtocol, IBIdentifiable {
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
     // MARK: UIImageView
     public let fixedFrame: Bool?
     public let image: String?
@@ -73,8 +75,8 @@ public struct ImageView: IBDecodable, ImageViewProtocol, IBIdentifiable {
         let view = try View.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         return ImageView(
-            key:                                                    view.key,
             id:                                                     view.id,
+            key:                                                    view.key,
             customClass:                                            view.customClass,
             customModule:                                           view.customModule,
             customModuleProvider:                                   view.customModuleProvider,
@@ -104,17 +106,19 @@ public struct ImageView: IBDecodable, ImageViewProtocol, IBIdentifiable {
             preservesSuperviewLayoutMargins:                        view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth:                       view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea:                        view.insetsLayoutMarginsFromSafeArea,
+            safeArea:                                               view.safeArea,
+            keyboard:                                               view.keyboard,
+            constraints:                                            view.constraints,
             horizontalHuggingPriority:                              view.horizontalHuggingPriority,
             verticalHuggingPriority:                                view.verticalHuggingPriority,
             horizontalCompressionResistancePriority:                view.horizontalCompressionResistancePriority,
             verticalCompressionResistancePriority:                  view.verticalCompressionResistancePriority,
-            constraints:                                            view.constraints,
             connections:                                            view.connections,
-            variations:                                             view.variations,
-            subviews:                                               nil,
             verifyAmbiguity:                                        view.verifyAmbiguity,
             isMisplaced:                                            view.isMisplaced,
             isAmbiguous:                                            view.isAmbiguous,
+            variations:                                             view.variations,
+            subviews:                                               view.subviews,
             fixedFrame:                                             container.attributeIfPresent(of: .fixedFrame),
             image:                                                  container.attributeIfPresent(of: .image),
             highlightedImage:                                       container.attributeIfPresent(of: .highlightedImage),

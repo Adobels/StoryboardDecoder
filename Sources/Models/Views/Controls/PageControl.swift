@@ -18,8 +18,8 @@ protocol PageControlProtocol: ViewProtocol, ControlProtocol {
 
 public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
     // MARK: UIView
-    public let key: String?
     public let id: String
+    public let key: String?
     public let elementClass: String = "UIPageControl"
     public let customClass: String?
     public let customModule: String?
@@ -50,17 +50,19 @@ public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
     // MARK: UIControl
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
@@ -86,62 +88,63 @@ public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
         let container = xml.container(keys: CodingKeys.self)
         let colorsContainer = xml.container(keys: PageControlCodingKeys.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         return PageControl(
-            key: view.key,
-            id: view.id,
-            customClass: view.customClass,
-            customModule: view.customModule,
-            customModuleProvider: view.customModuleProvider,
-            restorationIdentifier: view.restorationIdentifier,
-            userDefinedRuntimeAttributes: view.userDefinedRuntimeAttributes,
-            userLabel: view.userLabel,
-            colorLabel: view.colorLabel,
-            accessibility: view.accessibility,
-            contentMode: view.contentMode,
-            semanticContentAttribute: view.semanticContentAttribute,
-            tag: view.tag,
-            userInteractionEnabled: view.userInteractionEnabled,
-            multipleTouchEnabled: view.multipleTouchEnabled,
-            alpha: view.alpha,
-            backgroundColor: view.backgroundColor,
-            tintColor: view.tintColor,
-            opaque: view.opaque,
-            hidden: view.hidden,
-            clearsContextBeforeDrawing: view.clearsContextBeforeDrawing,
-            clipsSubviews: view.clipsSubviews,
-            autoresizesSubviews: view.autoresizesSubviews,
-            rect: view.rect,
-            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
-            autoresizingMask: view.autoresizingMask,
-            directionalLayoutMargins: view.directionalLayoutMargins,
-            layoutMargins: view.layoutMargins,
-            preservesSuperviewLayoutMargins: view.preservesSuperviewLayoutMargins,
-            layoutMarginsFollowReadableWidth: view.layoutMarginsFollowReadableWidth,
-            insetsLayoutMarginsFromSafeArea: view.insetsLayoutMarginsFromSafeArea,
-            horizontalHuggingPriority: view.horizontalHuggingPriority,
-            verticalHuggingPriority: view.verticalHuggingPriority,
-            horizontalCompressionResistancePriority: view.horizontalCompressionResistancePriority,
-            verticalCompressionResistancePriority: view.verticalCompressionResistancePriority,
-            constraints: view.constraints,
-            connections: view.connections,
-            variations: view.variations,
-            subviews: nil,
-            verifyAmbiguity: view.verifyAmbiguity,
-            isMisplaced: view.isMisplaced,
-            isAmbiguous: view.isAmbiguous,
-            contentHorizontalAlignment: control.contentHorizontalAlignment,
-            contentVerticalAlignment: control.contentVerticalAlignment,
-            showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,
-            isSelected: control.isSelected,
-            isEnabled: control.isEnabled,
-            isHighlighted: control.isHighlighted,
-            toolTip: control.toolTip,
-            // PageControl attributes
-            numberOfPages: container.attributeIfPresent(of: .numberOfPages),
-            pageIndicatorTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.pageIndicatorTintColor.stringValue),
-            currentPageIndicatorTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.currentPageIndicatorTintColor.stringValue),
-            currentPage: container.attributeIfPresent(of: .currentPage),
-            hidesForSinglePage: container.attributeIfPresent(of: .hidesForSinglePage),
-            defersCurrentPageDisplay: container.attributeIfPresent(of: .defersCurrentPageDisplay)
+            id:                                         view.id,
+            key:                                        view.key,
+            customClass:                                view.customClass,
+            customModule:                               view.customModule,
+            customModuleProvider:                       view.customModuleProvider,
+            restorationIdentifier:                      view.restorationIdentifier,
+            userDefinedRuntimeAttributes:               view.userDefinedRuntimeAttributes,
+            userLabel:                                  view.userLabel,
+            colorLabel:                                 view.colorLabel,
+            accessibility:                              view.accessibility,
+            contentMode:                                view.contentMode,
+            semanticContentAttribute:                   view.semanticContentAttribute,
+            tag:                                        view.tag,
+            userInteractionEnabled:                     view.userInteractionEnabled,
+            multipleTouchEnabled:                       view.multipleTouchEnabled,
+            alpha:                                      view.alpha,
+            backgroundColor:                            view.backgroundColor,
+            tintColor:                                  view.tintColor,
+            opaque:                                     view.opaque,
+            hidden:                                     view.hidden,
+            clearsContextBeforeDrawing:                 view.clearsContextBeforeDrawing,
+            clipsSubviews:                              view.clipsSubviews,
+            autoresizesSubviews:                        view.autoresizesSubviews,
+            rect:                                       view.rect,
+            translatesAutoresizingMaskIntoConstraints:  view.translatesAutoresizingMaskIntoConstraints,
+            autoresizingMask:                           view.autoresizingMask,
+            directionalLayoutMargins:                   view.directionalLayoutMargins,
+            layoutMargins:                              view.layoutMargins,
+            preservesSuperviewLayoutMargins:            view.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth:           view.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea:            view.insetsLayoutMarginsFromSafeArea,
+            safeArea:                                   view.safeArea,
+            keyboard:                                   view.keyboard,
+            constraints:                                view.constraints,
+            horizontalHuggingPriority:                  view.horizontalHuggingPriority,
+            verticalHuggingPriority:                    view.verticalHuggingPriority,
+            horizontalCompressionResistancePriority:    view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority:      view.verticalCompressionResistancePriority,
+            connections:                                view.connections,
+            verifyAmbiguity:                            view.verifyAmbiguity,
+            isMisplaced:                                view.isMisplaced,
+            isAmbiguous:                                view.isAmbiguous,
+            variations:                                 view.variations,
+            subviews:                                   view.subviews,
+            contentHorizontalAlignment:                 control.contentHorizontalAlignment,
+            contentVerticalAlignment:                   control.contentVerticalAlignment,
+            showsMenuAsPrimaryAction:                   control.showsMenuAsPrimaryAction,
+            isSelected:                                 control.isSelected,
+            isEnabled:                                  control.isEnabled,
+            isHighlighted:                              control.isHighlighted,
+            toolTip:                                    control.toolTip,
+            numberOfPages:                              container.attributeIfPresent(of: .numberOfPages),
+            pageIndicatorTintColor:                     colorsContainer?.withAttributeElement(.key, CodingKeys.pageIndicatorTintColor.stringValue),
+            currentPageIndicatorTintColor:              colorsContainer?.withAttributeElement(.key, CodingKeys.currentPageIndicatorTintColor.stringValue),
+            currentPage:                                container.attributeIfPresent(of: .currentPage),
+            hidesForSinglePage:                         container.attributeIfPresent(of: .hidesForSinglePage),
+            defersCurrentPageDisplay:                   container.attributeIfPresent(of: .defersCurrentPageDisplay)
         )
     }
 }

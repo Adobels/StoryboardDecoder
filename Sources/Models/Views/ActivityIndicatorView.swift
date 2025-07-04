@@ -8,10 +8,10 @@
 import SWXMLHash
 
 protocol ActivityIndicatorViewProtocol: ViewProtocol {
+    var style: String? { get }
+    var color: Color? { get }
     var isAnimating: Bool? { get }
     var hidesWhenStopped: Bool? { get }
-    var color: Color? { get }
-    var style: String? { get }
 }
 
 @available(*, deprecated, message: "Use ActivityIndicatorView instead")
@@ -65,10 +65,10 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
     public let variations: [Variation]?
     public let subviews: [AnyView]?
     // MARK: ActivityIndicatorView
+    public let style: String?
+    public let color: Color?
     public let isAnimating: Bool?
     public let hidesWhenStopped: Bool?
-    public let color: Color?
-    public let style: String?
 
     enum ExternalCodingKeys: CodingKey { case color }
     enum KeyCodingKeys: CodingKey { case key }
@@ -130,10 +130,10 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
             isAmbiguous:                               view.isAmbiguous,
             variations:                                view.variations,
             subviews:                                  view.subviews,
+            style:                                     container.attributeIfPresent(of: .style),
+            color:                                     colors?.withAttributeElement(.key, CodingKeys.color.stringValue),
             isAnimating:                               container.attributeIfPresent(of: .isAnimating),
             hidesWhenStopped:                          container.attributeIfPresent(of: .hidesWhenStopped),
-            color:                                     colors?.withAttributeElement(.key, CodingKeys.color.stringValue),
-            style:                                     container.attributeIfPresent(of: .style),
         )
     }
 }

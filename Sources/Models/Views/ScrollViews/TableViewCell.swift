@@ -1,25 +1,20 @@
 //
-//  Switch.swift
-//  IBLinterCore
+//  TableViewCell.swift
+//  StoryboardDecoder
 //
-//  Created by SaitoYuta on 3/11/18.
+//  Created by Blazej Sleboda on 04/07/2025.
 //
 
-import SWXMLHash
-
-protocol SwitchProtocol {
-    var title: String? { get }
-    var preferredStyle: PreferredStyle? { get }
-    var on: Bool { get }
-    var onTintColor: Color? { get }
-    var thumbTintColor: Color? { get }
+protocol TableViewCellProtocol {
+    var reuseIdentifier: String? { get }
+    var contentView: TableViewCell.TableViewContentView { get }
 }
 
-public struct Switch: IBDecodable, ViewProtocol, ControlProtocol, SwitchProtocol, IBIdentifiable {
+public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, IBIdentifiable, IBReusable {
     // MARK: UIView
     public let id: String
     public let key: String?
-    public let elementClass: String = "UISwitch"
+    public let elementClass: String = "UITableViewCell"
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
@@ -61,31 +56,54 @@ public struct Switch: IBDecodable, ViewProtocol, ControlProtocol, SwitchProtocol
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
     public let variations: [Variation]?
-    public let subviews: [AnyView]?
-    // MARK: UIControl
-    public let contentHorizontalAlignment: String?
-    public let contentVerticalAlignment: String?
-    public let showsMenuAsPrimaryAction: Bool?
-    public let isSelected: Bool?
-    public let isEnabled: Bool?
-    public let isHighlighted: Bool?
-    public let toolTip: String?
-    // MARK: UISwitch
-    public let on: Bool
-    public let onTintColor: Color?
-    public let thumbTintColor: Color?
-    public let title: String?
-    public let preferredStyle: PreferredStyle?
+    //public let subviews: [AnyView]?
+    // MARK: TableViewCell
+    public let reuseIdentifier: String?
+    public let contentView: TableViewContentView
+    private let _subviews: [AnyView]?
+    public var subviews: [AnyView]? {
+        return (_subviews ?? []) + [AnyView(contentView)]
+    }
 
-    enum SwitchCodingKeys: CodingKey { case color }
-    enum KeyCodingKeys: CodingKey { case key }
+    public var children: [IBElement] {
+        // do not let default implementation which lead to duplicate element contentView
+        var children: [IBElement] = [contentView] + (rect.map { [$0] } ?? [])
+        if let elements = constraints {
+            children += elements as [IBElement]
+        }
+        if let elements = _subviews {
+            children += elements as [IBElement]
+        }
+        if let elements = userDefinedRuntimeAttributes {
+            children += elements as [IBElement]
+        }
+        if let elements = connections {
+            children += elements as [IBElement]
+        }
+        return children
+    }
 
-    static func decode(_ xml: XMLIndexerType) throws -> Switch {
+    enum ConstraintsCodingKeys: CodingKey { case constraint }
+    enum VariationCodingKey: CodingKey { case variation }
+    enum ExternalCodingKeys: CodingKey { case color }
+    enum ColorsCodingKeys: CodingKey { case key }
+
+    static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
-        let control = try Control.decode(xml)
-        let switchView = xml.container(keys: CodingKeys.self)
-        let switchViewColorsContainer = xml.container(keys: SwitchCodingKeys.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
-        return Switch(
+        let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
+            let stringValue: String = {
+                switch key {
+                case .isMisplaced: return "misplaced"
+                case .isAmbiguous: return "ambiguous"
+
+                case ._subviews: return "subview"
+                case .contentView: return "tableViewCellContentView"
+                default: return key.stringValue
+                }
+            }()
+            return MappedCodingKey(stringValue: stringValue)
+        }
+        return .init(
             id: view.id,
             key: view.key,
             customClass: view.customClass,
@@ -129,34 +147,9 @@ public struct Switch: IBDecodable, ViewProtocol, ControlProtocol, SwitchProtocol
             isMisplaced: view.isMisplaced,
             isAmbiguous: view.isAmbiguous,
             variations: view.variations,
-            subviews: view.subviews,
-            contentHorizontalAlignment: control.contentHorizontalAlignment,
-            contentVerticalAlignment: control.contentVerticalAlignment,
-            showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,
-            isSelected: control.isSelected,
-            isEnabled: control.isEnabled,
-            isHighlighted: control.isHighlighted,
-            toolTip: control.toolTip,
-            // UISwitch
-            on: switchView.attributeIfPresent(of: .on) ?? false,
-            onTintColor: switchViewColorsContainer?.withAttributeElement(.key, CodingKeys.onTintColor.stringValue),
-            thumbTintColor: switchViewColorsContainer?.withAttributeElement(.key, CodingKeys.thumbTintColor.stringValue),
-            title: switchView.attributeIfPresent(of: .title),
-            preferredStyle: switchView.attributeIfPresent(of: .preferredStyle),
+            reuseIdentifier: container.attributeIfPresent(of: .reuseIdentifier),
+            contentView: try container.element(of: .contentView),
+            _subviews: container.childrenIfPresent(of: ._subviews),
         )
-    }
-}
-
-public enum PreferredStyle: XMLAttributeDecodable, KeyDecodable {
-    case automatic
-    case checkbox
-    case sliding
-
-    static func decode(_ attribute: XMLAttribute) throws -> Self {
-        switch attribute.text {
-        case "checkbox": return .checkbox
-        case "sliding": return .sliding
-        default: return .automatic
-        }
     }
 }

@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-protocol SliderProtocol: ViewProtocol, ControlProtocol {
+protocol SliderProtocol {
     var minimumTrackTintColor: Color? { get }
     var maximumTrackTintColor: Color? { get }
     var thumbTintColor: Color? { get }
@@ -19,10 +19,10 @@ protocol SliderProtocol: ViewProtocol, ControlProtocol {
     var continuous: Bool { get }
 }
 
-public struct Slider: IBDecodable, SliderProtocol, IBIdentifiable {
+public struct Slider: IBDecodable, ViewProtocol, ControlProtocol, SliderProtocol, IBIdentifiable {
     // MARK: UIView
-    public let key: String?
     public let id: String
+    public let key: String?
     public let elementClass: String = "UISlider"
     public let customClass: String?
     public let customModule: String?
@@ -53,17 +53,19 @@ public struct Slider: IBDecodable, SliderProtocol, IBIdentifiable {
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
     // MARK: UIControl
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
@@ -92,8 +94,8 @@ public struct Slider: IBDecodable, SliderProtocol, IBIdentifiable {
         let container = xml.container(keys: CodingKeys.self)
         let colorsContainer = xml.container(keys: ElementCodingKeys.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         return Slider(
-            key: view.key,
             id: view.id,
+            key: view.key,
             customClass: view.customClass,
             customModule: view.customModule,
             customModuleProvider: view.customModuleProvider,
@@ -123,17 +125,19 @@ public struct Slider: IBDecodable, SliderProtocol, IBIdentifiable {
             preservesSuperviewLayoutMargins: view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth: view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea: view.insetsLayoutMarginsFromSafeArea,
+            safeArea: view.safeArea,
+            keyboard: view.keyboard,
+            constraints: view.constraints,
             horizontalHuggingPriority: view.horizontalHuggingPriority,
             verticalHuggingPriority: view.verticalHuggingPriority,
             horizontalCompressionResistancePriority: view.horizontalCompressionResistancePriority,
             verticalCompressionResistancePriority: view.verticalCompressionResistancePriority,
-            constraints: view.constraints,
             connections: view.connections,
-            variations: view.variations,
-            subviews: nil,
             verifyAmbiguity: view.verifyAmbiguity,
             isMisplaced: view.isMisplaced,
             isAmbiguous: view.isAmbiguous,
+            variations: view.variations,
+            subviews: view.subviews,
             contentHorizontalAlignment: control.contentHorizontalAlignment,
             contentVerticalAlignment: control.contentVerticalAlignment,
             showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,
@@ -141,7 +145,6 @@ public struct Slider: IBDecodable, SliderProtocol, IBIdentifiable {
             isEnabled: control.isEnabled,
             isHighlighted: control.isHighlighted,
             toolTip: control.toolTip,
-            // UISlider
             minimumTrackTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.minimumTrackTintColor.stringValue),
             maximumTrackTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.maximumTrackTintColor.stringValue),
             thumbTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.thumbTintColor.stringValue),

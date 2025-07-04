@@ -7,17 +7,17 @@
 
 import SWXMLHash
 
-protocol StepperProtocol: ViewProtocol, ControlProtocol {
+protocol StepperProtocol {
     var stepValue: Float? { get }
     var minimumValue: Float? { get }
     var maximumValue: Float? { get }
     var value: Float? { get }
 }
 
-public struct Stepper: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiable {
+public struct Stepper: IBDecodable, ViewProtocol, ControlProtocol, StepperProtocol, IBIdentifiable {
     // MARK: UIView
-    public let key: String?
     public let id: String
+    public let key: String?
     public let elementClass: String = "UIStepper"
     public let customClass: String?
     public let customModule: String?
@@ -48,17 +48,19 @@ public struct Stepper: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiabl
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
     // MARK: UIControl
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
@@ -73,13 +75,13 @@ public struct Stepper: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiabl
     public let maximumValue: Float?
     public let value: Float?
 
-    static func decode(_ xml: XMLIndexerType) throws -> Stepper {
+    static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
         let control = try Control.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
-        return Stepper(
-            key: view.key,
+        return .init(
             id: view.id,
+            key: view.key,
             customClass: view.customClass,
             customModule: view.customModule,
             customModuleProvider: view.customModuleProvider,
@@ -109,17 +111,19 @@ public struct Stepper: IBDecodable, ControlProtocol, ViewProtocol, IBIdentifiabl
             preservesSuperviewLayoutMargins: view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth: view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea: view.insetsLayoutMarginsFromSafeArea,
+            safeArea: view.safeArea,
+            keyboard: view.keyboard,
+            constraints: view.constraints,
             horizontalHuggingPriority: view.horizontalHuggingPriority,
             verticalHuggingPriority: view.verticalHuggingPriority,
             horizontalCompressionResistancePriority: view.horizontalCompressionResistancePriority,
             verticalCompressionResistancePriority: view.verticalCompressionResistancePriority,
-            constraints: view.constraints,
             connections: view.connections,
-            variations: view.variations,
-            subviews: nil,
             verifyAmbiguity: view.verifyAmbiguity,
             isMisplaced: view.isMisplaced,
             isAmbiguous: view.isAmbiguous,
+            variations: view.variations,
+            subviews: view.subviews,
             contentHorizontalAlignment: control.contentHorizontalAlignment,
             contentVerticalAlignment: control.contentVerticalAlignment,
             showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,
