@@ -18,68 +18,70 @@ protocol DatePickerProtocol: ViewProtocol, ControlProtocol {
 }
 
 public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
+    // MARK: UIView
     public let id: String
-    public let elementClass: String = "UIDatePicker"
     public let key: String?
-    public let autoresizingMask: AutoresizingMask?
-    public let clipsSubviews: Bool?
-    public let constraints: [Constraint]?
-    public let contentMode: String?
+    public let elementClass: String = "UIDatePicker"
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
     public let restorationIdentifier: String?
+    public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let userLabel: String?
     public let colorLabel: String?
-    public let isMisplaced: Bool?
-    public let isAmbiguous: Bool?
-    public let verifyAmbiguity: VerifyAmbiguity?
-    public let opaque: Bool?
-    public let rect: Rect?
-    public let subviews: [AnyView]?
-    public let translatesAutoresizingMaskIntoConstraints: Bool?
+    public let accessibility: Accessibility?
+    public let contentMode: String?
+    public let semanticContentAttribute: String?
+    public let tag: Int?
     public let userInteractionEnabled: Bool?
-    public let viewLayoutGuide: LayoutGuide?
-    public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
-    public let connections: [AnyConnection]?
-    public let variations: [Variation]?
+    public let multipleTouchEnabled: Bool?
+    public let alpha: Float?
     public let backgroundColor: Color?
     public let tintColor: Color?
+    public let opaque: Bool?
     public let hidden: Bool?
-    public let alpha: Float?
-
-    public let isEnabled: Bool?
-    public let isHighlighted: Bool?
-    public let isSelected: Bool?
-    public let contentHorizontalAlignment: String?
-    public let contentVerticalAlignment: String?
-
-    public let datePickerMode: String?
-    public let date: IBDate?
-    public let style: String?
-    public let useCurrentDate: Bool?
-    public let countDownDuration: Int?
-    public let minimumDate: IBDate?
-    public let maximumDate: IBDate?
-    public let horizontalCompressionResistancePriority: Int?
-    public let verticalCompressionResistancePriority: Int?
-    public let horizontalHuggingPriority: Int?
-    public let verticalHuggingPriority: Int?
-    public let accessibility: Accessibility?
-    public let tag: Int?
-    public let autoresizesSubviews: Bool?
     public let clearsContextBeforeDrawing: Bool?
-    public let multipleTouchEnabled: Bool?
-    public let semanticContentAttribute: String?
+    public let clipsSubviews: Bool?
+    public let autoresizesSubviews: Bool?
+    public let rect: Rect?
+    public let translatesAutoresizingMaskIntoConstraints: Bool?
+    public let autoresizingMask: AutoresizingMask?
+    public let directionalLayoutMargins: DirectionalEdgeInsets?
+    public let layoutMargins: EdgeInset?
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
-    public let directionalLayoutMargins: DirectionalEdgeInsets?
-    public let layoutMargins: EdgeInset?
-    public let toolTip: String?
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
+    public let horizontalHuggingPriority: Int?
+    public let verticalHuggingPriority: Int?
+    public let horizontalCompressionResistancePriority: Int?
+    public let verticalCompressionResistancePriority: Int?
+    public let connections: [AnyConnection]?
+    public let verifyAmbiguity: VerifyAmbiguity?
+    public let isMisplaced: Bool?
+    public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
+    // MARK: UIControl
+    public let contentHorizontalAlignment: String?
+    public let contentVerticalAlignment: String?
     public let showsMenuAsPrimaryAction: Bool?
+    public let isSelected: Bool?
+    public let isEnabled: Bool?
+    public let isHighlighted: Bool?
+    public let toolTip: String?
+    // MARK: UIDatePicker
+    public let style: String?
+    public let datePickerMode: String?
     public let locale: DatePickerLocale?
     public let minuteInterval: Int
+    public let countDownDuration: Int?
+    public let useCurrentDate: Bool?
+    public let date: IBDate?
+    public let minimumDate: IBDate?
+    public let maximumDate: IBDate?
 
     enum ViewCodingKeys: CodingKey { case date }
     enum KeyCodingKeys: CodingKey { case key }
@@ -92,63 +94,64 @@ public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
         return DatePicker(
             id:                                        view.id,
             key:                                       view.key,
-            autoresizingMask:                          view.autoresizingMask,
-            clipsSubviews:                             view.clipsSubviews,
-            constraints:                               view.constraints,
-            contentMode:                               view.contentMode,
             customClass:                               view.customClass,
             customModule:                              view.customModule,
             customModuleProvider:                      view.customModuleProvider,
             restorationIdentifier:                     view.restorationIdentifier,
+            userDefinedRuntimeAttributes:              view.userDefinedRuntimeAttributes,
             userLabel:                                 view.userLabel,
             colorLabel:                                view.colorLabel,
-            isMisplaced:                               view.isMisplaced,
-            isAmbiguous:                               view.isAmbiguous,
-            verifyAmbiguity:                           view.verifyAmbiguity,
-            opaque:                                    view.opaque,
-            rect:                                      view.rect,
-            subviews:                                  view.subviews,
-            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
+            accessibility:                             view.accessibility,
+            contentMode:                               view.contentMode,
+            semanticContentAttribute:                  view.semanticContentAttribute,
+            tag:                                       view.tag,
             userInteractionEnabled:                    view.userInteractionEnabled,
-            viewLayoutGuide:                           view.viewLayoutGuide,
-            userDefinedRuntimeAttributes:              view.userDefinedRuntimeAttributes,
-            connections:                               view.connections,
-            variations:                                view.variations,
+            multipleTouchEnabled:                      view.multipleTouchEnabled,
+            alpha:                                     view.alpha,
             backgroundColor:                           view.backgroundColor,
             tintColor:                                 view.tintColor,
+            opaque:                                    view.opaque,
             hidden:                                    view.hidden,
-            alpha:                                     view.alpha,
-            isEnabled:                                 control.isEnabled,
-            isHighlighted:                             control.isHighlighted,
-            isSelected:                                control.isSelected,
-            contentHorizontalAlignment:                control.contentHorizontalAlignment,
-            contentVerticalAlignment:                  control.contentVerticalAlignment,
-            datePickerMode:                            datePicker.attributeIfPresent(of: .datePickerMode),
-            date:                                      datePickerDateContainer?.withAttributeElement(.key, CodingKeys.date.stringValue),
-            style:                                     datePicker.attributeIfPresent(of: .style),
-            useCurrentDate:                            datePicker.attributeIfPresent(of: .useCurrentDate),
-            countDownDuration:                         datePicker.attributeIfPresent(of: .countDownDuration),
-            minimumDate:                               datePickerDateContainer?.withAttributeElement(.key, CodingKeys.minimumDate.stringValue),
-            maximumDate:                               datePickerDateContainer?.withAttributeElement(.key, CodingKeys.maximumDate.stringValue),
-            horizontalCompressionResistancePriority:   view.horizontalCompressionResistancePriority,
-            verticalCompressionResistancePriority:     view.verticalCompressionResistancePriority,
-            horizontalHuggingPriority:                 view.horizontalHuggingPriority,
-            verticalHuggingPriority:                   view.verticalHuggingPriority,
-            accessibility:                             view.accessibility,
-            tag:                                       view.tag,
-            autoresizesSubviews:                       view.autoresizesSubviews,
             clearsContextBeforeDrawing:                view.clearsContextBeforeDrawing,
-            multipleTouchEnabled:                      view.multipleTouchEnabled,
-            semanticContentAttribute:                  view.semanticContentAttribute,
+            clipsSubviews:                             view.clipsSubviews,
+            autoresizesSubviews:                       view.autoresizesSubviews,
+            rect:                                      view.rect,
+            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
+            autoresizingMask:                          view.autoresizingMask,
+            directionalLayoutMargins:                  view.directionalLayoutMargins,
+            layoutMargins:                             view.layoutMargins,
             preservesSuperviewLayoutMargins:           view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth:          view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea:           view.insetsLayoutMarginsFromSafeArea,
-            directionalLayoutMargins:                  view.directionalLayoutMargins,
-            layoutMargins:                             view.layoutMargins,
-            toolTip:                                   control.toolTip,
+            safeArea:                                  view.safeArea,
+            keyboard:                                  view.keyboard,
+            constraints:                               view.constraints,
+            horizontalHuggingPriority:                 view.horizontalHuggingPriority,
+            verticalHuggingPriority:                   view.verticalHuggingPriority,
+            horizontalCompressionResistancePriority:   view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority:     view.verticalCompressionResistancePriority,
+            connections:                               view.connections,
+            verifyAmbiguity:                           view.verifyAmbiguity,
+            isMisplaced:                               view.isMisplaced,
+            isAmbiguous:                               view.isAmbiguous,
+            variations:                                view.variations,
+            subviews:                                  view.subviews,
+            contentHorizontalAlignment:                control.contentHorizontalAlignment,
+            contentVerticalAlignment:                  control.contentVerticalAlignment,
             showsMenuAsPrimaryAction:                  control.showsMenuAsPrimaryAction,
+            isSelected:                                control.isSelected,
+            isEnabled:                                 control.isEnabled,
+            isHighlighted:                             control.isHighlighted,
+            toolTip:                                   control.toolTip,
+            style:                                     datePicker.attributeIfPresent(of: .style),
+            datePickerMode:                            datePicker.attributeIfPresent(of: .datePickerMode),
             locale:                                    datePicker.elementIfPresent(of: .locale),
             minuteInterval:                            try datePicker.attribute(of: .minuteInterval),
+            countDownDuration:                         datePicker.attributeIfPresent(of: .countDownDuration),
+            useCurrentDate:                            datePicker.attributeIfPresent(of: .useCurrentDate),
+            date:                                      datePickerDateContainer?.withAttributeElement(.key, CodingKeys.date.stringValue),
+            minimumDate:                               datePickerDateContainer?.withAttributeElement(.key, CodingKeys.minimumDate.stringValue),
+            maximumDate:                               datePickerDateContainer?.withAttributeElement(.key, CodingKeys.maximumDate.stringValue),
         )
     }
 }

@@ -8,9 +8,9 @@
 import SWXMLHash
 
 public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
-    public let key: String?
     // MARK: Identity Inspector
     public let id: String
+    public let key: String?
     public let elementClass: String = "UIView"
     public let customClass: String?
     public let customModule: String?
@@ -43,22 +43,20 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
-    public let viewLayoutGuide: LayoutGuide? // property specific to UIView in IB
-    public let keyboardLayoutGuide: LayoutGuide? // propserty specific to UIView in IB
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
 
-    //enum ConstraintsCodingKeys: CodingKey { case constraint }
-    //enum VariationCodingKey: CodingKey { case variation }
     enum ViewElementKey: CodingKey {
         case color
         case constraint
@@ -82,7 +80,6 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
-        let viewElements = xml.container(keys: ViewElementKey.self)
         let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ViewElementKey.self)
         let variationContainer = xml.container(keys: ViewElementKey.self)
         let colorsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
@@ -90,8 +87,8 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
         let directionalLayoutMarginsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .directionalEdgeInsets, keys: KeyCodingKeys.self)
         let edgeInsetsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .edgeInsets, keys: KeyCodingKeys.self)
         return View(
-            key:                                       container.attributeIfPresent(of: .key),
             id:                                        try container.attribute(of: .id),
+            key:                                       container.attributeIfPresent(of: .key),
             customClass:                               container.attributeIfPresent(of: .customClass),
             customModule:                              container.attributeIfPresent(of: .customModule),
             customModuleProvider:                      container.attributeIfPresent(of: .customModuleProvider),
@@ -117,23 +114,23 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
             translatesAutoresizingMaskIntoConstraints: container.attributeIfPresent(of: .translatesAutoresizingMaskIntoConstraints),
             autoresizingMask:                          container.elementIfPresent(of: .autoresizingMask),
             directionalLayoutMargins:                  directionalLayoutMarginsContainer?.withAttributeElement(.key, CodingKeys.directionalLayoutMargins.stringValue),
-            layoutMargins:                                edgeInsetsContainer?.withAttributeElement(.key, CodingKeys.layoutMargins.stringValue),
+            layoutMargins:                             edgeInsetsContainer?.withAttributeElement(.key, CodingKeys.layoutMargins.stringValue),
             preservesSuperviewLayoutMargins:           container.attributeIfPresent(of: .preservesSuperviewLayoutMargins),
             layoutMarginsFollowReadableWidth:          container.attributeIfPresent(of: .layoutMarginsFollowReadableWidth),
             insetsLayoutMarginsFromSafeArea:           container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
-            viewLayoutGuide:                           container.elementIfPresent(of: .viewLayoutGuide),
-            keyboardLayoutGuide:                       container.elementIfPresent(of: .keyboardLayoutGuide),
+            safeArea:                                  container.elementIfPresent(of: .safeArea),
+            keyboard:                                  container.elementIfPresent(of: .keyboard),
+            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
             horizontalHuggingPriority:                 container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority:                   container.attributeIfPresent(of: .verticalHuggingPriority),
             horizontalCompressionResistancePriority:   container.attributeIfPresent(of: .horizontalCompressionResistancePriority),
             verticalCompressionResistancePriority:     container.attributeIfPresent(of: .verticalCompressionResistancePriority),
-            constraints:                               constraintsContainer?.elementsIfPresent(of: .constraint),
             connections:                               container.childrenIfPresent(of: .connections),
-            variations:                                variationContainer.elementsIfPresent(of: .variation),
-            subviews:                                  container.childrenIfPresent(of: .subviews),
             verifyAmbiguity:                           container.attributeIfPresent(of: .verifyAmbiguity),
             isMisplaced:                               container.attributeIfPresent(of: .isMisplaced),
             isAmbiguous:                               container.attributeIfPresent(of: .isAmbiguous),
+            variations:                                variationContainer.elementsIfPresent(of: .variation),
+            subviews:                                  container.childrenIfPresent(of: .subviews),
         )
     }
 }

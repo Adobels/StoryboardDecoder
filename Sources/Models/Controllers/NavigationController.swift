@@ -23,7 +23,7 @@ public struct NavigationController: IBDecodable, ViewControllerProtocol {
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
-    public let tabBarItem: TabBar.TabBarItem?
+    public let tabBarItem: TabBarItem?
     public let navigationBar: NavigationBar?
     public var rootView: ViewProtocol? { return navigationBar }
     public let size: [Size]?

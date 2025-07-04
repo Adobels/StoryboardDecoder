@@ -94,92 +94,91 @@ public struct TextField: IBDecodable, TextFieldProtocol, IBIdentifiable {
     public let sizingRule: LetterformAwareSizingRule?
     public let textInputTraits: TextInputTraits?
 
-    enum TextFieldElementKeys: CodingKey { case color, string, textInputTraits }
+    enum ElementKeys: CodingKey { case color, string, textInputTraits }
     enum KeysCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> TextField {
         let view = try View.decode(xml)
-        let controlView = try Control.decode(xml)
-        let textFieldView = xml.container(keys: CodingKeys.self)
-        let elements = xml.container(keys: TextFieldElementKeys.self)
+        let control = try Control.decode(xml)
+        let container = xml.container(keys: CodingKeys.self)
+        let elements = xml.container(keys: ElementKeys.self)
         let colors = elements.nestedContainerIfPresent(of: .color, keys: KeysCodingKeys.self)
         let strings = elements.nestedContainerIfPresent(of: .string, keys: KeysCodingKeys.self)
         let textInputTraits = elements.nestedContainerIfPresent(of: .textInputTraits, keys: KeysCodingKeys.self)
-        var text: String? = textFieldView.attributeIfPresent(of: .text)
+        var text: String? = container.attributeIfPresent(of: .text)
         if text == nil {
             let multiLineText: StringElement? = strings?.withAttributeElement(.key, CodingKeys.text.stringValue)
             text = multiLineText?.elementValue
         }
-        var placeholder: String? = textFieldView.attributeIfPresent(of: .placeholder)
+        var placeholder: String? = container.attributeIfPresent(of: .placeholder)
         if placeholder == nil {
             let multiLineText: StringElement? = strings?.withAttributeElement(.key, CodingKeys.placeholder.stringValue)
             placeholder = multiLineText?.elementValue
         }
         return TextField(
-            key: view.key,
-            id: view.id,
-            customClass: view.customClass,
-            customModule: view.customModule,
-            customModuleProvider: view.customModuleProvider,
-            restorationIdentifier: view.restorationIdentifier,
-            userDefinedRuntimeAttributes: view.userDefinedRuntimeAttributes,
-            userLabel: view.userLabel,
-            colorLabel: view.colorLabel,
-            accessibility: view.accessibility,
-            contentMode: view.contentMode,
-            semanticContentAttribute: view.semanticContentAttribute,
-            tag: view.tag,
-            userInteractionEnabled: view.userInteractionEnabled,
-            multipleTouchEnabled: view.multipleTouchEnabled,
-            alpha: view.alpha,
-            backgroundColor: view.backgroundColor,
-            tintColor: view.tintColor,
-            opaque: view.opaque,
-            hidden: view.hidden,
-            clearsContextBeforeDrawing: view.clearsContextBeforeDrawing,
-            clipsSubviews: view.clipsSubviews,
-            autoresizesSubviews: view.autoresizesSubviews,
-            rect: view.rect,
-            translatesAutoresizingMaskIntoConstraints: view.translatesAutoresizingMaskIntoConstraints,
-            autoresizingMask: view.autoresizingMask,
-            directionalLayoutMargins: view.directionalLayoutMargins,
-            layoutMargins: view.layoutMargins,
-            preservesSuperviewLayoutMargins: view.preservesSuperviewLayoutMargins,
-            layoutMarginsFollowReadableWidth: view.layoutMarginsFollowReadableWidth,
-            insetsLayoutMarginsFromSafeArea: view.insetsLayoutMarginsFromSafeArea,
-            horizontalHuggingPriority: view.horizontalHuggingPriority,
-            verticalHuggingPriority: view.verticalHuggingPriority,
-            horizontalCompressionResistancePriority: view.horizontalCompressionResistancePriority,
-            verticalCompressionResistancePriority: view.verticalCompressionResistancePriority,
-            constraints: view.constraints,
-            connections: view.connections,
-            variations: view.variations,
-            subviews: view.subviews,
-            verifyAmbiguity: view.verifyAmbiguity,
-            isMisplaced: view.isMisplaced,
-            isAmbiguous: view.isAmbiguous,
-            contentHorizontalAlignment: controlView.contentHorizontalAlignment,
-            contentVerticalAlignment: controlView.contentVerticalAlignment,
-            showsMenuAsPrimaryAction: controlView.showsMenuAsPrimaryAction,
-            isSelected: controlView.isSelected,
-            isEnabled: controlView.isEnabled,
-            isHighlighted: controlView.isHighlighted,
-            toolTip: controlView.toolTip,
-            // TextField Attributes
-            borderStyle:                               textFieldView.attributeIfPresent(of: .borderStyle),
-            fixedFrame:                                textFieldView.attributeIfPresent(of: .fixedFrame),
-            fontDescription:                           textFieldView.elementIfPresent(of: .fontDescription),
-            minimumFontSize:                           textFieldView.attributeIfPresent(of: .minimumFontSize),
-            text:                                      text,
-            textAlignment:                             textFieldView.attributeIfPresent(of: .textAlignment),
-            placeholder:                               placeholder,
-            textColor:                                 colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
-            adjustsFontForContentSizeCategory:         textFieldView.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
-            clearButtonMode:                           textFieldView.attributeIfPresent(of: .clearButtonMode),
-            clearsOnBeginEditing:                      textFieldView.attributeIfPresent(of: .clearsOnBeginEditing),
-            adjustsFontSizeToFit:                      textFieldView.attributeIfPresent(of: .adjustsFontSizeToFit),
-            sizingRule:                                textFieldView.attributeIfPresent(of: .sizingRule),
-            textInputTraits:                           textInputTraits?.withAttributeElement(.key, CodingKeys.textInputTraits.stringValue),
+            key:                                        view.key,
+            id:                                         view.id,
+            customClass:                                view.customClass,
+            customModule:                               view.customModule,
+            customModuleProvider:                       view.customModuleProvider,
+            restorationIdentifier:                      view.restorationIdentifier,
+            userDefinedRuntimeAttributes:               view.userDefinedRuntimeAttributes,
+            userLabel:                                  view.userLabel,
+            colorLabel:                                 view.colorLabel,
+            accessibility:                              view.accessibility,
+            contentMode:                                view.contentMode,
+            semanticContentAttribute:                   view.semanticContentAttribute,
+            tag:                                        view.tag,
+            userInteractionEnabled:                     view.userInteractionEnabled,
+            multipleTouchEnabled:                       view.multipleTouchEnabled,
+            alpha:                                      view.alpha,
+            backgroundColor:                            view.backgroundColor,
+            tintColor:                                  view.tintColor,
+            opaque:                                     view.opaque,
+            hidden:                                     view.hidden,
+            clearsContextBeforeDrawing:                 view.clearsContextBeforeDrawing,
+            clipsSubviews:                              view.clipsSubviews,
+            autoresizesSubviews:                        view.autoresizesSubviews,
+            rect:                                       view.rect,
+            translatesAutoresizingMaskIntoConstraints:  view.translatesAutoresizingMaskIntoConstraints,
+            autoresizingMask:                           view.autoresizingMask,
+            directionalLayoutMargins:                   view.directionalLayoutMargins,
+            layoutMargins:                              view.layoutMargins,
+            preservesSuperviewLayoutMargins:            view.preservesSuperviewLayoutMargins,
+            layoutMarginsFollowReadableWidth:           view.layoutMarginsFollowReadableWidth,
+            insetsLayoutMarginsFromSafeArea:            view.insetsLayoutMarginsFromSafeArea,
+            horizontalHuggingPriority:                  view.horizontalHuggingPriority,
+            verticalHuggingPriority:                    view.verticalHuggingPriority,
+            horizontalCompressionResistancePriority:    view.horizontalCompressionResistancePriority,
+            verticalCompressionResistancePriority:      view.verticalCompressionResistancePriority,
+            constraints:                                view.constraints,
+            connections:                                view.connections,
+            variations:                                 view.variations,
+            subviews:                                   nil,
+            verifyAmbiguity:                            view.verifyAmbiguity,
+            isMisplaced:                                view.isMisplaced,
+            isAmbiguous:                                view.isAmbiguous,
+            contentHorizontalAlignment:                 control.contentHorizontalAlignment,
+            contentVerticalAlignment:                   control.contentVerticalAlignment,
+            showsMenuAsPrimaryAction:                   control.showsMenuAsPrimaryAction,
+            isSelected:                                 control.isSelected,
+            isEnabled:                                  control.isEnabled,
+            isHighlighted:                              control.isHighlighted,
+            toolTip:                                    control.toolTip,
+            borderStyle:                                container.attributeIfPresent(of: .borderStyle),
+            fixedFrame:                                 container.attributeIfPresent(of: .fixedFrame),
+            fontDescription:                            container.elementIfPresent(of: .fontDescription),
+            minimumFontSize:                            container.attributeIfPresent(of: .minimumFontSize),
+            text:                                       text,
+            textAlignment:                              container.attributeIfPresent(of: .textAlignment),
+            placeholder:                                placeholder,
+            textColor:                                  colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            adjustsFontForContentSizeCategory:          container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
+            clearButtonMode:                            container.attributeIfPresent(of: .clearButtonMode),
+            clearsOnBeginEditing:                       container.attributeIfPresent(of: .clearsOnBeginEditing),
+            adjustsFontSizeToFit:                       container.attributeIfPresent(of: .adjustsFontSizeToFit),
+            sizingRule:                                 container.attributeIfPresent(of: .sizingRule),
+            textInputTraits:                            textInputTraits?.withAttributeElement(.key, CodingKeys.textInputTraits.stringValue),
         )
     }
 

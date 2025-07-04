@@ -130,7 +130,7 @@ public struct Slider: IBDecodable, SliderProtocol, IBIdentifiable {
             constraints: view.constraints,
             connections: view.connections,
             variations: view.variations,
-            subviews: view.subviews,
+            subviews: nil,
             verifyAmbiguity: view.verifyAmbiguity,
             isMisplaced: view.isMisplaced,
             isAmbiguous: view.isAmbiguous,

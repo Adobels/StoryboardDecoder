@@ -23,7 +23,7 @@ public struct PageViewController: IBDecodable, ViewControllerProtocol {
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
-    public let tabBarItem: TabBar.TabBarItem?
+    public let tabBarItem: TabBarItem?
     public let view: View?
     public var rootView: ViewProtocol? { return view }
     public var varspineLocation: String? // min, max, mid, none

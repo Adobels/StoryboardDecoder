@@ -71,8 +71,6 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
     public let maximumZoomScale: Float?
     public let minimumZoomScale: Float?
     public let isDirectionalLockEnabled: Bool?
-    public let contentLayoutGuide: LayoutGuide?
-    public let frameLayoutGuide: LayoutGuide?
     public let indicatorStyle: IndicatorStyle?
     public let scrollEnabled: Bool?
     public let alwaysBounceHorizontal: Bool?
@@ -86,7 +84,8 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
     // UIScrollView Properties in Size Inspector
     public let scrollIndicatorInsets: Inset?
     public let contentInsetAdjustmentBehavior: String?
-    // move here the contentLayoutGuide and frameLayoutGuide properties
+    public let contentLayoutGuide: LayoutGuide?
+    public let frameLayoutGuide: LayoutGuide?
 
     public let fontDescription: FontDescription?
     public let text: String?
@@ -111,7 +110,7 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
         let scrollView = try ScrollView.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         let elementContainer = xml.container(keys: ElementKey.self)
-        let colorsContainer = elementContainer.nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
+        let colors = elementContainer.nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         let stringsContainer = elementContainer.nestedContainerIfPresent(of: .string, keys: KeyCodingKeys.self)
         var text: String? = container.attributeIfPresent(of: .text)
         if text == nil {
@@ -171,8 +170,6 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
             maximumZoomScale:                           scrollView.maximumZoomScale,
             minimumZoomScale:                           scrollView.minimumZoomScale,
             isDirectionalLockEnabled:                   scrollView.isDirectionalLockEnabled,
-            contentLayoutGuide:                         scrollView.contentLayoutGuide,
-            frameLayoutGuide:                           scrollView.frameLayoutGuide,
             indicatorStyle:                             scrollView.indicatorStyle,
             scrollEnabled:                              scrollView.scrollEnabled,
             alwaysBounceHorizontal:                     scrollView.alwaysBounceHorizontal,
@@ -184,10 +181,12 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
             directionalLockEnabled:                     scrollView.directionalLockEnabled,
             scrollIndicatorInsets:                      scrollView.scrollIndicatorInsets,
             contentInsetAdjustmentBehavior:             scrollView.contentInsetAdjustmentBehavior,
+            contentLayoutGuide:                         scrollView.contentLayoutGuide,
+            frameLayoutGuide:                           scrollView.frameLayoutGuide,
             fontDescription:                            container.elementIfPresent(of: .fontDescription),
             text:                                       text,
             textAlignment:                              container.attributeIfPresent(of: .textAlignment),
-            textColor:                                  colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            textColor:                                  colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
             editable:                                   container.attributeIfPresent(of: .editable),
         )
     }

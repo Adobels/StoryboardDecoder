@@ -23,7 +23,7 @@ public struct TableViewController: IBDecodable, ViewControllerProtocol {
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
-    public let tabBarItem: TabBar.TabBarItem?
+    public let tabBarItem: TabBarItem?
     public let tableView: TableView?
     public var rootView: ViewProtocol? { return tableView }
     public let clearsSelectionOnViewWillAppear: Bool?

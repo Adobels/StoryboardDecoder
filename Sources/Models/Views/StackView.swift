@@ -16,10 +16,9 @@ protocol StackViewProtocol {
 }
 
 public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentifiable {
-
-    public let key: String?
-    // MARK: Identity Inspector
+    // MARK: UIView
     public let id: String
+    public let key: String?
     public let elementClass: String = "UIStackView"
     public let customClass: String?
     public let customModule: String?
@@ -29,7 +28,6 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
     public let userLabel: String?
     public let colorLabel: String?
     public let accessibility: Accessibility?
-    // MARK: Attribut Inspector
     public let contentMode: String?
     public let semanticContentAttribute: String?
     public let tag: Int?
@@ -43,7 +41,6 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
     public let clearsContextBeforeDrawing: Bool?
     public let clipsSubviews: Bool?
     public let autoresizesSubviews: Bool?
-    // MARK: Size Inspector
     public let rect: Rect?
     public let translatesAutoresizingMaskIntoConstraints: Bool?
     public let autoresizingMask: AutoresizingMask?
@@ -52,38 +49,32 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
     public let preservesSuperviewLayoutMargins: Bool?
     public let layoutMarginsFollowReadableWidth: Bool?
     public let insetsLayoutMarginsFromSafeArea: Bool?
-    /*
-    public let viewLayoutGuide: LayoutGuide? // property specific to UIView in IB
-    public let keyboardLayoutGuide: LayoutGuide? // propserty specific to UIView in IB
-     */
+    public let safeArea: LayoutGuide?
+    public let keyboard: LayoutGuide?
+    public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
     public let horizontalCompressionResistancePriority: Int?
     public let verticalCompressionResistancePriority: Int?
-    public let constraints: [Constraint]?
     public let connections: [AnyConnection]?
-    public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let isMisplaced: Bool?
     public let isAmbiguous: Bool?
-    // MARK: StackView Attributes Inspector
+    public let variations: [Variation]?
+    public let subviews: [AnyView]?
+    // MARK: StackView
     public let axis: String
     public let distribution: String?
     public let alignment: String?
     public let spacing: Int?
     public let baselineRelativeArrangement: Bool?
-    /* TODO: Add support for viewLayoutGuide
-     <viewLayoutGuide key="safeArea" id="hJ6-lb-hKq"/>
-     <keyboardLayoutGuide key="keyboard" id="XH4-lu-ej3"/>
-     */
 
     static func decode(_ xml: XMLIndexerType) throws -> StackView {
         let view = try View.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         return StackView(
-            key:                                       view.key,
             id:                                        view.id,
+            key:                                       view.key,
             customClass:                               view.customClass,
             customModule:                              view.customModule,
             customModuleProvider:                      view.customModuleProvider,
@@ -113,17 +104,19 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
             preservesSuperviewLayoutMargins:           view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth:          view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea:           view.insetsLayoutMarginsFromSafeArea,
+            safeArea:                                  nil,
+            keyboard:                                  nil,
+            constraints:                               view.constraints,
             horizontalHuggingPriority:                 view.horizontalHuggingPriority,
             verticalHuggingPriority:                   view.verticalHuggingPriority,
             horizontalCompressionResistancePriority:   view.horizontalCompressionResistancePriority,
             verticalCompressionResistancePriority:     view.verticalCompressionResistancePriority,
-            constraints:                               view.constraints,
             connections:                               view.connections,
-            variations:                                view.variations,
-            subviews:                                  view.subviews,
             verifyAmbiguity:                           view.verifyAmbiguity,
             isMisplaced:                               view.isMisplaced,
             isAmbiguous:                               view.isAmbiguous,
+            variations:                                view.variations,
+            subviews:                                  view.subviews,
             axis:                                      container.attributeIfPresent(of: .axis) ?? "horizontal",
             distribution:                              container.attributeIfPresent(of: .distribution),
             alignment:                                 container.attributeIfPresent(of: .alignment),

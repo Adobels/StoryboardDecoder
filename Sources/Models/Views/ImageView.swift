@@ -71,7 +71,7 @@ public struct ImageView: IBDecodable, ImageViewProtocol, IBIdentifiable {
 
     static func decode(_ xml: XMLIndexerType) throws -> ImageView {
         let view = try View.decode(xml)
-        let imageView = xml.container(keys: CodingKeys.self)
+        let container = xml.container(keys: CodingKeys.self)
         return ImageView(
             key:                                                    view.key,
             id:                                                     view.id,
@@ -115,12 +115,12 @@ public struct ImageView: IBDecodable, ImageViewProtocol, IBIdentifiable {
             verifyAmbiguity:                                        view.verifyAmbiguity,
             isMisplaced:                                            view.isMisplaced,
             isAmbiguous:                                            view.isAmbiguous,
-            fixedFrame:                                             imageView.attributeIfPresent(of: .fixedFrame),
-            image:                                                  imageView.attributeIfPresent(of: .image),
-            highlightedImage:                                       imageView.attributeIfPresent(of: .highlightedImage),
-            highlighted:                                            imageView.attributeIfPresent(of: .highlighted),
-            adjustsImageSizeForAccessibilityContentSizeCategory:    imageView.attributeIfPresent(of: .adjustsImageSizeForAccessibilityContentSizeCategory),
-            catalog:                                                imageView.attributeIfPresent(of: .catalog),
+            fixedFrame:                                             container.attributeIfPresent(of: .fixedFrame),
+            image:                                                  container.attributeIfPresent(of: .image),
+            highlightedImage:                                       container.attributeIfPresent(of: .highlightedImage),
+            highlighted:                                            container.attributeIfPresent(of: .highlighted),
+            adjustsImageSizeForAccessibilityContentSizeCategory:    container.attributeIfPresent(of: .adjustsImageSizeForAccessibilityContentSizeCategory),
+            catalog:                                                container.attributeIfPresent(of: .catalog),
         )
     }
 }

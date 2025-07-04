@@ -10,6 +10,7 @@ import SWXMLHash
 public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBConnectionOwner {
     var key: String? { get }
     //MARK: Identity Inspector
+    var id: String { get }
     var elementClass: String { get }
     var customClass: String? { get }
     var customModule: String? { get }
@@ -18,8 +19,6 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     var userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]? { get }
     var userLabel: String? { get }
     var colorLabel: String? { get }
-    var subviews: [AnyView]? { get }
-    var variations: [Variation]? { get }
     var accessibility: Accessibility? { get }
     //MARK: Attributes Inspector
     var contentMode: String? { get }
@@ -28,7 +27,7 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     // Attributes Inspector - Interaction
     var userInteractionEnabled: Bool? { get }
     var multipleTouchEnabled: Bool? { get }
-    // Attributes Inspector
+    // Attributes Inspector -
     var alpha: Float? {get}
     var backgroundColor: Color? { get }
     var tintColor: Color? { get }
@@ -47,19 +46,21 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     var preservesSuperviewLayoutMargins: Bool? { get }
     var layoutMarginsFollowReadableWidth: Bool? { get }
     var insetsLayoutMarginsFromSafeArea: Bool? { get }
-    // viewLayoutGuide: LayoutGuide? // property specific to UIView in IB
-    // keyboardLayoutGuide: LayoutGuide? // propserty specific to UIView in IB
+    var safeArea: LayoutGuide? { get }
+    var keyboard: LayoutGuide? { get }
     var constraints: [Constraint]? { get }
-    var horizontalCompressionResistancePriority: Int? { get }
-    var verticalCompressionResistancePriority: Int? { get }
     var horizontalHuggingPriority: Int? { get }
     var verticalHuggingPriority: Int? { get }
-    // Connections Inspector
+    var horizontalCompressionResistancePriority: Int? { get }
+    var verticalCompressionResistancePriority: Int? { get }
     var connections: [AnyConnection]? { get }
-    // IB Specific Attributes
+    var verifyAmbiguity: VerifyAmbiguity? { get }
+    // MARK: IB Specific Attributes
     var isMisplaced: Bool? { get }
     var isAmbiguous: Bool? { get }
-    var verifyAmbiguity: VerifyAmbiguity? { get }
+    // MARK: Others
+    var variations: [Variation]? { get }
+    var subviews: [AnyView]? { get }
 }
 
 // MARK: - AnyView

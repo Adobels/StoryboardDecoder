@@ -6,9 +6,32 @@
 //
 
 import SWXMLHash
-import Foundation
 
-public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdentifiable {
+protocol ScrollViewProtocol: ViewProtocol {
+    // Attributes Inspector
+    var indicatorStyle: IndicatorStyle? { get }
+    var showsHorizontalScrollIndicator: Bool? { get }
+    var showsVerticalScrollIndicator: Bool? { get }
+    var scrollEnabled: Bool? { get }
+    var pagingEnabled: Bool? { get }
+    var directionalLockEnabled: Bool? { get }
+    var bounces: Bool? { get }
+    var bouncesZoom: Bool? { get }
+    var alwaysBounceHorizontal: Bool? { get }
+    var alwaysBounceVertical: Bool? { get }
+    var minimumZoomScale: Float? { get }
+    var maximumZoomScale: Float? { get }
+    var delaysContentTouches: Bool? { get }
+    var canCancelContentTouches: Bool? { get }
+    var keyboardDismissMode: String? { get } // Do not Dismiss -> not present, Dismiss on drag -> onDrag, Dismiss interactively -> interactive,
+    // Size Inspector
+    var scrollIndicatorInsets: Inset? { get }
+    var contentInsetAdjustmentBehavior: String? { get }
+    var contentLayoutGuide: LayoutGuide? { get }
+    var frameLayoutGuide: LayoutGuide? { get }
+}
+
+public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdentifiable {    
     // MARK: UIView
     public let key: String?
     public let id: String
@@ -64,8 +87,6 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
     public let maximumZoomScale: Float?
     public let minimumZoomScale: Float?
     public let isDirectionalLockEnabled: Bool?
-    public let contentLayoutGuide: LayoutGuide?
-    public let frameLayoutGuide: LayoutGuide?
     public let indicatorStyle: IndicatorStyle?
     public let scrollEnabled: Bool?
     public let alwaysBounceHorizontal: Bool?
@@ -79,7 +100,8 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
     // UIScrollView Properties in Size Inspector
     public let scrollIndicatorInsets: Inset?
     public let contentInsetAdjustmentBehavior: String?
-    // move here the contentLayoutGuide and frameLayoutGuide properties
+    public let contentLayoutGuide: LayoutGuide?
+    public let frameLayoutGuide: LayoutGuide?
 
     enum ConstraintsCodingKeys: CodingKey { case constraint }
     enum VariationCodingKey: CodingKey { case variation }
@@ -104,8 +126,6 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
             return MappedCodingKey(stringValue: stringValue)
         }
         let externalContainer = xml.container(keys: ExternalCodingKeys.self)
-        let colorsContainer = externalContainer
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
         let viewLayoutGuidesContainer = externalContainer
             .nestedContainerIfPresent(of: .viewLayoutGuide, keys: ViewLayoutCodingKeys.self)
         let keyboardLayoutGuideContainer = externalContainer.nestedContainerIfPresent(of: .keyboardLayoutGuide, keys: ViewLayoutCodingKeys.self)
@@ -165,8 +185,6 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
             maximumZoomScale:                          container.attributeIfPresent(of: .maximumZoomScale),
             minimumZoomScale:                          container.attributeIfPresent(of: .minimumZoomScale),
             isDirectionalLockEnabled:                  container.attributeIfPresent(of: .isDirectionalLockEnabled),
-            contentLayoutGuide:                        viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.contentLayoutGuide.stringValue),
-            frameLayoutGuide:                          viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.frameLayoutGuide.stringValue),
             indicatorStyle:                            container.attributeIfPresent(of: .indicatorStyle),
             scrollEnabled:                             container.attributeIfPresent(of: .scrollEnabled),
             alwaysBounceHorizontal:                    container.attributeIfPresent(of: .alwaysBounceHorizontal),
@@ -178,6 +196,8 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
             directionalLockEnabled:                    container.attributeIfPresent(of: .directionalLockEnabled),
             scrollIndicatorInsets:                     insetContainer?.withAttributeElement(.key, CodingKeys.scrollIndicatorInsets.stringValue),
             contentInsetAdjustmentBehavior:            container.attributeIfPresent(of: .contentInsetAdjustmentBehavior),
+            contentLayoutGuide:                        viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.contentLayoutGuide.stringValue),
+            frameLayoutGuide:                          viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.frameLayoutGuide.stringValue),
         )
     }
 }

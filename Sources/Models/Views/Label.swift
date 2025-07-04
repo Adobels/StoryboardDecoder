@@ -106,9 +106,7 @@ public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
     public let preferredMaxLayoutWidth: Float?
 
     enum ExternalCodingKeys: CodingKey { case color, string, mutableString }
-    enum ColorsCodingKeys: CodingKey { case key }
-    enum StringsCodingKeys: CodingKey { case key }
-    enum MutableStringsCodingKeys: CodingKey { case key }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Label {
         let view = try View.decode(xml)
@@ -123,21 +121,24 @@ public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
             return MappedCodingKey(stringValue: stringValue)
         }
         let externalContainer = xml.container(keys: ExternalCodingKeys.self)
-        let colorsContainer = externalContainer
-            .nestedContainerIfPresent(of: .color, keys: ColorsCodingKeys.self)
+        let colors = externalContainer
+            .nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         let stringsContainer = externalContainer
-            .nestedContainerIfPresent(of: .string, keys: StringsCodingKeys.self)
+            .nestedContainerIfPresent(of: .string, keys: KeyCodingKeys.self)
         let mutableStringsContainer = externalContainer
-            .nestedContainerIfPresent(of: .mutableString, keys: StringsCodingKeys.self)
+            .nestedContainerIfPresent(of: .mutableString, keys: KeyCodingKeys.self)
+        _ = consume externalContainer
         var text: String? = container.attributeIfPresent(of: .text)
         if text == nil {
             let multiLineText: StringElement? = stringsContainer?.withAttributeElement(.key, CodingKeys.text.stringValue)
             text = multiLineText?.elementValue
         }
+        _ = consume stringsContainer
         if text == nil {
             let multiLineText: StringElement? = mutableStringsContainer?.withAttributeElement(.key, CodingKeys.text.stringValue)
             text = multiLineText?.elementValue
         }
+        _ = consume mutableStringsContainer
         return Label(
             key:                                        view.key,
             id:                                         view.id,
@@ -183,7 +184,7 @@ public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
             isAmbiguous:                                view.isAmbiguous,
             text:                                       text,
             attributedText:                             container.elementIfPresent(of: .attributedText),
-            textColor:                                  colorsContainer?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
+            textColor:                                  colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
             fontDescription:                            container.elementIfPresent(of: .fontDescription),
             adjustsFontForContentSizeCategory:          container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
             textAlignment:                              container.attributeIfPresent(of: .textAlignment),
@@ -199,8 +200,8 @@ public struct Label: IBDecodable, LabelProtocol, IBIdentifiable {
             fixedFrame:                                 container.attributeIfPresent(of: .fixedFrame),
             adjustsLetterSpacingToFitWidth:             container.attributeIfPresent(of: .adjustsLetterSpacingToFitWidth),
             sizingRule:                                 container.attributeIfPresent(of: .sizingRule),
-            highlightedColor:                           colorsContainer?.withAttributeElement(.key, CodingKeys.highlightedColor.stringValue),
-            shadowColor:                                colorsContainer?.withAttributeElement(.key, CodingKeys.shadowColor.stringValue),
+            highlightedColor:                           colors?.withAttributeElement(.key, CodingKeys.highlightedColor.stringValue),
+            shadowColor:                                colors?.withAttributeElement(.key, CodingKeys.shadowColor.stringValue),
             shadowOffset:                               container.elementIfPresent(of: .shadowOffset),
             preferredMaxLayoutWidth:                    container.attributeIfPresent(of: .preferredMaxLayoutWidth),
         )
