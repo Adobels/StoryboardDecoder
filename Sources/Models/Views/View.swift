@@ -53,7 +53,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
     public let connections: [AnyConnection]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let misplaced: Bool?
-    public let isAmbiguous: Bool?
+    public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
 
@@ -74,7 +74,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .isAmbiguous: "ambiguous"
+                case .ambiguous: "ambiguous"
                 default: key.stringValue
                 }
             }()
@@ -132,7 +132,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
             connections: container.childrenIfPresent(of: .connections),
             verifyAmbiguity: container.attributeIfPresent(of: .verifyAmbiguity),
             misplaced: container.attributeIfPresent(of: .misplaced),
-            isAmbiguous: container.attributeIfPresent(of: .isAmbiguous),
+            ambiguous: container.attributeIfPresent(of: .ambiguous),
             variations: variationContainer.elementsIfPresent(of: .variation),
             subviews: container.childrenIfPresent(of: .subviews),
         )

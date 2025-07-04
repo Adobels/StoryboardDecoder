@@ -271,7 +271,7 @@ class Tests: XCTestCase {
             let file = try StoryboardFile(url: url)
             var ambiguousViews: [IBElement] = []
             _ = file.document.browse { element -> Bool in
-                guard let view = element as? ViewProtocol, view.isAmbiguous ?? false else {
+                guard let view = element as? ViewProtocol, view.ambiguous ?? false else {
                     return true
                 }
                 ambiguousViews.append(element)

@@ -67,7 +67,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
     public let connections: [AnyConnection]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let misplaced: Bool?
-    public let isAmbiguous: Bool?
+    public let ambiguous: Bool?
     public let variations: [Variation]?
     //public let subviews: [AnyView]?
     // MARK: TableViewCell
@@ -117,7 +117,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .isAmbiguous: return "ambiguous"
+                case .ambiguous: return "ambiguous"
 
                 case ._subviews: return "subview"
                 case .contentView: return "tableViewCellContentView"
@@ -169,7 +169,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
             connections: view.connections,
             verifyAmbiguity: view.verifyAmbiguity,
             misplaced: view.misplaced,
-            isAmbiguous: view.isAmbiguous,
+            ambiguous: view.ambiguous,
             variations: view.variations,
             style: container.attributeIfPresent(of: .style),
             imageView: container.attributeIfPresent(of: .imageView),

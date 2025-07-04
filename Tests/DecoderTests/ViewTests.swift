@@ -63,7 +63,7 @@ struct ViewTests {
         #expect(sut.subviews == nil)
         #expect(sut.verifyAmbiguity == nil)
         #expect(sut.misplaced == nil)
-        #expect(sut.isAmbiguous == nil)
+        #expect(sut.ambiguous == nil)
     }
 
     @Test func modifiedView() throws {
@@ -119,7 +119,7 @@ struct ViewTests {
         #expect(sut.subviews == nil)
         #expect(sut.verifyAmbiguity != nil)
         #expect(sut.misplaced == nil)
-        #expect(sut.isAmbiguous == nil)
+        #expect(sut.ambiguous == nil)
     }
 }
 

@@ -56,7 +56,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, CollectionViewCellP
     public let connections: [AnyConnection]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let misplaced: Bool?
-    public let isAmbiguous: Bool?
+    public let ambiguous: Bool?
     public let variations: [Variation]?
     //public let subviews: [AnyView]?
     // MARK: CollectioViewCell
@@ -149,7 +149,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, CollectionViewCellP
             connections: view.connections,
             verifyAmbiguity: view.verifyAmbiguity,
             misplaced: view.misplaced,
-            isAmbiguous: view.isAmbiguous,
+            ambiguous: view.ambiguous,
             variations: view.variations,
             //subviews: view.subviews,
             contentView: try container.element(of: .contentView),
@@ -206,7 +206,7 @@ extension CollectionViewCell {
         public let connections: [AnyConnection]?
         public let verifyAmbiguity: VerifyAmbiguity?
         public let misplaced: Bool?
-        public let isAmbiguous: Bool?
+        public let ambiguous: Bool?
         public let variations: [Variation]?
         public let subviews: [AnyView]?
 
@@ -254,7 +254,7 @@ extension CollectionViewCell {
                 connections: view.connections,
                 verifyAmbiguity: view.verifyAmbiguity,
                 misplaced: view.misplaced,
-                isAmbiguous: view.isAmbiguous,
+                ambiguous: view.ambiguous,
                 variations: view.variations,
                 subviews: view.subviews,
             )

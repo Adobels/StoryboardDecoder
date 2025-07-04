@@ -76,7 +76,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
     public let connections: [AnyConnection]?
     public let verifyAmbiguity: VerifyAmbiguity?
     public let misplaced: Bool?
-    public let isAmbiguous: Bool?
+    public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
     // MARK: UIScrollView
@@ -156,7 +156,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
             connections: view.connections,
             verifyAmbiguity: view.verifyAmbiguity,
             misplaced: view.misplaced,
-            isAmbiguous: view.isAmbiguous,
+            ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
             indicatorStyle: container.attributeIfPresent(of: .indicatorStyle),
