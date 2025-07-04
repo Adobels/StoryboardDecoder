@@ -29,22 +29,22 @@
                                     <color key="baseBackgroundColor" white="0.29966517860000003" alpha="1" colorSpace="calibratedWhite"/>
                                 </buttonConfiguration>
                             </button>
-<button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t0B-71-CAf" customClass="CustomButton" customModule="Designable">
-    <rect key="frame" x="334" y="48" width="80" height="56"/>
-    <constraints>
-        <constraint firstAttribute="height" constant="56" id="oqn-rH-8Al"/>
-        <constraint firstAttribute="width" constant="80" id="zNT-vD-wNX"/>
-    </constraints>
-    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-    <inset key="titleEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
-    <userDefinedRuntimeAttributes>
-        <userDefinedRuntimeAttribute type="string" keyPath="locKey" value="button.confirm.top"/>
-    </userDefinedRuntimeAttributes>
-    <connections>
-        <action selector="confirmWithButton:" destination="J0H-ww-VqV" eventType="touchUpInside" id="Lhr-C8-Hnk"/>
-    </connections>
-</button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t0B-71-CAf" customClass="CustomButton" customModule="Designable">
+                                <rect key="frame" x="334" y="48" width="80" height="56"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="oqn-rH-8Al"/>
+                                    <constraint firstAttribute="width" constant="80" id="zNT-vD-wNX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="titleEdgeInsets" minX="12" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="locKey" value="button.confirm.top"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="confirmWithButton:" destination="J0H-ww-VqV" eventType="touchUpInside" id="Lhr-C8-Hnk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="z9x-gU-Yik"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

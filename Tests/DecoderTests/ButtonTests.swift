@@ -30,6 +30,7 @@ struct ButtonTests {
         #expect(sut.titleEdgeInsets != nil)
         #expect(sut.imageEdgeInsets != nil)
     }
+
     @Test("t0B-71-CAf") func t0B71CAf() throws {
         guard let url = Bundle.module.url(forResource: "Button_Modified", withExtension: "xml") else { throw IBError.elementNotFound }
         let sb = try StoryboardFile(url: url)
