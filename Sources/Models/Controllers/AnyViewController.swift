@@ -7,38 +7,6 @@
 
 import SWXMLHash
 
-// MARK: - ViewControllerProtocol
-
-public protocol ViewControllerProtocol: IBIdentifiable, IBCustomClassable, IBUserLabelable, IBConnectionOwner {
-    var elementClass: String { get }
-
-    var storyboardIdentifier: String? { get }
-    var sceneMemberID: String? { get }
-    var layoutGuides: [ViewControllerLayoutGuide]? { get }
-    var userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]? { get }
-    var connections: [AnyConnection]? { get }
-    var keyCommands: [KeyCommand]? { get }
-    /// The tab bar item that represents the view controller when added to a tab bar controller.
-    var tabBarItem: TabBarItem? { get }
-    var rootView: ViewProtocol? { get }
-    var size: [Size]? { get }
-    var framework: String { get }
-    var automaticallyAdjustsScrollViewInsets: Bool? { get }
-    var hidesBottomBarWhenPushed: Bool? { get }
-    var autoresizesArchivedViewToFullSize: Bool? { get }
-    var wantsFullScreenLayout: Bool? { get }
-    var extendedLayoutIncludesOpaqueBars: Bool? { get }
-}
-
-extension ViewControllerProtocol {
-    public var freeformSize: Size? {
-        return self.with(key: "freeformSize")
-    }
-    public var framework: String {
-        return "UIKit"
-    }
-}
-
 // MARK: - AnyViewController
 
 public struct AnyViewController: IBDecodable {
