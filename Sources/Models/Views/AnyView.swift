@@ -65,8 +65,9 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
 
 // MARK: - AnyView
 
-public struct AnyView: IBDecodable {
+public struct AnyView: IBDecodable, CustomDebugStringConvertible {
 
+    public var debugDescription: String { nested.customClass ?? nested.elementClass }
     public let view: ViewProtocol
 
     init(_ view: ViewProtocol) {
