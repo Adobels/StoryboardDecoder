@@ -10,7 +10,7 @@ import SWXMLHash
 protocol ActivityIndicatorViewProtocol: ViewProtocol {
     var style: String? { get }
     var color: Color? { get }
-    var isAnimating: Bool? { get }
+    var animating: Bool? { get }
     var hidesWhenStopped: Bool? { get }
 }
 
@@ -67,7 +67,7 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
     // MARK: ActivityIndicatorView
     public let style: String?
     public let color: Color?
-    public let isAnimating: Bool?
+    public let animating: Bool?
     public let hidesWhenStopped: Bool?
 
     enum ExternalCodingKeys: CodingKey { case color }
@@ -75,15 +75,7 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
 
     static func decode(_ xml: XMLIndexerType) throws -> ActivityIndicatorView {
         let view = try View.decode(xml)
-        let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
-            let stringValue: String = {
-                switch key {
-                case .isAnimating: return "animating"
-                default: return key.stringValue
-                }
-            }()
-            return MappedCodingKey(stringValue: stringValue)
-        }
+        let container = xml.container(keys: CodingKeys.self)
         let colors = xml.container(keys: ExternalCodingKeys.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         return ActivityIndicatorView(
             id: view.id,
@@ -132,7 +124,7 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
             subviews: view.subviews,
             style: container.attributeIfPresent(of: .style),
             color: colors?.withAttributeElement(.key, CodingKeys.color.stringValue),
-            isAnimating: container.attributeIfPresent(of: .isAnimating),
+            animating: container.attributeIfPresent(of: .animating),
             hidesWhenStopped: container.attributeIfPresent(of: .hidesWhenStopped),
         )
     }

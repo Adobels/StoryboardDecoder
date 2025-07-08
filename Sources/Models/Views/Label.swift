@@ -16,7 +16,7 @@ protocol LabelProtocol {
     var adjustsFontForContentSizeCategory: Bool? { get }
     var textAlignment: String? { get }
     var numberOfLines: Int? { get }
-    var isEnabled: Bool? { get }
+    var enabled: Bool? { get }
     var highlighted: Bool? { get }
     var showsExpansionTextWhenTruncated: Bool? { get }
     var baselineAdjustment: String? { get }
@@ -90,7 +90,7 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
     public let adjustsFontForContentSizeCategory: Bool?
     public let textAlignment: String?
     public let numberOfLines: Int?
-    public let isEnabled: Bool?
+    public let enabled: Bool?
     public let highlighted: Bool?
     public let showsExpansionTextWhenTruncated: Bool?
     public let baselineAdjustment: String?
@@ -116,7 +116,6 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
             let stringValue: String = {
                 switch key {
                 case .attributedText: return "attributedString"
-                case .isEnabled: return "enabled"
                 default: return key.stringValue
                 }
             }()
@@ -193,7 +192,7 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
             adjustsFontForContentSizeCategory: container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),
             textAlignment: container.attributeIfPresent(of: .textAlignment),
             numberOfLines: container.attributeIfPresent(of: .numberOfLines),
-            isEnabled: container.attributeIfPresent(of: .isEnabled),
+            enabled: container.attributeIfPresent(of: .enabled),
             highlighted: container.attributeIfPresent(of: .highlighted),
             showsExpansionTextWhenTruncated: container.attributeIfPresent(of: .showsExpansionTextWhenTruncated),
             baselineAdjustment: container.attributeIfPresent(of: .baselineAdjustment),

@@ -71,15 +71,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
     enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> View {
-        let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
-            let stringValue: String = {
-                switch key {
-                case .ambiguous: "ambiguous"
-                default: key.stringValue
-                }
-            }()
-            return MappedCodingKey(stringValue: stringValue)
-        }
+        let container = xml.container(keys: CodingKeys.self)
         let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ViewElementKey.self)
         let variationContainer = xml.container(keys: ViewElementKey.self)
         let colorsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)

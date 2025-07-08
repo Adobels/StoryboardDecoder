@@ -67,9 +67,9 @@ public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
     public let showsMenuAsPrimaryAction: Bool?
-    public let isSelected: Bool?
-    public let isEnabled: Bool?
-    public let isHighlighted: Bool?
+    public let selected: Bool?
+    public let enabled: Bool?
+    public let highlighted: Bool?
     public let toolTip: String?
     // MARK: UIPageControl
     public let numberOfPages: Int?
@@ -135,9 +135,9 @@ public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
             contentHorizontalAlignment: control.contentHorizontalAlignment,
             contentVerticalAlignment: control.contentVerticalAlignment,
             showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,
-            isSelected: control.isSelected,
-            isEnabled: control.isEnabled,
-            isHighlighted: control.isHighlighted,
+            selected: control.selected,
+            enabled: control.enabled,
+            highlighted: control.highlighted,
             toolTip: control.toolTip,
             numberOfPages: container.attributeIfPresent(of: .numberOfPages),
             pageIndicatorTintColor: colorsContainer?.withAttributeElement(.key, CodingKeys.pageIndicatorTintColor.stringValue),
