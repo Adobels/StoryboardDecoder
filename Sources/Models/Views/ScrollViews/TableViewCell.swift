@@ -88,7 +88,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
     public let contentView: AnyView
     private let _subviews: [AnyView]?
     public var subviews: [AnyView]? {
-        return (_subviews ?? []) + [contentView]
+        (_subviews ?? []) + [contentView]
     }
 
     public var children: [IBElement] {
@@ -117,8 +117,6 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .ambiguous: return "ambiguous"
-
                 case ._subviews: return "subview"
                 case .contentView: return "tableViewCellContentView"
                 default: return key.stringValue

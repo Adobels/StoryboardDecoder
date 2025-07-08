@@ -16,7 +16,7 @@ protocol SliderProtocol {
     var maxValue: String? { get }
     var minimumValueImage: String? { get }
     var maximumValueImage: String? { get }
-    var continuous: Bool { get }
+    var continuous: Bool? { get }
 }
 
 public struct Slider: IBDecodable, ViewProtocol, ControlProtocol, SliderProtocol, IBIdentifiable {
@@ -83,7 +83,7 @@ public struct Slider: IBDecodable, ViewProtocol, ControlProtocol, SliderProtocol
     public let maxValue: String?
     public let minimumValueImage: String?
     public let maximumValueImage: String?
-    public let continuous: Bool
+    public let continuous: Bool?
 
     enum ElementCodingKeys: CodingKey { case color }
     enum KeyCodingKeys: CodingKey { case key }
@@ -153,7 +153,7 @@ public struct Slider: IBDecodable, ViewProtocol, ControlProtocol, SliderProtocol
             maxValue: container.attributeIfPresent(of: .maxValue),
             minimumValueImage: container.attributeIfPresent(of: .minimumValueImage),
             maximumValueImage: container.attributeIfPresent(of: .maximumValueImage),
-            continuous: container.attributeIfPresent(of: .continuous) ?? true,
+            continuous: container.attributeIfPresent(of: .continuous),
         )
     }
 }

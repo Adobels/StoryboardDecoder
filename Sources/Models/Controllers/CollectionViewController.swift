@@ -26,7 +26,7 @@ public struct CollectionViewController: IBDecodable, ViewControllerProtocol {
     public let tabBarItem: TabBarItem?
     public let collectionView: CollectionView?
     public var rootView: ViewProtocol? { return collectionView }
-    public let clearsSelectionOnViewWillAppear: Bool
+    public let clearsSelectionOnViewWillAppear: Bool?
     public let size: [Size]?
     public var automaticallyAdjustsScrollViewInsets: Bool?
     public var hidesBottomBarWhenPushed: Bool?
@@ -55,7 +55,7 @@ public struct CollectionViewController: IBDecodable, ViewControllerProtocol {
             keyCommands: container.childrenIfPresent(of: .keyCommands),
             tabBarItem: container.elementIfPresent(of: .tabBarItem),
             collectionView: container.elementIfPresent(of: .collectionView),
-            clearsSelectionOnViewWillAppear: container.attributeIfPresent(of: .clearsSelectionOnViewWillAppear) ?? true,
+            clearsSelectionOnViewWillAppear: container.attributeIfPresent(of: .clearsSelectionOnViewWillAppear),
             size: container.elementsIfPresent(of: .size),
             automaticallyAdjustsScrollViewInsets: container.attributeIfPresent(of: .automaticallyAdjustsScrollViewInsets),
             hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed),

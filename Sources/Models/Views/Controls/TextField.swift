@@ -220,18 +220,18 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
     // MARK: - TextInputTraits
 
     public struct TextInputTraits: IBDecodable {
-        public var autocapitalizationType: AutocapitalizationType?
-        public var autocorrectionType: Bool?
-        public var spellCheckingType: Bool?
-        public var keyboardType: KeyboardType?
-        public var keyboardAppearance: KeyboardAppearance?
-        public var returnKeyType: ReturnKeyType?
-        public var smartDashesType: Bool?
-        public var smartInsertDeleteType: Bool?
-        public var smartQuotesType: Bool?
-        public var textContentType: TextContentType?
-        public var enablesReturnKeyAutomatically: Bool?
-        public var secureTextEntry: Bool?
+        public let autocapitalizationType: AutocapitalizationType?
+        public let autocorrectionType: Bool?
+        public let spellCheckingType: Bool?
+        public let keyboardType: KeyboardType?
+        public let keyboardAppearance: KeyboardAppearance?
+        public let returnKeyType: ReturnKeyType?
+        public let smartDashesType: Bool?
+        public let smartInsertDeleteType: Bool?
+        public let smartQuotesType: Bool?
+        public let textContentType: TextContentType?
+        public let enablesReturnKeyAutomatically: Bool?
+        public let secureTextEntry: Bool?
 
         enum CodingKeys: CodingKey {
             case key

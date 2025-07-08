@@ -17,23 +17,23 @@ public struct AVPlayerViewController: IBDecodable, ViewControllerProtocol {
     public let restorationIdentifier: String?
     public let userLabel: String?
     public let colorLabel: String?
-    public var storyboardIdentifier: String?
-    public var sceneMemberID: String?
+    public let storyboardIdentifier: String?
+    public let sceneMemberID: String?
     public let layoutGuides: [ViewControllerLayoutGuide]?
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBarItem?
     public let view: AnyView?
-    public var rootView: ViewProtocol? { return view?.view }
+    public var rootView: ViewProtocol? { view?.view }
     public let videoGravity: String?
     public let size: [Size]?
-    public var framework: String { return "AVKit" }
-    public var automaticallyAdjustsScrollViewInsets: Bool?
-    public var hidesBottomBarWhenPushed: Bool?
-    public var autoresizesArchivedViewToFullSize: Bool?
-    public var wantsFullScreenLayout: Bool?
-    public var extendedLayoutIncludesOpaqueBars: Bool?
+    public var framework: String { "AVKit" }
+    public let automaticallyAdjustsScrollViewInsets: Bool?
+    public let hidesBottomBarWhenPushed: Bool?
+    public let autoresizesArchivedViewToFullSize: Bool?
+    public let wantsFullScreenLayout: Bool?
+    public let extendedLayoutIncludesOpaqueBars: Bool?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
 
@@ -58,7 +58,11 @@ public struct AVPlayerViewController: IBDecodable, ViewControllerProtocol {
             view: xml.childrenElements.first.flatMap(decodeValue),
             videoGravity: container.attributeIfPresent(of: .videoGravity),
             size: container.elementsIfPresent(of: .size),
-            hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed)
+            automaticallyAdjustsScrollViewInsets: container.attributeIfPresent(of: .automaticallyAdjustsScrollViewInsets),
+            hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed),
+            autoresizesArchivedViewToFullSize: container.attributeIfPresent(of: .autoresizesArchivedViewToFullSize),
+            wantsFullScreenLayout: container.attributeIfPresent(of: .wantsFullScreenLayout),
+            extendedLayoutIncludesOpaqueBars: container.attributeIfPresent(of: .extendedLayoutIncludesOpaqueBars),
         )
     }
 }

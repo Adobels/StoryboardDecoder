@@ -27,7 +27,7 @@ public struct PageViewController: IBDecodable, ViewControllerProtocol {
     public let view: View?
     public var rootView: ViewProtocol? { return view }
     public var varspineLocation: String? // min, max, mid, none
-    public var doubleSided: Bool
+    public var doubleSided: Bool?
     public let size: [Size]?
     public var automaticallyAdjustsScrollViewInsets: Bool?
     public var hidesBottomBarWhenPushed: Bool?
@@ -57,7 +57,7 @@ public struct PageViewController: IBDecodable, ViewControllerProtocol {
             tabBarItem: container.elementIfPresent(of: .tabBarItem),
             view: container.elementIfPresent(of: .view),
             varspineLocation: container.attributeIfPresent(of: .varspineLocation),
-            doubleSided: container.attributeIfPresent(of: .doubleSided) ?? false,
+            doubleSided: container.attributeIfPresent(of: .doubleSided),
             size: container.elementsIfPresent(of: .size),
             automaticallyAdjustsScrollViewInsets: container.attributeIfPresent(of: .automaticallyAdjustsScrollViewInsets),
             hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed),

@@ -8,7 +8,7 @@
 import SWXMLHash
 
 protocol StackViewProtocol {
-    var axis: String { get }
+    var axis: String? { get }
     var distribution: String? { get }
     var alignment: String? { get }
     var spacing: Int? { get }
@@ -63,7 +63,7 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
     public let variations: [Variation]?
     public let subviews: [AnyView]?
     // MARK: StackView
-    public let axis: String
+    public let axis: String?
     public let distribution: String?
     public let alignment: String?
     public let spacing: Int?
@@ -117,7 +117,7 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
-            axis: container.attributeIfPresent(of: .axis) ?? "horizontal",
+            axis: container.attributeIfPresent(of: .axis),
             distribution: container.attributeIfPresent(of: .distribution),
             alignment: container.attributeIfPresent(of: .alignment),
             spacing: container.attributeIfPresent(of: .spacing),

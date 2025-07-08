@@ -38,6 +38,7 @@ public struct TableViewController: IBDecodable, ViewControllerProtocol, TableVie
     public let extendedLayoutIncludesOpaqueBars: Bool?
     // MARK: TableViewController
     public let clearsSelectionOnViewWillAppear: Bool?
+    // TODO: Add docoding
     public var refreshControl: String? { nil }
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }

@@ -10,7 +10,7 @@ import SWXMLHash
 protocol SwitchProtocol {
     var title: String? { get }
     var preferredStyle: PreferredStyle? { get }
-    var on: Bool { get }
+    var on: Bool? { get }
     var onTintColor: Color? { get }
     var thumbTintColor: Color? { get }
 }
@@ -71,7 +71,7 @@ public struct Switch: IBDecodable, ViewProtocol, ControlProtocol, SwitchProtocol
     public let isHighlighted: Bool?
     public let toolTip: String?
     // MARK: UISwitch
-    public let on: Bool
+    public let on: Bool?
     public let onTintColor: Color?
     public let thumbTintColor: Color?
     public let title: String?
@@ -138,7 +138,7 @@ public struct Switch: IBDecodable, ViewProtocol, ControlProtocol, SwitchProtocol
             isHighlighted: control.isHighlighted,
             toolTip: control.toolTip,
             // UISwitch
-            on: switchView.attributeIfPresent(of: .on) ?? false,
+            on: switchView.attributeIfPresent(of: .on),
             onTintColor: switchViewColorsContainer?.withAttributeElement(.key, CodingKeys.onTintColor.stringValue),
             thumbTintColor: switchViewColorsContainer?.withAttributeElement(.key, CodingKeys.thumbTintColor.stringValue),
             title: switchView.attributeIfPresent(of: .title),

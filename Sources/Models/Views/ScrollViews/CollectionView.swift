@@ -81,10 +81,10 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
     public let cells: [CollectionViewCell]?
     public let collectionReusableViews: [CollectionReusableView]?
     public var sectionHeaderView: CollectionReusableView? {
-        return collectionReusableViews?.first(where: { $0.key == "sectionHeaderView" })
+        collectionReusableViews?.first(where: { $0.key == "sectionHeaderView" })
     }
     public var sectionFooterView: CollectionReusableView? {
-        return collectionReusableViews?.first(where: { $0.key == "sectionFooterView" })
+        collectionReusableViews?.first(where: { $0.key == "sectionFooterView" })
     }
     public let layout: CollectionViewLayout?
     public let flowLayout: CollectionViewFlowLayout?

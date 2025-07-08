@@ -21,7 +21,7 @@ public struct StoryboardDocument: IBDecodable, InterfaceBuilderDocument {
     public let useSafeAreas: Bool?
     public let colorMatched: Bool?
     public let initialViewController: String?
-    public let launchScreen: Bool
+    public let launchScreen: Bool?
     public let device: Device?
     public let scenes: [Scene]?
     public let resources: [AnyResource]?
@@ -36,29 +36,27 @@ public struct StoryboardDocument: IBDecodable, InterfaceBuilderDocument {
         let container = xml.container(keys: CodingKeys.self)
         let scenesContainer = container.nestedContainerIfPresent(of: .scenes, keys: ScenesCodingKeys.self)
         return StoryboardDocument(
-            type:                  try container.attribute(of: .type),
-            version:               try container.attribute(of: .version),
-            toolsVersion:          try container.attribute(of: .toolsVersion),
-            targetRuntime:         try container.attribute(of: .targetRuntime),
+            type: try container.attribute(of: .type),
+            version: try container.attribute(of: .version),
+            toolsVersion: try container.attribute(of: .toolsVersion),
+            targetRuntime: try container.attribute(of: .targetRuntime),
             propertyAccessControl: container.attributeIfPresent(of: .propertyAccessControl),
-            useAutolayout:         container.attributeIfPresent(of: .useAutolayout),
-            useTraitCollections:   container.attributeIfPresent(of: .useTraitCollections),
-            useSafeAreas:          container.attributeIfPresent(of: .useSafeAreas),
-            colorMatched:          container.attributeIfPresent(of: .colorMatched),
+            useAutolayout: container.attributeIfPresent(of: .useAutolayout),
+            useTraitCollections: container.attributeIfPresent(of: .useTraitCollections),
+            useSafeAreas: container.attributeIfPresent(of: .useSafeAreas),
+            colorMatched: container.attributeIfPresent(of: .colorMatched),
             initialViewController: container.attributeIfPresent(of: .initialViewController),
-            launchScreen:          container.attributeIfPresent(of: .launchScreen) ?? false,
-            device:                container.elementIfPresent(of: .device),
-            scenes:                scenesContainer?.elementsIfPresent(of: .scene),
-            resources:             container.childrenIfPresent(of: .resources),
-            classes:               container.childrenIfPresent(of: .classes),
-            dependencies:          container.childrenIfPresent(of: .dependencies),
-            systemVersion:         container.attributeIfPresent(of: .systemVersion),
-            variant:               container.attributeIfPresent(of: .variant)
+            launchScreen: container.attributeIfPresent(of: .launchScreen),
+            device: container.elementIfPresent(of: .device),
+            scenes: scenesContainer?.elementsIfPresent(of: .scene),
+            resources: container.childrenIfPresent(of: .resources),
+            classes: container.childrenIfPresent(of: .classes),
+            dependencies: container.childrenIfPresent(of: .dependencies),
+            systemVersion: container.attributeIfPresent(of: .systemVersion),
+            variant: container.attributeIfPresent(of: .variant)
         )
     }
 
-    public var ibType: IBType {
-        return .storyboard
-    }
+    public var ibType: IBType { .storyboard }
 
 }

@@ -39,14 +39,14 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
     public let customClass: String?
     public let customModule: String?
     public let customModuleProvider: String?
-    public var storyboardIdentifier: String?
+    public let storyboardIdentifier: String?
     public let restorationIdentifier: String?
     public let useStoryboardIdentifierAsRestorationIdentifier: Bool?
     public let keyboardType: String?
     public let title: String?
     public let interactionActivityTrackingBaseName: String?
-    public var automaticallyAdjustsScrollViewInsets: Bool?
-    public var hidesBottomBarWhenPushed: Bool?
+    public let automaticallyAdjustsScrollViewInsets: Bool?
+    public let hidesBottomBarWhenPushed: Bool?
     public let autoresizesArchivedViewToFullSize: Bool?
     public let wantsFullScreenLayout: Bool?
     public let extendedLayoutIncludesOpaqueBars: Bool?
@@ -54,7 +54,7 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
     public let modalPresentationStyle: ModalPresentationStyle?
     public let definesPresentationContext: Bool?
     public let providesPresentationContextTransitionStyle: Bool?
-    public var sceneMemberID: String?
+    public let sceneMemberID: String?
     public let userLabel: String?
     public let colorLabel: String?
     public let layoutGuides: [ViewControllerLayoutGuide]?
@@ -63,7 +63,7 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBarItem?
     public let view: View?
-    public var rootView: ViewProtocol? { return view }
+    public var rootView: ViewProtocol? { view }
     public let size: [Size]?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
@@ -76,18 +76,22 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
             customClass: container.attributeIfPresent(of: .customClass),
             customModule: container.attributeIfPresent(of: .customModule),
             customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
+            storyboardIdentifier: container.attributeIfPresent(of: .storyboardIdentifier),
             restorationIdentifier: container.attributeIfPresent(of: .restorationIdentifier),
             useStoryboardIdentifierAsRestorationIdentifier: container.attributeIfPresent(of: .useStoryboardIdentifierAsRestorationIdentifier),
             keyboardType: container.attributeIfPresent(of: .keyboardType),
             title: container.attributeIfPresent(of: .title),
             interactionActivityTrackingBaseName: container.attributeIfPresent(of: .interactionActivityTrackingBaseName),
+            automaticallyAdjustsScrollViewInsets: container.attributeIfPresent(of: .automaticallyAdjustsScrollViewInsets),
+            hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed),
             autoresizesArchivedViewToFullSize: container.attributeIfPresent(of: .autoresizesArchivedViewToFullSize),
             wantsFullScreenLayout: container.attributeIfPresent(of: .wantsFullScreenLayout),
             extendedLayoutIncludesOpaqueBars: container.attributeIfPresent(of: .extendedLayoutIncludesOpaqueBars),
-            modalTransitionStyle: container.attributeIfPresent(of: .modalTransitionStyle) ?? .coverVertical,
-            modalPresentationStyle: container.attributeIfPresent(of: .modalPresentationStyle) ?? .automatic,
+            modalTransitionStyle: container.attributeIfPresent(of: .modalTransitionStyle),
+            modalPresentationStyle: container.attributeIfPresent(of: .modalPresentationStyle),
             definesPresentationContext: container.attributeIfPresent(of: .definesPresentationContext),
             providesPresentationContextTransitionStyle: container.attributeIfPresent(of: .providesPresentationContextTransitionStyle),
+            sceneMemberID: container.attributeIfPresent(of: .sceneMemberID),
             userLabel: container.attributeIfPresent(of: .userLabel),
             colorLabel: container.attributeIfPresent(of: .colorLabel),
             layoutGuides: layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
