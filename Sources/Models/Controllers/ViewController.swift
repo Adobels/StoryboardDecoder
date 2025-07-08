@@ -29,12 +29,8 @@ public protocol ViewControllerProtocol: IBIdentifiable, IBCustomClassable, IBUse
 }
 
 extension ViewControllerProtocol {
-    public var freeformSize: Size? {
-        return self.with(key: "freeformSize")
-    }
-    public var framework: String {
-        return "UIKit"
-    }
+    public var freeformSize: Size? { with(key: "freeformSize") }
+    public var framework: String { "UIKit" }
 }
 
 public struct ViewController: IBDecodable, ViewControllerProtocol {
