@@ -23,8 +23,8 @@ public struct AttributedString: IBDecodable, IBKeyable {
             return MappedCodingKey(stringValue: stringValue)
         }
         return AttributedString(
-            key:            try container.attribute(of: .key),
-            fragments:      container.elementsIfPresent(of: .fragments)
+            key: try container.attribute(of: .key),
+            fragments: container.elementsIfPresent(of: .fragments)
         )
     }
 
@@ -35,8 +35,8 @@ public struct AttributedString: IBDecodable, IBKeyable {
         static func decode(_ xml: XMLIndexerType) throws -> Fragment {
             let container = xml.container(keys: CodingKeys.self)
             return Fragment(
-                content:      try container.attribute(of: .content),
-                attributes:   container.childrenIfPresent(of: .attributes)
+                content: try container.attribute(of: .content),
+                attributes: container.childrenIfPresent(of: .attributes)
             )
         }
     }
@@ -65,12 +65,11 @@ public struct AnyAttribute: IBDecodable {
         guard let elementName = xml.elementName else {
             throw IBError.elementNotFound
         }
-        switch elementName {
-        case "font":              return try AnyAttribute(Font.decode(xml))
-        case "paragraphStyle":    return try AnyAttribute(ParagraphStyle.decode(xml))
-        case "color":             return try AnyAttribute(Color.decode(xml))
-        default:
-            throw IBError.unsupportedViewClass(elementName)
+        return switch elementName {
+        case "font": try AnyAttribute(Font.decode(xml))
+        case "paragraphStyle": try AnyAttribute(ParagraphStyle.decode(xml))
+        case "color": try AnyAttribute(Color.decode(xml))
+        default: throw IBError.unsupportedViewClass(elementName)
         }
     }
 }
@@ -94,10 +93,10 @@ public struct Font: IBDecodable, AttributeProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> Font {
         let container = xml.container(keys: CodingKeys.self)
         return Font(
-            key:        container.attributeIfPresent(of: .key),
-            size:       container.attributeIfPresent(of: .size),
-            name:       container.attributeIfPresent(of: .name),
-            metaFont:   container.attributeIfPresent(of: .metaFont)
+            key: container.attributeIfPresent(of: .key),
+            size: container.attributeIfPresent(of: .size),
+            name: container.attributeIfPresent(of: .name),
+            metaFont: container.attributeIfPresent(of: .metaFont)
         )
     }
 }
@@ -116,12 +115,12 @@ public struct ParagraphStyle: IBDecodable, AttributeProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> ParagraphStyle {
         let container = xml.container(keys: CodingKeys.self)
         return ParagraphStyle(
-            key:                                   container.attributeIfPresent(of: .key),
-            alignment:                             container.attributeIfPresent(of: .alignment),
-            lineBreakMode:                         container.attributeIfPresent(of: .lineBreakMode),
-            baseWritingDirection:                  container.attributeIfPresent(of: .baseWritingDirection),
-            tighteningFactorForTruncation:         container.attributeIfPresent(of: .tighteningFactorForTruncation),
-            allowsDefaultTighteningForTruncation:  container.attributeIfPresent(of: .allowsDefaultTighteningForTruncation)
+            key: container.attributeIfPresent(of: .key),
+            alignment: container.attributeIfPresent(of: .alignment),
+            lineBreakMode: container.attributeIfPresent(of: .lineBreakMode),
+            baseWritingDirection: container.attributeIfPresent(of: .baseWritingDirection),
+            tighteningFactorForTruncation: container.attributeIfPresent(of: .tighteningFactorForTruncation),
+            allowsDefaultTighteningForTruncation: container.attributeIfPresent(of: .allowsDefaultTighteningForTruncation)
         )
     }
 }

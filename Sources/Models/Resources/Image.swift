@@ -17,11 +17,11 @@ public struct Image: IBDecodable, ResourceProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> Image {
         let container = xml.container(keys: CodingKeys.self)
         return Image(
-            name:          try container.attribute(of: .name),
-            width:         try container.attribute(of: .width),
-            height:        try container.attribute(of: .height),
-            catalog:       container.attributeIfPresent(of: .catalog),
-            mutableData:   container.elementIfPresent(of: .mutableData))
+            name: try container.attribute(of: .name),
+            width: try container.attribute(of: .width),
+            height: try container.attribute(of: .height),
+            catalog: container.attributeIfPresent(of: .catalog),
+            mutableData: container.elementIfPresent(of: .mutableData))
     }
 }
 
@@ -32,7 +32,7 @@ public struct MutableData: IBDecodable {
     static func decode(_ xml: XMLIndexerType) throws -> MutableData {
         let container = xml.container(keys: CodingKeys.self)
         return MutableData(
-            key:      try container.attribute(of: .key),
-            content:  xml.elementText)
+            key: try container.attribute(of: .key),
+            content: xml.elementText)
     }
 }

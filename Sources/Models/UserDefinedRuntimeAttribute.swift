@@ -51,18 +51,15 @@ public struct UserDefinedRuntimeAttribute: IBDecodable {
         default:
             value = valueString
         }
-        return UserDefinedRuntimeAttribute(
-            keyPath:     try container.attribute(of: .keyPath),
-            type:        type,
-            value:       value
+        return .init(
+            keyPath: try container.attribute(of: .keyPath),
+            type: type,
+            value: value
         )
     }
 
     public static func == (left: UserDefinedRuntimeAttribute, right: UserDefinedRuntimeAttribute) -> Bool {
-        guard left.keyPath == right.keyPath, left.type == right.type else {
-            return false
-        }
-        return true
+        (left.keyPath == right.keyPath) && (left.type == right.type)
     }
 }
 
@@ -74,9 +71,9 @@ public struct Range: IBDecodable {
 
     static func decode(_ xml: XMLIndexerType) throws -> Range {
         let container = xml.container(keys: CodingKeys.self)
-        return Range(
-            location:      try container.attribute(of: .location),
-            length:        try container.attribute(of: .length)
+        return try Range(
+            location: container.attribute(of: .location),
+            length: container.attribute(of: .length)
         )
     }
 }

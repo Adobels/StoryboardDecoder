@@ -25,9 +25,9 @@ public struct HostingController: IBDecodable, ViewControllerProtocol {
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBarItem?
     public let view: View?
-    public var rootView: ViewProtocol? { return view }
+    public var rootView: ViewProtocol? { view }
     public let size: [Size]?
-    public var framework: String { return "SwiftUI" }
+    public var framework: String { "SwiftUI" }
     public var automaticallyAdjustsScrollViewInsets: Bool?
     public var hidesBottomBarWhenPushed: Bool?
     public var autoresizesArchivedViewToFullSize: Bool?
@@ -40,27 +40,27 @@ public struct HostingController: IBDecodable, ViewControllerProtocol {
         let container = xml.container(keys: CodingKeys.self)
         let layoutGuidesContainer = container.nestedContainerIfPresent(of: .layoutGuides, keys: LayoutGuidesCodingKeys.self)
         return HostingController(
-            id:                   try container.attribute(of: .id),
-            customClass:          container.attributeIfPresent(of: .customClass),
-            customModule:         container.attributeIfPresent(of: .customModule),
+            id: try container.attribute(of: .id),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
             customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
             restorationIdentifier: container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:            container.attributeIfPresent(of: .userLabel),
-            colorLabel:           container.attributeIfPresent(of: .colorLabel),
+            userLabel: container.attributeIfPresent(of: .userLabel),
+            colorLabel: container.attributeIfPresent(of: .colorLabel),
             storyboardIdentifier: container.attributeIfPresent(of: .storyboardIdentifier),
-            sceneMemberID:        container.attributeIfPresent(of: .sceneMemberID),
-            layoutGuides:         layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
+            sceneMemberID: container.attributeIfPresent(of: .sceneMemberID),
+            layoutGuides: layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
             userDefinedRuntimeAttributes: container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:          container.childrenIfPresent(of: .connections),
-            keyCommands:          container.childrenIfPresent(of: .keyCommands),
-            tabBarItem:           container.elementIfPresent(of: .tabBarItem),
-            view:                 container.elementIfPresent(of: .view),
-            size:                 container.elementsIfPresent(of: .size),
-            automaticallyAdjustsScrollViewInsets:   container.attributeIfPresent(of: .automaticallyAdjustsScrollViewInsets),
-            hidesBottomBarWhenPushed:               container.attributeIfPresent(of: .hidesBottomBarWhenPushed),
-            autoresizesArchivedViewToFullSize:      container.attributeIfPresent(of: .autoresizesArchivedViewToFullSize),
-            wantsFullScreenLayout:                  container.attributeIfPresent(of: .wantsFullScreenLayout),
-            extendedLayoutIncludesOpaqueBars:       container.attributeIfPresent(of: .extendedLayoutIncludesOpaqueBars)
+            connections: container.childrenIfPresent(of: .connections),
+            keyCommands: container.childrenIfPresent(of: .keyCommands),
+            tabBarItem: container.elementIfPresent(of: .tabBarItem),
+            view: container.elementIfPresent(of: .view),
+            size: container.elementsIfPresent(of: .size),
+            automaticallyAdjustsScrollViewInsets: container.attributeIfPresent(of: .automaticallyAdjustsScrollViewInsets),
+            hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed),
+            autoresizesArchivedViewToFullSize: container.attributeIfPresent(of: .autoresizesArchivedViewToFullSize),
+            wantsFullScreenLayout: container.attributeIfPresent(of: .wantsFullScreenLayout),
+            extendedLayoutIncludesOpaqueBars: container.attributeIfPresent(of: .extendedLayoutIncludesOpaqueBars)
         )
     }
 }

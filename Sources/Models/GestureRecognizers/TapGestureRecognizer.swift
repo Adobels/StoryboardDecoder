@@ -32,21 +32,21 @@ public struct TapGestureRecognizer: IBDecodable, GestureRecognizerProtocol, IBCo
     static func decode(_ xml: XMLIndexerType) throws -> TapGestureRecognizer {
         let container = xml.container(keys: CodingKeys.self)
         return TapGestureRecognizer(
-            id:                     try container.attribute(of: .id),
-            customClass:            container.attributeIfPresent(of: .customClass),
-            customModule:           container.attributeIfPresent(of: .customModule),
-            customModuleProvider:   container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:  container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:              container.attributeIfPresent(of: .userLabel),
-            colorLabel:             container.attributeIfPresent(of: .colorLabel),
-            enabled:                container.attributeIfPresent(of: .enabled),
-            cancelsTouchesInView:   container.attributeIfPresent(of: .cancelsTouchesInView),
-            delaysTouchesBegan:     container.attributeIfPresent(of: .delaysTouchesBegan),
-            delaysTouchesEnded:     container.attributeIfPresent(of: .delaysTouchesEnded),
+            id: try container.attribute(of: .id),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
+            customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier: container.attributeIfPresent(of: .restorationIdentifier),
+            userLabel: container.attributeIfPresent(of: .userLabel),
+            colorLabel: container.attributeIfPresent(of: .colorLabel),
+            enabled: container.attributeIfPresent(of: .enabled),
+            cancelsTouchesInView: container.attributeIfPresent(of: .cancelsTouchesInView),
+            delaysTouchesBegan: container.attributeIfPresent(of: .delaysTouchesBegan),
+            delaysTouchesEnded: container.attributeIfPresent(of: .delaysTouchesEnded),
             requiresExclusiveTouchType: container.attributeIfPresent(of: .requiresExclusiveTouchType),
-            numberOfTapsRequired:   container.attributeIfPresent(of: .numberOfTapsRequired),
+            numberOfTapsRequired: container.attributeIfPresent(of: .numberOfTapsRequired),
             numberOfTouchesRequired: container.attributeIfPresent(of: .numberOfTouchesRequired),
-            connections:            container.childrenIfPresent(of: .connections)
+            connections: container.childrenIfPresent(of: .connections)
         )
     }
 }

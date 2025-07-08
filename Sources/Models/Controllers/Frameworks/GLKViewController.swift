@@ -40,23 +40,23 @@ public struct GLKViewController: IBDecodable, ViewControllerProtocol {
         let container = xml.container(keys: CodingKeys.self)
         let layoutGuidesContainer = container.nestedContainerIfPresent(of: .layoutGuides, keys: LayoutGuidesCodingKeys.self)
         return GLKViewController(
-            id:                   try container.attribute(of: .id),
-            customClass:          container.attributeIfPresent(of: .customClass),
-            customModule:         container.attributeIfPresent(of: .customModule),
+            id: try container.attribute(of: .id),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
             customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
             restorationIdentifier: container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:            container.attributeIfPresent(of: .userLabel),
-            colorLabel:           container.attributeIfPresent(of: .colorLabel),
+            userLabel: container.attributeIfPresent(of: .userLabel),
+            colorLabel: container.attributeIfPresent(of: .colorLabel),
             storyboardIdentifier: container.attributeIfPresent(of: .storyboardIdentifier),
-            sceneMemberID:        container.attributeIfPresent(of: .sceneMemberID),
-            layoutGuides:         layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
+            sceneMemberID: container.attributeIfPresent(of: .sceneMemberID),
+            layoutGuides: layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
             userDefinedRuntimeAttributes: container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections:          container.childrenIfPresent(of: .connections),
-            keyCommands:          container.childrenIfPresent(of: .keyCommands),
-            tabBarItem:           container.elementIfPresent(of: .tabBarItem),
-            glkView:              container.elementIfPresent(of: .glkView),
-            size:                 container.elementsIfPresent(of: .size),
-            hidesBottomBarWhenPushed:     container.attributeIfPresent(of: .hidesBottomBarWhenPushed)
+            connections: container.childrenIfPresent(of: .connections),
+            keyCommands: container.childrenIfPresent(of: .keyCommands),
+            tabBarItem: container.elementIfPresent(of: .tabBarItem),
+            glkView: container.elementIfPresent(of: .glkView),
+            size: container.elementsIfPresent(of: .size),
+            hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed)
         )
     }
 }

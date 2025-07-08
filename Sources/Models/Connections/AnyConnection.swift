@@ -30,13 +30,12 @@ public struct AnyConnection: IBDecodable {
         guard let elementName = xml.elementName else {
             throw IBError.elementNotFound
         }
-        switch elementName {
-        case "outlet":           return try AnyConnection(Outlet.decode(xml))
-        case "segue":            return try AnyConnection(Segue.decode(xml))
-        case "action":           return try AnyConnection(Action.decode(xml))
-        case "outletCollection": return try AnyConnection(OutletCollection.decode(xml))
-        default:
-            throw IBError.unsupportedViewClass(elementName)
+        return switch elementName {
+        case "outlet": try AnyConnection(Outlet.decode(xml))
+        case "segue": try AnyConnection(Segue.decode(xml))
+        case "action": try AnyConnection(Action.decode(xml))
+        case "outletCollection": try AnyConnection(OutletCollection.decode(xml))
+        default: throw IBError.unsupportedViewClass(elementName)
         }
     }
 

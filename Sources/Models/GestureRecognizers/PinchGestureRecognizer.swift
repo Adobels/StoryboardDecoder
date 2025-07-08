@@ -24,14 +24,14 @@ public struct PinchGestureRecognizer: IBDecodable, GestureRecognizerProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let container = xml.container(keys: CodingKeys.self)
         return Self(
-            id:                     try container.attribute(of: .id),
-            customClass:            container.attributeIfPresent(of: .customClass),
-            customModule:           container.attributeIfPresent(of: .customModule),
-            customModuleProvider:   container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:  container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:              container.attributeIfPresent(of: .userLabel),
-            colorLabel:             container.attributeIfPresent(of: .colorLabel),
-            connections:            container.childrenIfPresent(of: .connections)
+            id: try container.attribute(of: .id),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
+            customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier: container.attributeIfPresent(of: .restorationIdentifier),
+            userLabel: container.attributeIfPresent(of: .userLabel),
+            colorLabel: container.attributeIfPresent(of: .colorLabel),
+            connections: container.childrenIfPresent(of: .connections)
         )
     }
 }

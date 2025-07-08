@@ -17,7 +17,7 @@ public struct IBBool: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> IBBool {
         let container = xml.container(keys: CodingKeys.self)
         return IBBool(
-            key:   container.attributeIfPresent(of: .key),
+            key: container.attributeIfPresent(of: .key),
             value: container.attributeIfPresent(of: .value) ?? false
         )
     }
@@ -34,7 +34,7 @@ public struct IBReal: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> IBReal {
         let container = xml.container(keys: CodingKeys.self)
         return IBReal(
-            key:   container.attributeIfPresent(of: .key),
+            key: container.attributeIfPresent(of: .key),
             value: container.attributeIfPresent(of: .value)
         )
     }
@@ -51,7 +51,7 @@ public struct IBInteger: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> IBInteger {
         let container = xml.container(keys: CodingKeys.self)
         return IBInteger(
-            key:   container.attributeIfPresent(of: .key),
+            key: container.attributeIfPresent(of: .key),
             value: container.attributeIfPresent(of: .value)
         )
     }
@@ -67,8 +67,8 @@ public struct IBNil: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> IBNil {
         let container = xml.container(keys: CodingKeys.self)
         return IBNil(
-            key:   container.attributeIfPresent(of: .key),
-            name:  container.attributeIfPresent(of: .name)
+            key: container.attributeIfPresent(of: .key),
+            name: container.attributeIfPresent(of: .name)
         )
     }
 
@@ -84,7 +84,7 @@ public struct IBURL: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> IBURL {
         let container = xml.container(keys: CodingKeys.self)
         return IBURL(
-            key:    container.attributeIfPresent(of: .key),
+            key: container.attributeIfPresent(of: .key),
             string: container.attributeIfPresent(of: .string)
         )
     }
@@ -102,15 +102,15 @@ public struct IBString: IBDecodable, IBKeyable {
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in
             let stringValue: String = {
                 switch key {
-                case .base64UTF8: return "base64-UTF8"
-                default: return key.stringValue
+                case .base64UTF8: "base64-UTF8"
+                default: key.stringValue
                 }
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
 
         return IBString(
-            key:        container.attributeIfPresent(of: .key),
+            key: container.attributeIfPresent(of: .key),
             base64UTF8: container.attributeIfPresent(of: .base64UTF8)
         )
     }
@@ -127,11 +127,10 @@ public struct IBDate: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> IBDate {
         let container = xml.container(keys: CodingKeys.self)
         return IBDate(
-            key:                            container.attributeIfPresent(of: .key),
+            key: container.attributeIfPresent(of: .key),
             timeIntervalSinceReferenceDate: container.attributeIfPresent(of: .timeIntervalSinceReferenceDate)
         )
     }
-
 }
 
 // MARK: - Array
@@ -146,7 +145,6 @@ public struct IBArray: IBDecodable, IBKeyable {
             key: container.attributeIfPresent(of: .key)
         )
     }
-
 }
 
 // MARK: - Data
@@ -161,7 +159,6 @@ public struct IBData: IBDecodable, IBKeyable {
             key: container.attributeIfPresent(of: .key)
         )
     }
-
 }
 
 // MARK: - TimeZone
@@ -178,5 +175,4 @@ public struct IBTimeZone: IBDecodable, IBKeyable {
             name: container.attributeIfPresent(of: .name)
         )
     }
-
 }

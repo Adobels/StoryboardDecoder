@@ -196,14 +196,14 @@ public struct CollectionViewLayout: IBDecodable, IBIdentifiable, IBKeyable, IBCu
     static func decode(_ xml: XMLIndexerType) throws -> CollectionViewLayout {
         let container = xml.container(keys: CodingKeys.self)
         return CollectionViewLayout(
-            id:                       try container.attribute(of: .id),
-            key:                      container.attributeIfPresent(of: .key),
-            customClass:              container.attributeIfPresent(of: .customClass),
-            customModule:             container.attributeIfPresent(of: .customModule),
-            customModuleProvider:     container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:    container.attributeIfPresent(of: .restorationIdentifier),
-            userLabel:                container.attributeIfPresent(of: .userLabel),
-            colorLabel:               container.attributeIfPresent(of: .colorLabel)
+            id: try container.attribute(of: .id),
+            key: container.attributeIfPresent(of: .key),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
+            customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier: container.attributeIfPresent(of: .restorationIdentifier),
+            userLabel: container.attributeIfPresent(of: .userLabel),
+            colorLabel: container.attributeIfPresent(of: .colorLabel)
         )
     }
 }
@@ -238,17 +238,17 @@ public struct CollectionViewFlowLayout: IBDecodable, IBIdentifiable, IBKeyable {
             return MappedCodingKey(stringValue: stringValue)
         }
         return CollectionViewFlowLayout(
-            id:                         try container.attribute(of: .id),
-            key:                        container.attributeIfPresent(of: .key),
-            minimumLineSpacing:         container.attributeIfPresent(of: .minimumLineSpacing),
-            minimumInteritemSpacing:    container.attributeIfPresent(of: .minimumInteritemSpacing),
-            sizes:                      container.elementsIfPresent(of: .sizes),
-            insets:                     container.elementsIfPresent(of: .insets),
-            customClass:                container.attributeIfPresent(of: .customClass),
-            customModule:               container.attributeIfPresent(of: .customModule),
-            customModuleProvider:       container.attributeIfPresent(of: .customModuleProvider),
-            restorationIdentifier:      container.attributeIfPresent(of: .restorationIdentifier),
-            scrollDirection:            container.attributeIfPresent(of: .scrollDirection),
+            id: try container.attribute(of: .id),
+            key: container.attributeIfPresent(of: .key),
+            minimumLineSpacing: container.attributeIfPresent(of: .minimumLineSpacing),
+            minimumInteritemSpacing: container.attributeIfPresent(of: .minimumInteritemSpacing),
+            sizes: container.elementsIfPresent(of: .sizes),
+            insets: container.elementsIfPresent(of: .insets),
+            customClass: container.attributeIfPresent(of: .customClass),
+            customModule: container.attributeIfPresent(of: .customModule),
+            customModuleProvider: container.attributeIfPresent(of: .customModuleProvider),
+            restorationIdentifier: container.attributeIfPresent(of: .restorationIdentifier),
+            scrollDirection: container.attributeIfPresent(of: .scrollDirection),
             automaticEstimatedItemSize: container.attributeIfPresent(of: .automaticEstimatedItemSize)
         )
     }

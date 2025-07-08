@@ -16,10 +16,10 @@ public struct Action: IBDecodable, ConnectionProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> Action {
         let container = xml.container(keys: CodingKeys.self)
         return Action(
-            id:          try container.attribute(of: .id),
+            id: try container.attribute(of: .id),
             destination: try container.attribute(of: .destination),
-            selector:    try container.attribute(of: .selector),
-            eventType:   container.attributeIfPresent(of: .eventType)
+            selector: try container.attribute(of: .selector),
+            eventType: container.attributeIfPresent(of: .eventType)
         )
     }
 }

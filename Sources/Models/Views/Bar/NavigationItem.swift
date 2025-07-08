@@ -32,17 +32,17 @@ public struct NavigationItem: IBDecodable, NavigationItemProtocol {
         let view = try View.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         return .init(
-            id:                             view.id,
-            key:                            view.key,
-            customClass:                    view.customClass,
-            customModule:                   view.customModule,
-            customModuleProvider:           view.customModuleProvider,
-            restorationIdentifier:          view.restorationIdentifier,
-            userDefinedRuntimeAttributes:   view.userDefinedRuntimeAttributes,
-            userLabel:                      view.userLabel,
-            colorLabel:                     view.colorLabel,
-            title:                          container.attributeIfPresent(of: .title),
-            style:                          container.attributeIfPresent(of: .style),
+            id: view.id,
+            key: view.key,
+            customClass: view.customClass,
+            customModule: view.customModule,
+            customModuleProvider: view.customModuleProvider,
+            restorationIdentifier: view.restorationIdentifier,
+            userDefinedRuntimeAttributes: view.userDefinedRuntimeAttributes,
+            userLabel: view.userLabel,
+            colorLabel: view.colorLabel,
+            title: container.attributeIfPresent(of: .title),
+            style: container.attributeIfPresent(of: .style),
         )
     }
 }

@@ -17,11 +17,11 @@ public struct OutletCollection: IBDecodable, ConnectionProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> OutletCollection {
         let container = xml.container(keys: CodingKeys.self)
         return OutletCollection(
-            id:              try container.attribute(of: .id),
-            destination:     try container.attribute(of: .destination),
-            property:        try container.attribute(of: .property),
+            id: try container.attribute(of: .id),
+            destination: try container.attribute(of: .destination),
+            property: try container.attribute(of: .property),
             collectionClass: container.attributeIfPresent(of: .collectionClass),
-            appends:         container.attributeIfPresent(of: .appends)
+            appends: container.attributeIfPresent(of: .appends)
         )
     }
 }

@@ -19,10 +19,10 @@ public struct IBClass: IBDecodable {
     static func decode(_ xml: XMLIndexerType) throws -> IBClass {
         let container = xml.container(keys: CodingKeys.self)
         return IBClass(
-            className:      container.attributeIfPresent(of: .className),
+            className: container.attributeIfPresent(of: .className),
             superclassName: container.attributeIfPresent(of: .superclassName),
-            source:         container.elementIfPresent(of: .source),
-            relationships:  container.childrenIfPresent(of: .relationships)
+            source: container.elementIfPresent(of: .source),
+            relationships: container.childrenIfPresent(of: .relationships)
         )
     }
 
@@ -39,12 +39,11 @@ public struct Source: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> Source {
         let container = xml.container(keys: CodingKeys.self)
         return Source(
-            key:          container.attributeIfPresent(of: .key),
-            type:         container.attributeIfPresent(of: .type),
+            key: container.attributeIfPresent(of: .key),
+            type: container.attributeIfPresent(of: .type),
             relativePath: container.attributeIfPresent(of: .relativePath)
         )
     }
-
 }
 
 // MARK: - Relationship
@@ -61,5 +60,4 @@ public struct Relationship: IBDecodable {
             name: container.attributeIfPresent(of: .name)
         )
     }
-
 }

@@ -14,12 +14,11 @@ public enum ModalTransitionStyle: XMLAttributeDecodable, KeyDecodable, Equatable
 
     static func decode(_ attribute: XMLAttribute) throws -> ModalTransitionStyle {
         switch attribute.text {
-        case "coverVertical": return .coverVertical
-        case "flipHorizontal": return .flipHorizontal
-        case "crossDissolve": return .crossDissolve
-        case "partialCurl": return .partialCurl
-        default:
-            throw IBError.elementNotFound
+        case "coverVertical": .coverVertical
+        case "flipHorizontal": .flipHorizontal
+        case "crossDissolve": .crossDissolve
+        case "partialCurl": .partialCurl
+        default: throw IBError.elementNotFound
         }
     }
 }

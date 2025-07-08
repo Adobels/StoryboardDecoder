@@ -97,12 +97,9 @@ public struct InterfaceBuilderParser {
 extension XMLIndexer {
     var error: InterfaceBuilderParser.Error? {
         switch self {
-        case .parsingError(let error):
-            return .parsingError(error)
-        case .xmlError(let error):
-            return .xmlError(error)
-        default:
-            return nil
+        case .parsingError(let error): .parsingError(error)
+        case .xmlError(let error): .xmlError(error)
+        default: nil
         }
     }
 }

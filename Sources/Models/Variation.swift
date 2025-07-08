@@ -43,7 +43,6 @@ public struct Mask: IBDecodable, IBKeyable {
             excludes: listContainer.elementsIfPresent(of: .exclude)
         )
     }
-
 }
 
 // MARK: - Exclude
@@ -58,7 +57,6 @@ public struct Exclude: IBDecodable {
             reference: container.attributeIfPresent(of: .reference)
         )
     }
-
 }
 
 // MARK: - Include
@@ -73,5 +71,4 @@ public struct Include: IBDecodable {
             reference: container.attributeIfPresent(of: .reference)
         )
     }
-
 }

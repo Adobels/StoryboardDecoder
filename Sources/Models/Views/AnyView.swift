@@ -80,46 +80,45 @@ public struct AnyView: IBDecodable, CustomDebugStringConvertible {
         guard let elementName = xml.elementName else {
             throw IBError.elementNotFound
         }
-        switch elementName {
-        case "activityIndicatorView":    return try AnyView(ActivityIndicatorView.decode(xml))
-        case "arscnView":                return try AnyView(ARSCNView.decode(xml))
-        case "arskView":                 return try AnyView(ARSKView.decode(xml))
-        case "button":                   return try AnyView(Button.decode(xml))
-        case "collectionView":           return try AnyView(CollectionView.decode(xml))
-        case "collectionViewCell":       return try AnyView(CollectionViewCell.decode(xml))
-        case "collectionReusableView":   return try AnyView(CollectionReusableView.decode(xml))
-        case "containerView":            return try AnyView(View.decode(xml))
-        case "datePicker":               return try AnyView(DatePicker.decode(xml))
-        case "glkView":                  return try AnyView(GLKView.decode(xml))
-        case "imageView":                return try AnyView(ImageView.decode(xml))
-        case "label":                    return try AnyView(Label.decode(xml))
-        case "mapView":                  return try AnyView(MapView.decode(xml))
-        case "mtkView":                  return try AnyView(MTKView.decode(xml))
-        case "navigationBar":            return try AnyView(NavigationBar.decode(xml))
-        case "pageControl":              return try AnyView(PageControl.decode(xml))
-        case "pickerView":               return try AnyView(PickerView.decode(xml))
-        case "progressView":             return try AnyView(ProgressView.decode(xml))
-        case "sceneKitView":             return try AnyView(SceneKitView.decode(xml))
-        case "scrollView":               return try AnyView(ScrollView.decode(xml))
-        case "searchBar":                return try AnyView(SearchBar.decode(xml))
-        case "segmentedControl":         return try AnyView(SegmentedControl.decode(xml))
-        case "skView":                   return try AnyView(SKView.decode(xml))
-        case "slider":                   return try AnyView(Slider.decode(xml))
-        case "stackView":                return try AnyView(StackView.decode(xml))
-        case "stepper":                  return try AnyView(Stepper.decode(xml))
-        case "switch":                   return try AnyView(Switch.decode(xml))
-        case "tabBar":                   return try AnyView(TabBar.decode(xml))
-        case "tableView":                return try AnyView(TableView.decode(xml))
-        case "tableViewCell":            return try AnyView(TableViewCell.decode(xml))
-        case "tableViewCellContentView": return try AnyView(TableViewCell.TableViewContentView.decode(xml))
-        case "textField":                return try AnyView(TextField.decode(xml))
-        case "textView":                 return try AnyView(TextView.decode(xml))
-        case "toolbar":                  return try AnyView(Toolbar.decode(xml))
-        case "view":                     return try AnyView(View.decode(xml))
-        case "visualEffectView":         return try AnyView(VisualEffectView.decode(xml))
-        case "wkWebView":                return try AnyView(WKWebView.decode(xml))
-        default:
-            throw IBError.unsupportedViewClass(elementName)
+        return switch elementName {
+        case "activityIndicatorView": try AnyView(ActivityIndicatorView.decode(xml))
+        case "arscnView": try AnyView(ARSCNView.decode(xml))
+        case "arskView": try AnyView(ARSKView.decode(xml))
+        case "button": try AnyView(Button.decode(xml))
+        case "collectionView": try AnyView(CollectionView.decode(xml))
+        case "collectionViewCell": try AnyView(CollectionViewCell.decode(xml))
+        case "collectionReusableView": try AnyView(CollectionReusableView.decode(xml))
+        case "containerView": try AnyView(View.decode(xml))
+        case "datePicker": try AnyView(DatePicker.decode(xml))
+        case "glkView": try AnyView(GLKView.decode(xml))
+        case "imageView": try AnyView(ImageView.decode(xml))
+        case "label": try AnyView(Label.decode(xml))
+        case "mapView": try AnyView(MapView.decode(xml))
+        case "mtkView": try AnyView(MTKView.decode(xml))
+        case "navigationBar": try AnyView(NavigationBar.decode(xml))
+        case "pageControl": try AnyView(PageControl.decode(xml))
+        case "pickerView": try AnyView(PickerView.decode(xml))
+        case "progressView": try AnyView(ProgressView.decode(xml))
+        case "sceneKitView": try AnyView(SceneKitView.decode(xml))
+        case "scrollView": try AnyView(ScrollView.decode(xml))
+        case "searchBar": try AnyView(SearchBar.decode(xml))
+        case "segmentedControl": try AnyView(SegmentedControl.decode(xml))
+        case "skView": try AnyView(SKView.decode(xml))
+        case "slider": try AnyView(Slider.decode(xml))
+        case "stackView": try AnyView(StackView.decode(xml))
+        case "stepper": try AnyView(Stepper.decode(xml))
+        case "switch": try AnyView(Switch.decode(xml))
+        case "tabBar": try AnyView(TabBar.decode(xml))
+        case "tableView": try AnyView(TableView.decode(xml))
+        case "tableViewCell": try AnyView(TableViewCell.decode(xml))
+        case "tableViewCellContentView": try AnyView(TableViewCell.TableViewContentView.decode(xml))
+        case "textField": try AnyView(TextField.decode(xml))
+        case "textView": try AnyView(TextView.decode(xml))
+        case "toolbar": try AnyView(Toolbar.decode(xml))
+        case "view": try AnyView(View.decode(xml))
+        case "visualEffectView": try AnyView(VisualEffectView.decode(xml))
+        case "wkWebView": try AnyView(WKWebView.decode(xml))
+        default: throw IBError.unsupportedViewClass(elementName)
         }
     }
 
@@ -144,11 +143,11 @@ public struct AutoresizingMask: IBDecodable, IBKeyable {
     static func decode(_ xml: XMLIndexerType) throws -> AutoresizingMask {
         let container = xml.container(keys: CodingKeys.self)
         return AutoresizingMask(
-            key:           container.attributeIfPresent(of: .key),
-            widthSizable:  container.attributeIfPresent(of: .widthSizable) ?? false,
+            key: container.attributeIfPresent(of: .key),
+            widthSizable: container.attributeIfPresent(of: .widthSizable) ?? false,
             heightSizable: container.attributeIfPresent(of: .heightSizable) ?? false,
-            flexibleMaxX:  container.attributeIfPresent(of: .flexibleMaxX) ?? false,
-            flexibleMaxY:  container.attributeIfPresent(of: .flexibleMaxY) ?? false
+            flexibleMaxX: container.attributeIfPresent(of: .flexibleMaxX) ?? false,
+            flexibleMaxY: container.attributeIfPresent(of: .flexibleMaxY) ?? false
         )
     }
 }
@@ -198,23 +197,23 @@ public struct Constraint: IBDecodable, IBIdentifiable {
 
         static func decode(_ attribute: XMLAttribute) throws -> Constraint.LayoutAttribute {
             switch attribute.text {
-            case "left":           return .left
-            case "right":          return .right
-            case "top":            return .top
-            case "bottom":         return .bottom
-            case "leading":        return .leading
-            case "trailing":       return .trailing
-            case "width":          return .width
-            case "height":         return .height
-            case "centerX":        return .centerX
-            case "centerY":        return .centerY
-            case "leftMargin":     return .leftMargin
-            case "rightMargin":    return .rightMargin
-            case "topMargin":      return .topMargin
-            case "bottomMargin":   return .bottomMargin
-            case "leadingMargin":  return .leadingMargin
-            case "trailingMargin": return .trailingMargin
-            default:               return .other(attribute.text)
+            case "left": .left
+            case "right": .right
+            case "top": .top
+            case "bottom": .bottom
+            case "leading": .leading
+            case "trailing": .trailing
+            case "width": .width
+            case "height": .height
+            case "centerX": .centerX
+            case "centerY": .centerY
+            case "leftMargin": .leftMargin
+            case "rightMargin": .rightMargin
+            case "topMargin": .topMargin
+            case "bottomMargin": .bottomMargin
+            case "leadingMargin": .leadingMargin
+            case "trailingMargin": .trailingMargin
+            default: .other(attribute.text)
             }
         }
 
@@ -233,17 +232,13 @@ public struct Constraint: IBDecodable, IBIdentifiable {
     }
 
     public enum Relation: XMLAttributeDecodable, KeyDecodable, Equatable {
-        case lessThanOrEqual, greaterThanOrEqual, equal
-
-        case other(String)
-
-        public func encode(to encoder: Encoder) throws { fatalError() }
+        case lessThanOrEqual, greaterThanOrEqual, equal, other(String)
 
         static func decode(_ attribute: XMLAttribute) throws -> Constraint.Relation {
             switch attribute.text {
-            case "lessThanOrEqual":    return .lessThanOrEqual
-            case "greaterThanOrEqual": return .greaterThanOrEqual
-            default:                   return .other(attribute.text)
+            case "lessThanOrEqual": .lessThanOrEqual
+            case "greaterThanOrEqual": .greaterThanOrEqual
+            default: .other(attribute.text)
             }
         }
     }
@@ -251,16 +246,16 @@ public struct Constraint: IBDecodable, IBIdentifiable {
     static func decode(_ xml: XMLIndexerType) throws -> Constraint {
         let container = xml.container(keys: CodingKeys.self)
         return Constraint(
-            id:              try container.attribute(of: .id),
-            constant:        container.attributeIfPresent(of: .constant),
-            priority:        container.attributeIfPresent(of: .priority),
-            multiplier:      container.attributeIfPresent(of: .multiplier),
-            firstItem:       container.attributeIfPresent(of: .firstItem),
-            firstAttribute:  container.attributeIfPresent(of: .firstAttribute),
-            secondItem:      container.attributeIfPresent(of: .secondItem),
+            id: try container.attribute(of: .id),
+            constant: container.attributeIfPresent(of: .constant),
+            priority: container.attributeIfPresent(of: .priority),
+            multiplier: container.attributeIfPresent(of: .multiplier),
+            firstItem: container.attributeIfPresent(of: .firstItem),
+            firstAttribute: container.attributeIfPresent(of: .firstAttribute),
+            secondItem: container.attributeIfPresent(of: .secondItem),
             secondAttribute: container.attributeIfPresent(of: .secondAttribute),
-            identifier:      container.attributeIfPresent(of: .identifier),
-            relation:        container.attributeIfPresent(of: .relation) ?? .equal
+            identifier: container.attributeIfPresent(of: .identifier),
+            relation: container.attributeIfPresent(of: .relation) ?? .equal
         )
     }
 }

@@ -23,19 +23,18 @@ public struct AnyViewController: IBDecodable {
         guard let elementName = xml.elementName else {
             throw IBError.elementNotFound
         }
-        switch elementName {
-        case "viewController": return try AnyViewController(ViewController.decode(xml))
-        case "tableViewController": return try AnyViewController(TableViewController.decode(xml))
-        case "collectionViewController": return try AnyViewController(CollectionViewController.decode(xml))
-        case "navigationController": return try AnyViewController(NavigationController.decode(xml))
-        case "tabBarController": return try AnyViewController(TabBarController.decode(xml))
-        case "pageViewController": return try AnyViewController(PageViewController.decode(xml))
-        case "splitViewController": return try AnyViewController(SplitViewController.decode(xml))
-        case "avPlayerViewController": return try AnyViewController(AVPlayerViewController.decode(xml))
-        case "glkViewController": return try AnyViewController(GLKViewController.decode(xml))
-        case "hostingController": return try AnyViewController(HostingController.decode(xml))
-        default:
-           throw IBError.unsupportedViewControllerClass(elementName)
+        return switch elementName {
+        case "viewController": try AnyViewController(ViewController.decode(xml))
+        case "tableViewController": try AnyViewController(TableViewController.decode(xml))
+        case "collectionViewController": try AnyViewController(CollectionViewController.decode(xml))
+        case "navigationController": try AnyViewController(NavigationController.decode(xml))
+        case "tabBarController": try AnyViewController(TabBarController.decode(xml))
+        case "pageViewController": try AnyViewController(PageViewController.decode(xml))
+        case "splitViewController": try AnyViewController(SplitViewController.decode(xml))
+        case "avPlayerViewController": try AnyViewController(AVPlayerViewController.decode(xml))
+        case "glkViewController": try AnyViewController(GLKViewController.decode(xml))
+        case "hostingController": try AnyViewController(HostingController.decode(xml))
+        default: throw IBError.unsupportedViewControllerClass(elementName)
         }
     }
 }

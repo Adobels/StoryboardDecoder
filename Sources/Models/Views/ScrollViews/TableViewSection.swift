@@ -23,11 +23,11 @@ public struct TableViewSection: IBDecodable {
         let attributedStringContainer = xml.container(keys: ExternalCodingKeys.self)
             .nestedContainerIfPresent(of: .attributedString, keys: AttributedStringCodingKeys.self)
         return TableViewSection(
-            id:           try container.attribute(of: .id),
-            headerTitle:  container.attributeIfPresent(of: .headerTitle),
-            footerTitle:  container.attributeIfPresent(of: .footerTitle),
-            colorLabel:   container.attributeIfPresent(of: .colorLabel),
-            cells:        container.childrenIfPresent(of: .cells),
+            id: try container.attribute(of: .id),
+            headerTitle: container.attributeIfPresent(of: .headerTitle),
+            footerTitle: container.attributeIfPresent(of: .footerTitle),
+            colorLabel: container.attributeIfPresent(of: .colorLabel),
+            cells: container.childrenIfPresent(of: .cells),
             userComments: attributedStringContainer?.withAttributeElement(.key, "userComments")
         )
     }

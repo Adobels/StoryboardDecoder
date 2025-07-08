@@ -81,23 +81,21 @@ public enum Color: IBDecodable {
     static func decode(_ xml: XMLIndexerType) throws -> Color {
         let container = xml.container(keys: CodingKeys.self)
         let key: String? = container.attributeIfPresent(of: .key)
-
         if let systemColor: String = container.attributeIfPresent(of: .systemColor) {
             return .systemColor((key, systemColor))
         }
-
         if let colorSpace: String = container.attributeIfPresent(of: .colorSpace) {
             switch colorSpace {
             case "calibratedWhite":
                 let calibratedWhiteContainer = xml.container(keys: CalibratedWhiteCodingKeys.self)
-                return try .calibratedWhite((key:   key,
+                return try .calibratedWhite((key: key,
                                              white: calibratedWhiteContainer.attribute(of: .white),
                                              alpha: calibratedWhiteContainer.attribute(of: .alpha)))
             case "calibratedRGB":
                 let calibratedRGBContainer = xml.container(keys: CalibratedRGBCodingKeys.self)
-                return try .calibratedRGB((key:   key,
-                                           red:   calibratedRGBContainer.attribute(of: .red),
-                                           blue:  calibratedRGBContainer.attribute(of: .blue),
+                return try .calibratedRGB((key: key,
+                                           red: calibratedRGBContainer.attribute(of: .red),
+                                           blue: calibratedRGBContainer.attribute(of: .blue),
                                            green: calibratedRGBContainer.attribute(of: .green),
                                            alpha: calibratedRGBContainer.attribute(of: .alpha)
                 ))
@@ -107,9 +105,9 @@ public enum Color: IBDecodable {
                 switch customColorSpace {
                 case "sRGB":
                     let sRGBContainer = xml.container(keys: sRGBCodingKeys.self)
-                    return try .sRGB((key:   key,
-                                      red:   sRGBContainer.attribute(of: .red),
-                                      blue:  sRGBContainer.attribute(of: .blue),
+                    return try .sRGB((key: key,
+                                      red: sRGBContainer.attribute(of: .red),
+                                      blue: sRGBContainer.attribute(of: .blue),
                                       green: sRGBContainer.attribute(of: .green),
                                       alpha: sRGBContainer.attribute(of: .alpha)
                     ))
@@ -141,18 +139,12 @@ extension Color: AttributeProtocol {
 
     public var key: String? {
         switch self {
-        case .calibratedWhite(let calibratedWhite):
-            return calibratedWhite.key
-        case .calibratedRGB(let calibratedRgb):
-            return calibratedRgb.key
-        case .sRGB(let srgb):
-            return srgb.key
-        case .gamma22Gray(let gamma22Gray):
-            return gamma22Gray.key
-        case .name(let named):
-            return named.key
-        case .systemColor(let named):
-            return named.key
+        case .calibratedWhite(let calibratedWhite): calibratedWhite.key
+        case .calibratedRGB(let calibratedRgb): calibratedRgb.key
+        case .sRGB(let srgb): srgb.key
+        case .gamma22Gray(let gamma22Gray): gamma22Gray.key
+        case .name(let named): named.key
+        case .systemColor(let named): named.key
         }
     }
 

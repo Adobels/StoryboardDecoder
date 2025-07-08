@@ -15,19 +15,18 @@ public enum ModalPresentationStyle: XMLAttributeDecodable, KeyDecodable, Equatab
 
        static func decode(_ attribute: XMLAttribute) throws -> ModalPresentationStyle {
            switch attribute.text {
-           case "automatic": return .automatic
-           case "fullScreen": return .fullScreen
-           case "pageSheet": return .pageSheet
-           case "formSheet": return .formSheet
-           case "currentContext": return .currentContext
-           case "custom": return .custom
-           case "overFullScreen": return .overFullScreen
-           case "overCurrentContext": return .overCurrentContext
-           case "blurOverFullScreen": return .blurOverFullScreen
-           case "popover": return .popover
-           case "none": return .none
-           default:
-               return .none
+           case "automatic": .automatic
+           case "fullScreen": .fullScreen
+           case "pageSheet": .pageSheet
+           case "formSheet": .formSheet
+           case "currentContext": .currentContext
+           case "custom": .custom
+           case "overFullScreen": .overFullScreen
+           case "overCurrentContext": .overCurrentContext
+           case "blurOverFullScreen": .blurOverFullScreen
+           case "popover": .popover
+           case "none": .none
+           default: .none
            }
        }
    }

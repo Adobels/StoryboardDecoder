@@ -15,8 +15,8 @@ public struct Outlet: IBDecodable, ConnectionProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> Outlet {
         let container = xml.container(keys: CodingKeys.self)
         return Outlet(
-            id:            try container.attribute(of: .id),
-            destination:   try container.attribute(of: .destination),
-            property:      try container.attribute(of: .property))
+            id: try container.attribute(of: .id),
+            destination: try container.attribute(of: .destination),
+            property: try container.attribute(of: .property))
     }
 }

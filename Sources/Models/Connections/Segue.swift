@@ -20,14 +20,14 @@ public struct Segue: IBDecodable, ConnectionProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> Segue {
         let container = xml.container(keys: CodingKeys.self)
         return Segue(
-            id:            try container.attribute(of: .id),
-            destination:   try container.attribute(of: .destination),
-            kind:          try container.attribute(of: .kind),
-            relationship:  container.attributeIfPresent(of: .relationship),
-            identifier:    container.attributeIfPresent(of: .identifier),
-            destinationCreationSelector:  container.attributeIfPresent(of: .destinationCreationSelector),
-            modalPresentationStyle:       container.attributeIfPresent(of: .modalPresentationStyle),
-            modalTransitionStyle:         container.attributeIfPresent(of: .modalTransitionStyle)
+            id: try container.attribute(of: .id),
+            destination: try container.attribute(of: .destination),
+            kind: try container.attribute(of: .kind),
+            relationship: container.attributeIfPresent(of: .relationship),
+            identifier: container.attributeIfPresent(of: .identifier),
+            destinationCreationSelector: container.attributeIfPresent(of: .destinationCreationSelector),
+            modalPresentationStyle: container.attributeIfPresent(of: .modalPresentationStyle),
+            modalTransitionStyle: container.attributeIfPresent(of: .modalTransitionStyle)
         )
     }
 
@@ -39,47 +39,34 @@ public struct Segue: IBDecodable, ConnectionProtocol {
 
         static func decode(_ attribute: XMLAttribute) throws -> Segue.Kind {
             switch attribute.text {
-            case "relationship": return .relationship
-            case "show": return .show
-            case "showDetail": return .showDetail
-            case "presentation": return .presentation
-            case "embed": return .embed
-            case "unwind": return .unwind
-            case "push": return .push
-            case "modal": return .modal
-            case "popover": return .popover
-            case "replace": return .replace
-            default:
-                return .custom(attribute.text)
+            case "relationship": .relationship
+            case "show": .show
+            case "showDetail": .showDetail
+            case "presentation": .presentation
+            case "embed": .embed
+            case "unwind": .unwind
+            case "push": .push
+            case "modal": .modal
+            case "popover": .popover
+            case "replace": .replace
+            default: .custom(attribute.text)
             }
         }
 
         public static func == (left: Kind, right: Kind) -> Bool {
             switch (left, right) {
-            case (.relationship, .relationship):
-                return true
-            case (.show, .show):
-                return true
-            case (.showDetail, .showDetail):
-                return true
-            case (.presentation, .presentation):
-                return true
-            case (.embed, .embed):
-                return true
-            case (.unwind, .unwind):
-                return true
-            case (.push, .push):
-                return true
-            case (.modal, modal):
-                return true
-            case (.popover, .popover):
-                return true
-            case (.replace, .replace):
-                return true
-            case (.custom(let left), .custom(let right)):
-                return left == right
-            default:
-                return false
+            case (.relationship, .relationship): true
+            case (.show, .show): true
+            case (.showDetail, .showDetail): true
+            case (.presentation, .presentation): true
+            case (.embed, .embed): true
+            case (.unwind, .unwind): true
+            case (.push, .push): true
+            case (.modal, modal): true
+            case (.popover, .popover): true
+            case (.replace, .replace): true
+            case (.custom(let left), .custom(let right)): left == right
+            default: false
             }
         }
     }

@@ -21,25 +21,16 @@ public enum IBError: Swift.Error, CustomStringConvertible {
 
     public var description: String {
         switch self {
-        case .elementNotFound:
-            return "element not found"
-        case .unsupportedViewClass(let name):
-            return "unsupported view class '\(name)'"
-        case .unsupportedViewControllerClass(let name):
-            return "unsupported viewController class '\(name)'"
-        case .unsupportedConstraint(let body):
-            return "unsupported constraint type '\(body)'"
-        case .unsupportedTableViewDataMode(let name):
-            return "unsupported dataMode '\(name)'"
-        case .unsupportedColorSpace(let colorSpace):
-            return "unsupported color space '\(colorSpace)'"
-        case .unsupportedFontDescription:
-            return "unsupported font description"
-        case .unsupportedDependency:
-            return "unssupported dependency"
-        case .unsupportedGestureRecognizer(let name):
-            return "unsupported gesture recognizer '\(name)'"
-        case .unsupportedTextInputTraits: return "unsupported text input traits"
+        case .elementNotFound: "element not found"
+        case .unsupportedViewClass(let name): "unsupported view class '\(name)'"
+        case .unsupportedViewControllerClass(let name): "unsupported viewController class '\(name)'"
+        case .unsupportedConstraint(let body): "unsupported constraint type '\(body)'"
+        case .unsupportedTableViewDataMode(let name): "unsupported dataMode '\(name)'"
+        case .unsupportedColorSpace(let colorSpace): "unsupported color space '\(colorSpace)'"
+        case .unsupportedFontDescription: "unsupported font description"
+        case .unsupportedDependency: "unssupported dependency"
+        case .unsupportedGestureRecognizer(let name): "unsupported gesture recognizer '\(name)'"
+        case .unsupportedTextInputTraits: "unsupported text input traits"
         }
     }
 }

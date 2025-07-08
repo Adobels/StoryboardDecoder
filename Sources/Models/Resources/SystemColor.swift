@@ -14,8 +14,8 @@ public struct SystemColor: IBDecodable, ResourceProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> SystemColor {
         let container = xml.container(keys: CodingKeys.self)
         return SystemColor(
-            name:    try container.attribute(of: .name),
-            color:   try! container.element(of: .color))
+            name: try container.attribute(of: .name),
+            color: try! container.element(of: .color))
     }
 
 }

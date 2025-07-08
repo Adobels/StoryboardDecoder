@@ -26,15 +26,12 @@ public struct AnyResource: IBDecodable {
     public func encode(to encoder: Encoder) throws { fatalError() }
 
     static func decode(_ xml: XMLIndexerType) throws -> AnyResource {
-        guard let elementName = xml.elementName else {
-            throw IBError.elementNotFound
-        }
-        switch elementName {
-        case "namedColor":      return try AnyResource(NamedColor.decode(xml))
-        case "systemColor":     return try AnyResource(SystemColor.decode(xml))
-        case "image":           return try AnyResource(Image.decode(xml))
-        default:
-            throw IBError.unsupportedViewClass(elementName)
+        guard let elementName = xml.elementName else { throw IBError.elementNotFound }
+        return switch elementName {
+        case "namedColor": try AnyResource(NamedColor.decode(xml))
+        case "systemColor": try AnyResource(SystemColor.decode(xml))
+        case "image": try AnyResource(Image.decode(xml))
+        default: throw IBError.unsupportedViewClass(elementName)
         }
     }
 
@@ -42,7 +39,5 @@ public struct AnyResource: IBDecodable {
 
 extension AnyResource: IBAny {
     public typealias NestedElement = ResourceProtocol
-    public var nested: ResourceProtocol {
-        return resource
-    }
+    public var nested: ResourceProtocol { resource }
 }

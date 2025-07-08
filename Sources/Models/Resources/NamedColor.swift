@@ -14,8 +14,8 @@ public struct NamedColor: IBDecodable, ResourceProtocol {
     static func decode(_ xml: XMLIndexerType) throws -> NamedColor {
         let container = xml.container(keys: CodingKeys.self)
         return NamedColor(
-            name:    try container.attribute(of: .name),
-            color:   container.elementIfPresent(of: .color))
+            name: try container.attribute(of: .name),
+            color: container.elementIfPresent(of: .color))
     }
 
 }
