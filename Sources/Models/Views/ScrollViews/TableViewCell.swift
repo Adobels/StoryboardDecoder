@@ -20,7 +20,7 @@ protocol TableViewCellProtocol {
     var showsReorderControl: Bool? { get }
     var separatorInset: Inset? { get }
     var rowHeight: Float? { get }
-    var contentView: TableViewCell.TableViewContentView { get }
+    var contentView: AnyView { get }
 }
 
 public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, IBIdentifiable, IBReusable {
@@ -85,10 +85,10 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
     public let showsReorderControl: Bool?
     public let separatorInset: Inset?
     public let rowHeight: Float?
-    public let contentView: TableViewContentView
+    public let contentView: AnyView
     private let _subviews: [AnyView]?
     public var subviews: [AnyView]? {
-        return (_subviews ?? []) + [AnyView(contentView)]
+        return (_subviews ?? []) + [contentView]
     }
 
     public var children: [IBElement] {

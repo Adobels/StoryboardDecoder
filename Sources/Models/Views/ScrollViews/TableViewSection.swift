@@ -11,7 +11,7 @@ public struct TableViewSection: IBDecodable {
     public let headerTitle: String?
     public let footerTitle: String?
     public let colorLabel: String?
-    public let cells: [TableViewCell]?
+    public let cells: [AnyView]?
     public let userComments: AttributedString?
 
     enum ExternalCodingKeys: CodingKey { case attributedString }

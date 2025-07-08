@@ -36,7 +36,7 @@ protocol TableViewProtocol: ScrollViewProtocol {
     var contentViewInsetsToSafeArea: Bool? { get }
     // MARK: Subviews
     var sections: [TableViewSection]? { get }
-    var prototypeCells: [TableViewCell]? { get }
+    var prototypeCells: [AnyView]? { get }
     var headersFooters: [AnyView]? { get }
     var _subviews: [AnyView]? { get }
     var subviews: [AnyView]? { get }
@@ -133,7 +133,7 @@ public struct TableView: IBDecodable, TableViewProtocol, IBIdentifiable {
     public let estimatedSectionFooterHeight: Int?
     public let contentViewInsetsToSafeArea: Bool?
     public let sections: [TableViewSection]?
-    public let prototypeCells: [TableViewCell]?
+    public let prototypeCells: [AnyView]?
     public let headersFooters: [AnyView]?
     public let _subviews: [AnyView]?
     public var subviews: [AnyView]? { (_subviews ?? []) + (headersFooters ?? []) }
@@ -215,7 +215,7 @@ public struct TableView: IBDecodable, TableViewProtocol, IBIdentifiable {
             misplaced: view.misplaced,
             ambiguous: view.ambiguous,
             variations: view.variations,
-            // subviews: view.subviews,
+            //subviews: view.subviews,
             indicatorStyle: scrollView.indicatorStyle,
             showsHorizontalScrollIndicator: scrollView.showsHorizontalScrollIndicator,
             showsVerticalScrollIndicator: scrollView.showsVerticalScrollIndicator,
