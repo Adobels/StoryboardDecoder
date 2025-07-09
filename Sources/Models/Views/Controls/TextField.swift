@@ -14,6 +14,7 @@ protocol TextFieldProtocol {
     var minimumFontSize: Float? { get }
     var text: String? { get }
     var textAlignment: String? { get }
+    var allowsEditingTextAttributes: Bool? { get }
     var placeholder: String? { get }
     var textColor: Color? { get }
     var adjustsFontForContentSizeCategory: Bool? { get }
@@ -22,6 +23,9 @@ protocol TextFieldProtocol {
     var adjustsFontSizeToFit: Bool? { get }
     var sizingRule: TextField.LetterformAwareSizingRule? { get }
     var textInputTraits: TextField.TextInputTraits? { get }
+    // missing support for attributed text
+    // missing support for background image
+    // missing support for disabled image
 }
 
 public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldProtocol, IBIdentifiable {
@@ -86,6 +90,7 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
     public let minimumFontSize: Float?
     public let text: String?
     public let textAlignment: String?
+    public let allowsEditingTextAttributes: Bool?
     public let placeholder: String?
     public let textColor: Color?
     public let adjustsFontForContentSizeCategory: Bool?
@@ -174,6 +179,7 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
             minimumFontSize: container.attributeIfPresent(of: .minimumFontSize),
             text: text,
             textAlignment: container.attributeIfPresent(of: .textAlignment),
+            allowsEditingTextAttributes: container.attributeIfPresent(of: .allowsEditingTextAttributes),
             placeholder: placeholder,
             textColor: colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
             adjustsFontForContentSizeCategory: container.attributeIfPresent(of: .adjustsFontForContentSizeCategory),

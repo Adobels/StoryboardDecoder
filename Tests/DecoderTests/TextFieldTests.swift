@@ -8,23 +8,22 @@
 import Testing
 import Foundation
 import StoryboardDecoder
+import SWXMLHash
 
 struct TextFieldTests {
 
     @Test func testDefault() throws {
-        let url = Bundle.module.url(forResource: "TextField", withExtension: "xml")!
+        let url = Bundle.module.url(forResource: "TextField_Default", withExtension: "xml")!
         let file = try StoryboardFile(url: url)
         guard let viewController = file.document.scenes?.first?.viewController?.viewController else { throw IBError.elementNotFound }
         guard let textField = viewController.rootView?.children(of: TextField.self).first else { throw IBError.elementNotFound }
         // -- TextField
         #expect(textField.text == nil)
-        // missing support for attributed text
         #expect(textField.textColor == nil)
         #expect(textField.adjustsFontForContentSizeCategory == nil)
         #expect(textField.textAlignment == "natural")
+        #expect(textField.allowsEditingTextAttributes == nil)
         #expect(textField.placeholder == nil)
-        // missing support for background image
-        // missing support for disabled image
         #expect(textField.borderStyle == "roundedRect")
         #expect(textField.clearButtonMode == nil)
         #expect(textField.clearsOnBeginEditing == nil)
@@ -46,42 +45,39 @@ struct TextFieldTests {
         // -- Control
         #expect(textField.contentHorizontalAlignment == "left")
         #expect(textField.contentVerticalAlignment == "center")
-        // missing support for Menu: Shows as Primary Action
-        #expect(textField.isSelected == nil)
-        #expect(textField.isEnabled == nil)
-        #expect(textField.isHighlighted == nil)
-        // missing support for tooltip
+        #expect(textField.showsMenuAsPrimaryAction == nil)
+        #expect(textField.selected == nil)
+        #expect(textField.enabled == nil)
+        #expect(textField.highlighted == nil)
+        #expect(textField.toolTip == nil)
         // -- View
         #expect(textField.contentMode == "scaleToFill")
-        // missing support for semantic
-        // missing support for tag
+        #expect(textField.semanticContentAttribute == nil)
+        #expect(textField.tag == nil)
         #expect(textField.userInteractionEnabled == nil)
-        // missing support for multiple touch
+        #expect(textField.multipleTouchEnabled == nil)
         #expect(textField.alpha == nil)
         #expect(textField.backgroundColor == nil)
         #expect(textField.tintColor == nil)
         #expect(textField.opaque == false)
         #expect(textField.hidden == nil)
-        // missing support for clears graphics context
+        #expect(textField.clearsContextBeforeDrawing == nil)
         #expect(textField.clipsSubviews == nil)
-        // missing support for autoresize subviews
-        // missing supoort for stretching
+        #expect(textField.autoresizesSubviews == nil)
     }
 
     @Test func storyboardTextFieldAllPropertiesCustomized() throws {
-        let url = Bundle.module.url(forResource: "TextField", withExtension: "xml")!
+        let url = Bundle.module.url(forResource: "TextField_Modified", withExtension: "xml")!
         let file = try StoryboardFile(url: url)
         guard let viewController = file.document.scenes?.first?.viewController?.viewController else { throw IBError.elementNotFound }
-        guard let textField = viewController.rootView?.children(of: TextField.self)[1] else { throw IBError.elementNotFound }
+        guard let textField = viewController.rootView?.children(of: TextField.self).first else { throw IBError.elementNotFound }
         // -- TextField
         #expect(textField.text == "text text")
-        // missing support for attributed text
         #expect(textField.textColor != nil)
         #expect(textField.adjustsFontForContentSizeCategory == true)
         #expect(textField.textAlignment == "center")
+        #expect(textField.allowsEditingTextAttributes == nil)
         #expect(textField.placeholder == "placeholder text")
-        // missing support for background image
-        // missing support for disabled image
         #expect(textField.borderStyle == "line")
         #expect(textField.clearButtonMode == .whileEditing)
         #expect(textField.clearsOnBeginEditing == true)
@@ -103,25 +99,24 @@ struct TextFieldTests {
         // -- Control
         #expect(textField.contentHorizontalAlignment == "center")
         #expect(textField.contentVerticalAlignment == "bottom")
-        // missing support for Menu: Shows as Primary Action
-        #expect(textField.isSelected == true)
-        #expect(textField.isEnabled == false)
-        #expect(textField.isHighlighted == true)
-        // missing support for tooltip
+        #expect(textField.showsMenuAsPrimaryAction == true)
+        #expect(textField.selected == true)
+        #expect(textField.enabled == false)
+        #expect(textField.highlighted == true)
+        #expect(textField.toolTip == "my tooltip")
         // -- View
         #expect(textField.contentMode == "scaleAspectFit")
-        // missing support for semantic
-        // missing support for tag
+        #expect(textField.semanticContentAttribute == "playback")
+        #expect(textField.tag == 1)
         #expect(textField.userInteractionEnabled == false)
-        // missing support for multiple touch
+        #expect(textField.multipleTouchEnabled == true)
         #expect(textField.alpha == 0.9)
         #expect(textField.backgroundColor != nil)
         #expect(textField.tintColor != nil)
         #expect(textField.opaque == nil)
         #expect(textField.hidden == true)
-        // missing support for clears graphics context
+        #expect(textField.clearsContextBeforeDrawing == false)
         #expect(textField.clipsSubviews == true)
-        // missing support for autoresize subviews
-        // missing supoort for stretching
+        #expect(textField.autoresizesSubviews == false)
     }
 }
