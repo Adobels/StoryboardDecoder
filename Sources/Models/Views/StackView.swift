@@ -8,10 +8,12 @@
 import SWXMLHash
 
 protocol StackViewProtocol {
+    // MARK: Attributes Inspector
     var axis: String? { get }
     var distribution: String? { get }
     var alignment: String? { get }
     var spacing: Int? { get }
+    var spacingType: String? { get }
     var baselineRelativeArrangement: Bool? { get }
 }
 
@@ -62,11 +64,13 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: StackView
     public let axis: String?
     public let distribution: String?
     public let alignment: String?
     public let spacing: Int?
+    public let spacingType: String?
     public let baselineRelativeArrangement: Bool?
 
     static func decode(_ xml: XMLIndexerType) throws -> StackView {
@@ -104,8 +108,8 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
             preservesSuperviewLayoutMargins: view.preservesSuperviewLayoutMargins,
             layoutMarginsFollowReadableWidth: view.layoutMarginsFollowReadableWidth,
             insetsLayoutMarginsFromSafeArea: view.insetsLayoutMarginsFromSafeArea,
-            safeArea: nil,
-            keyboard: nil,
+            safeArea: view.safeArea,
+            keyboard: view.keyboard,
             constraints: view.constraints,
             horizontalHuggingPriority: view.horizontalHuggingPriority,
             verticalHuggingPriority: view.verticalHuggingPriority,
@@ -117,10 +121,12 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             axis: container.attributeIfPresent(of: .axis),
             distribution: container.attributeIfPresent(of: .distribution),
             alignment: container.attributeIfPresent(of: .alignment),
             spacing: container.attributeIfPresent(of: .spacing),
+            spacingType: container.attributeIfPresent(of: .spacingType),
             baselineRelativeArrangement: container.attributeIfPresent(of: .baselineRelativeArrangement),
         )
     }

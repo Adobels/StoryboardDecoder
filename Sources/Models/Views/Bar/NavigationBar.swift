@@ -58,6 +58,7 @@ public struct NavigationBar: IBDecodable, NavigationBarProtocol, IBIdentifiable 
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: NavigationBar
     public let items: [NavigationItem]?
 
@@ -113,6 +114,7 @@ public struct NavigationBar: IBDecodable, NavigationBarProtocol, IBIdentifiable 
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             items: containerNavigationItems?.elementsIfPresent(of: .navigationItem),
         )
     }

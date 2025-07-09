@@ -79,6 +79,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UIScrollView
     public let indicatorStyle: IndicatorStyle?
     public let showsHorizontalScrollIndicator: Bool?
@@ -159,6 +160,7 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             indicatorStyle: container.attributeIfPresent(of: .indicatorStyle),
             showsHorizontalScrollIndicator: container.attributeIfPresent(of: .showsHorizontalScrollIndicator),
             showsVerticalScrollIndicator: container.attributeIfPresent(of: .showsVerticalScrollIndicator),

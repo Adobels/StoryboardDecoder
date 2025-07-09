@@ -64,6 +64,7 @@ public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UIControl
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
@@ -136,6 +137,7 @@ public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             contentHorizontalAlignment: control.contentHorizontalAlignment,
             contentVerticalAlignment: control.contentVerticalAlignment,
             showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,

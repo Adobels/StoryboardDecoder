@@ -25,7 +25,6 @@ protocol LabelProtocol {
     var adjustsFontSizeToFit: Bool? { get }
     var minimumScaleFactor: Float? { get }
     var minimumFontSize: Float? { get }
-    var fixedFrame: Bool? { get }
     var adjustsLetterSpacingToFitWidth: Bool? { get } // in UIKit: allowsDefaultTighteningForTruncation { get }
     var sizingRule: String? { get }
     var highlightedColor: Color? { get }
@@ -82,6 +81,7 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UILabel
     public let text: String?
     public let attributedText: AttributedString?
@@ -99,7 +99,6 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
     public let adjustsFontSizeToFit: Bool?
     public let minimumScaleFactor: Float?
     public let minimumFontSize: Float?
-    public let fixedFrame: Bool?
     public let adjustsLetterSpacingToFitWidth: Bool? // in UIKit: allowsDefaultTighteningForTruncation
     public let sizingRule: String?
     public let highlightedColor: Color?
@@ -185,6 +184,7 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             text: text,
             attributedText: container.elementIfPresent(of: .attributedText),
             textColor: colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
@@ -200,7 +200,6 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
             adjustsFontSizeToFit: container.attributeIfPresent(of: .adjustsFontSizeToFit),
             minimumScaleFactor: container.attributeIfPresent(of: .minimumScaleFactor),
             minimumFontSize: container.attributeIfPresent(of: .minimumFontSize),
-            fixedFrame: container.attributeIfPresent(of: .fixedFrame),
             adjustsLetterSpacingToFitWidth: container.attributeIfPresent(of: .adjustsLetterSpacingToFitWidth),
             sizingRule: container.attributeIfPresent(of: .sizingRule),
             highlightedColor: colors?.withAttributeElement(.key, CodingKeys.highlightedColor.stringValue),

@@ -64,6 +64,7 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: ActivityIndicatorView
     public let style: String?
     public let color: Color?
@@ -122,6 +123,7 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             style: container.attributeIfPresent(of: .style),
             color: colors?.withAttributeElement(.key, CodingKeys.color.stringValue),
             animating: container.attributeIfPresent(of: .animating),

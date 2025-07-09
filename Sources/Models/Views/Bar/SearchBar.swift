@@ -58,6 +58,7 @@ public struct SearchBar: IBDecodable, SearchBarProtocol {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
 
     static func decode(_ xml: XMLIndexerType) throws -> SearchBar {
         let view = try View.decode(xml)
@@ -106,6 +107,7 @@ public struct SearchBar: IBDecodable, SearchBarProtocol {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
         )
     }
 }

@@ -70,6 +70,7 @@ public struct MapView: IBDecodable, MapViewProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: MKMapView
     public let mapType: String?
     public let showsTraffic: Bool?
@@ -131,7 +132,8 @@ public struct MapView: IBDecodable, MapViewProtocol, IBIdentifiable {
             misplaced: view.misplaced,
             ambiguous: view.ambiguous,
             variations: view.variations,
-            subviews: nil,
+            subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             mapType: container.attributeIfPresent(of: .mapType),
             showsTraffic: container.attributeIfPresent(of: .showsTraffic),
             scrollEnabled: container.attributeIfPresent(of: .scrollEnabled),

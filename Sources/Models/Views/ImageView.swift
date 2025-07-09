@@ -8,7 +8,6 @@
 import SWXMLHash
 
 protocol ImageViewProtocol {
-    var fixedFrame: Bool? { get }
     var image: String? { get }
     var highlightedImage: String? { get }
     var highlighted: Bool? { get }
@@ -63,8 +62,8 @@ public struct ImageView: IBDecodable, ViewProtocol, ImageViewProtocol, IBIdentif
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
-    // MARK: UIImageView
     public let fixedFrame: Bool?
+    // MARK: UIImageView
     public let image: String?
     public let highlightedImage: String?
     public let highlighted: Bool?
@@ -119,7 +118,7 @@ public struct ImageView: IBDecodable, ViewProtocol, ImageViewProtocol, IBIdentif
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
-            fixedFrame: container.attributeIfPresent(of: .fixedFrame),
+            fixedFrame: view.fixedFrame,
             image: container.attributeIfPresent(of: .image),
             highlightedImage: container.attributeIfPresent(of: .highlightedImage),
             highlighted: container.attributeIfPresent(of: .highlighted),

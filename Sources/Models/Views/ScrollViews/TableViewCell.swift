@@ -70,6 +70,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
     public let ambiguous: Bool?
     public let variations: [Variation]?
     //public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: TableViewCell
     public let style: String?
     public let imageView: String?
@@ -169,6 +170,7 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
             misplaced: view.misplaced,
             ambiguous: view.ambiguous,
             variations: view.variations,
+            fixedFrame: view.fixedFrame,
             style: container.attributeIfPresent(of: .style),
             imageView: container.attributeIfPresent(of: .imageView),
             textLabel: container.attributeIfPresent(of: .textLabel),

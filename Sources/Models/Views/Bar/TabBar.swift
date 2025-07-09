@@ -59,6 +59,7 @@ public struct TabBar: IBDecodable, TabBarProtocol {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: TabBar
     public let items: [TabBarItem]?
 
@@ -113,6 +114,7 @@ public struct TabBar: IBDecodable, TabBarProtocol {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             items: containerTabBarItems?.elementsIfPresent(of: .tabBarItem),
         )
     }

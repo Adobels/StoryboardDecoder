@@ -62,6 +62,7 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: ScrollView
     public let indicatorStyle: IndicatorStyle?
     public let showsHorizontalScrollIndicator: Bool?
@@ -158,6 +159,7 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             indicatorStyle: scrollView.indicatorStyle,
             showsHorizontalScrollIndicator: scrollView.showsHorizontalScrollIndicator,
             showsVerticalScrollIndicator: scrollView.showsVerticalScrollIndicator,

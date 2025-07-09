@@ -62,6 +62,7 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UIProgressView
     public let progressTintColor: Color?
     public let trackTintColor: Color?
@@ -121,6 +122,7 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             progressTintColor: containerColors?.withAttributeElement(.key, CodingKeys.progressTintColor.stringValue),
             trackTintColor: containerColors?.withAttributeElement(.key, CodingKeys.trackTintColor.stringValue),
             progress: container.attributeIfPresent(of: .progress),

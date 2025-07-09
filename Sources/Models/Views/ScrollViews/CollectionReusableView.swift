@@ -58,6 +58,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, CollectionReusa
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: CollectionReusableView
     public let reuseIdentifier: String?
 
@@ -109,6 +110,7 @@ public struct CollectionReusableView: IBDecodable, ViewProtocol, CollectionReusa
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             reuseIdentifier: container.attributeIfPresent(of: .reuseIdentifier),
         )
     }

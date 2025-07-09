@@ -59,6 +59,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, CollectionViewCellP
     public let ambiguous: Bool?
     public let variations: [Variation]?
     //public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: CollectioViewCell
     public let contentView: CollectionViewContentView
     private let _subviews: [AnyView]?
@@ -152,6 +153,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, CollectionViewCellP
             ambiguous: view.ambiguous,
             variations: view.variations,
             //subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             contentView: try container.element(of: .contentView),
             _subviews: container.childrenIfPresent(of: ._subviews),
             reuseIdentifier: container.attributeIfPresent(of: .reuseIdentifier),
@@ -209,6 +211,7 @@ extension CollectionViewCell {
         public let ambiguous: Bool?
         public let variations: [Variation]?
         public let subviews: [AnyView]?
+        public let fixedFrame: Bool?
 
         static func decode(_ xml: XMLIndexerType) throws -> Self {
             let view = try View.decode(xml)
@@ -257,6 +260,7 @@ extension CollectionViewCell {
                 ambiguous: view.ambiguous,
                 variations: view.variations,
                 subviews: view.subviews,
+                fixedFrame: view.fixedFrame,
             )
         }
     }

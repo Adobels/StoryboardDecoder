@@ -58,6 +58,7 @@ public struct Toolbar: IBDecodable, ToolbarProtocol, ViewProtocol, IBIdentifiabl
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: Toolbar
     public let items: [BarButtonItem]?
 
@@ -116,6 +117,7 @@ public struct Toolbar: IBDecodable, ToolbarProtocol, ViewProtocol, IBIdentifiabl
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             items: navigationItemsContainer?.elementsIfPresent(of: .navigationItem),
         )
     }

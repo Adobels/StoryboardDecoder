@@ -89,6 +89,7 @@ public struct TableView: IBDecodable, TableViewProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     //public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UIScrollView
     public let indicatorStyle: IndicatorStyle?
     public let showsHorizontalScrollIndicator: Bool?
@@ -215,6 +216,7 @@ public struct TableView: IBDecodable, TableViewProtocol, IBIdentifiable {
             misplaced: view.misplaced,
             ambiguous: view.ambiguous,
             variations: view.variations,
+            fixedFrame: view.fixedFrame,
             //subviews: view.subviews,
             indicatorStyle: scrollView.indicatorStyle,
             showsHorizontalScrollIndicator: scrollView.showsHorizontalScrollIndicator,

@@ -56,6 +56,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UIScrollView
     public let bouncesZoom: Bool?
     public let bounces: Bool?
@@ -151,6 +152,7 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             bouncesZoom: scrollView.bouncesZoom,
             bounces: scrollView.bounces,
             alwaysBounceVertical: scrollView.alwaysBounceVertical,

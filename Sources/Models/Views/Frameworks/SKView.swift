@@ -54,6 +54,7 @@ public struct SKView: IBDecodable, ViewProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
@@ -102,6 +103,7 @@ public struct SKView: IBDecodable, ViewProtocol, IBIdentifiable {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
         )
     }
 }

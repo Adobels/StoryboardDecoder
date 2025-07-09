@@ -9,7 +9,6 @@ import SWXMLHash
 
 protocol ButtonProtocol: ViewProtocol, ControlProtocol {
     var buttonType: String? { get }
-    var fixedFrame: Bool? { get }
     var fontDescription: FontDescription? { get }
     var lineBreakMode: String? { get }
     var state: [Button.State]? { get }
@@ -72,6 +71,7 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UIControl
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
@@ -82,7 +82,6 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
     public let toolTip: String?
     // MARK: UIButton
     public let buttonType: String?
-    public let fixedFrame: Bool?
     public let fontDescription: FontDescription?
     public let lineBreakMode: String?
     public let state: [State]?
@@ -147,6 +146,7 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             contentHorizontalAlignment: control.contentHorizontalAlignment,
             contentVerticalAlignment: control.contentVerticalAlignment,
             showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,
@@ -155,7 +155,6 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
             highlighted: control.highlighted,
             toolTip: control.toolTip,
             buttonType: container.attributeIfPresent(of: .buttonType),
-            fixedFrame: container.attributeIfPresent(of: .fixedFrame),
             fontDescription: container.elementIfPresent(of: .fontDescription),
             lineBreakMode: container.attributeIfPresent(of: .lineBreakMode),
             state: container.elementsIfPresent(of: .state),

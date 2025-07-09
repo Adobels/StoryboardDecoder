@@ -9,7 +9,6 @@ import SWXMLHash
 
 protocol TextFieldProtocol {
     var borderStyle: String? { get }
-    var fixedFrame: Bool? { get }
     var fontDescription: FontDescription? { get }
     var minimumFontSize: Float? { get }
     var text: String? { get }
@@ -75,6 +74,7 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
     public let ambiguous: Bool?
     public let variations: [Variation]?
     public let subviews: [AnyView]?
+    public let fixedFrame: Bool?
     // MARK: UIControl
     public let contentHorizontalAlignment: String?
     public let contentVerticalAlignment: String?
@@ -85,7 +85,6 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
     public let toolTip: String?
     // MARK: UITextField
     public let borderStyle: String?
-    public let fixedFrame: Bool?
     public let fontDescription: FontDescription?
     public let minimumFontSize: Float?
     public let text: String?
@@ -166,6 +165,7 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
             ambiguous: view.ambiguous,
             variations: view.variations,
             subviews: view.subviews,
+            fixedFrame: view.fixedFrame,
             contentHorizontalAlignment: control.contentHorizontalAlignment,
             contentVerticalAlignment: control.contentVerticalAlignment,
             showsMenuAsPrimaryAction: control.showsMenuAsPrimaryAction,
@@ -174,7 +174,6 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
             highlighted: control.highlighted,
             toolTip: control.toolTip,
             borderStyle: container.attributeIfPresent(of: .borderStyle),
-            fixedFrame: container.attributeIfPresent(of: .fixedFrame),
             fontDescription: container.elementIfPresent(of: .fontDescription),
             minimumFontSize: container.attributeIfPresent(of: .minimumFontSize),
             text: text,
