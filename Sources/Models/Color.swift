@@ -117,6 +117,11 @@ public enum Color: IBDecodable {
                                              white: container.attribute(of: .white),
                                              alpha: container.attribute(of: .alpha)
                     ))
+                case "calibratedWhite":
+                    let calibratedWhiteContainer = xml.container(keys: CalibratedWhiteCodingKeys.self)
+                    return try .calibratedWhite((key: key,
+                                                 white: calibratedWhiteContainer.attribute(of: .white),
+                                                 alpha: calibratedWhiteContainer.attribute(of: .alpha)))
                 default:
                     throw IBError.unsupportedColorSpace(customColorSpace)
                 }
