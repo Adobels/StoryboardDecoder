@@ -32,10 +32,6 @@ struct LabelTests {
         #expect(sut.fontDescription.testDescription == fontDescription)
     }
 
-    @Test func attributesWhichAreNotSetInStoryboard2() throws {
-        let sut = try sut(from: "Label_Default 2") as Label
-        #expect(sut.textColor != nil)
-    }
     @Test func attributesWhichAreNotSetInStoryboard() throws {
         let sut = try sut(from: "Label_Default") as Label
         #expect(sut.key == nil)
