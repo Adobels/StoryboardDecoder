@@ -77,7 +77,6 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
     public let showsHorizontalScrollIndicator: Bool? // default true
     public let maximumZoomScale: Float?
     public let minimumZoomScale: Float?
-    public let isDirectionalLockEnabled: Bool?
     public let indicatorStyle: IndicatorStyle?
     public let scrollEnabled: Bool?
     public let alwaysBounceHorizontal: Bool?
@@ -111,7 +110,6 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
                 switch key {
                 case .layout: return "collectionViewLayout"
                 case .flowLayout: return "collectionViewFlowLayout"
-                case .isDirectionalLockEnabled: return "directionalLockEnabled"
                 case .collectionReusableViews: return "collectionReusableView"
                 default: return key.stringValue
                 }
@@ -172,7 +170,6 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
             showsHorizontalScrollIndicator: scrollView.showsHorizontalScrollIndicator,
             maximumZoomScale: scrollView.maximumZoomScale,
             minimumZoomScale: scrollView.minimumZoomScale,
-            isDirectionalLockEnabled: scrollView.directionalLockEnabled,
             indicatorStyle: scrollView.indicatorStyle,
             scrollEnabled: scrollView.scrollEnabled,
             alwaysBounceHorizontal: scrollView.alwaysBounceHorizontal,
