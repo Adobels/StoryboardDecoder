@@ -106,7 +106,7 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
     public let shadowOffset: Size?
     public let preferredMaxLayoutWidth: Float?
 
-    enum ExternalCodingKeys: CodingKey { case color, string, mutableString }
+    enum LabelCodingKeys: CodingKey { case color, string, mutableString }
 
     static func decode(_ xml: XMLIndexerType) throws -> Label {
         let view = try View.decode(xml)
@@ -119,14 +119,11 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
             }()
             return MappedCodingKey(stringValue: stringValue)
         }
-        let externalContainer = xml.container(keys: ExternalCodingKeys.self)
-        let colors = externalContainer
-            .nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
-        let stringsContainer = externalContainer
-            .nestedContainerIfPresent(of: .string, keys: KeyCodingKeys.self)
-        let mutableStringsContainer = externalContainer
-            .nestedContainerIfPresent(of: .mutableString, keys: KeyCodingKeys.self)
-        _ = consume externalContainer
+        let elements = xml.container(keys: LabelCodingKeys.self)
+        let colors = elements.nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
+        let stringsContainer = elements.nestedContainerIfPresent(of: .string, keys: KeyCodingKeys.self)
+        let mutableStringsContainer = elements.nestedContainerIfPresent(of: .mutableString, keys: KeyCodingKeys.self)
+        _ = consume elements
         var text: String? = container.attributeIfPresent(of: .text)
         if text == nil {
             let multiLineText: StringElement? = stringsContainer?.withAttributeElement(.key, CodingKeys.text.stringValue)
