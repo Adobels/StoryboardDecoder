@@ -85,7 +85,6 @@ public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
     public let maximumDate: IBDate?
 
     enum ViewCodingKeys: CodingKey { case date }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> DatePicker {
         let view = try View.decode(xml)

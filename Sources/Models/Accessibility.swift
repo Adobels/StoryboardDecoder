@@ -19,7 +19,6 @@ public struct Accessibility: IBDecodable, IBKeyable {
     public let traits: AccessibilityTraits?
 
     enum ExternalCodingKeys: CodingKey { case accessibilityTraits, bool }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Accessibility {
         let container = xml.container(keys: CodingKeys.self)

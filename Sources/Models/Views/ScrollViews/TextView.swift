@@ -91,7 +91,6 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
     public let editable: Bool?
 
     enum ElementKey: CodingKey { case color, string }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> TextView {
         let view = try View.decode(xml)

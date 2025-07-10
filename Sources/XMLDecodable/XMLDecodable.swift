@@ -39,3 +39,5 @@ extension Int: XMLAttributeDecodable {}
 extension Float: XMLAttributeDecodable {}
 extension Bool: XMLAttributeDecodable {}
 extension Double: XMLAttributeDecodable {}
+
+enum KeyCodingKeys: CodingKey { case key }

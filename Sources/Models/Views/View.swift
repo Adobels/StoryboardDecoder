@@ -126,7 +126,6 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
         case keyboardLayoutGuide
         case rect
     }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> View {
         let container = xml.container(keys: CodingKeys.self)

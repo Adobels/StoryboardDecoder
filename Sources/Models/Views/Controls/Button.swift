@@ -94,7 +94,6 @@ public struct Button: IBDecodable, ButtonProtocol, IBIdentifiable {
     public let imageEdgeInsets: Inset?
 
     enum ExternalCodingKeys: CodingKey { case color, inset }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)

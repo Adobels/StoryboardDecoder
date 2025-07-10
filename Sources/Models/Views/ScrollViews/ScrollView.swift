@@ -102,7 +102,6 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
     public let frameLayoutGuide: LayoutGuide?
 
     enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide, inset }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)

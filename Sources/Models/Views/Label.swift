@@ -107,7 +107,6 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
     public let preferredMaxLayoutWidth: Float?
 
     enum ExternalCodingKeys: CodingKey { case color, string, mutableString }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Label {
         let view = try View.decode(xml)

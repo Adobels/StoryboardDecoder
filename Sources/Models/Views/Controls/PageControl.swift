@@ -81,7 +81,6 @@ public struct PageControl: IBDecodable, PageControlProtocol, IBIdentifiable {
     public let defersCurrentPageDisplay: Bool?
 
     enum PageControlCodingKeys: CodingKey { case color }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> PageControl {
         let view = try View.decode(xml)

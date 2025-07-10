@@ -21,7 +21,6 @@ public struct Placeholder: IBDecodable, IBIdentifiable, IBCustomClassable, IBUse
     public let connections: [AnyConnection]?
 
     enum ExternalCodingKeys: CodingKey { case attributedString }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Placeholder {
         let container = xml.container(keys: CodingKeys.self)

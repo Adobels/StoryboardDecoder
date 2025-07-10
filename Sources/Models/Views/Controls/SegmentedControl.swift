@@ -79,7 +79,6 @@ public struct SegmentedControl: IBDecodable, SegmentedControlProtocol, IBIdentif
     public let momentary: Bool?
 
     enum ViewCodingKeys: CodingKey { case color, segment }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> SegmentedControl {
         let view = try View.decode(xml)

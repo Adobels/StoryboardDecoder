@@ -140,7 +140,6 @@ public struct TableView: IBDecodable, TableViewProtocol, IBIdentifiable {
     public var subviews: [AnyView]? { (_subviews ?? []) + (headersFooters ?? []) }
 
     enum ExternalCodingKeys: CodingKey { case color, inset }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> TableView {
         let view = try View.decode(xml)

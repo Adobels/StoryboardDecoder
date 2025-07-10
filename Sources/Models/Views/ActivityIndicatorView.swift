@@ -72,7 +72,6 @@ public struct ActivityIndicatorView: IBDecodable, ActivityIndicatorViewProtocol,
     public let hidesWhenStopped: Bool?
 
     enum ExternalCodingKeys: CodingKey { case color }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> ActivityIndicatorView {
         let view = try View.decode(xml)

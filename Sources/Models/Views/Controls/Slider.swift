@@ -87,7 +87,6 @@ public struct Slider: IBDecodable, ViewProtocol, ControlProtocol, SliderProtocol
     public let continuous: Bool?
 
     enum ElementCodingKeys: CodingKey { case color }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Slider {
         let view = try View.decode(xml)

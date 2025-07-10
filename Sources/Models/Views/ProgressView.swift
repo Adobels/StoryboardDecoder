@@ -71,7 +71,6 @@ public struct ProgressView: IBDecodable, ProgressViewProtocol, IBIdentifiable {
     public let trackImage: String?
 
     enum ExternalCodingKeys: CodingKey { case color }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> ProgressView {
         let view = try View.decode(xml)

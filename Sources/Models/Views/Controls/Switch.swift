@@ -79,7 +79,6 @@ public struct Switch: IBDecodable, ViewProtocol, ControlProtocol, SwitchProtocol
     public let preferredStyle: PreferredStyle?
 
     enum SwitchCodingKeys: CodingKey { case color }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Switch {
         let view = try View.decode(xml)

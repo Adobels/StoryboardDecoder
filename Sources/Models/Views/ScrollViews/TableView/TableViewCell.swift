@@ -113,7 +113,6 @@ public struct TableViewCell: IBDecodable, ViewProtocol, TableViewCellProtocol, I
     }
 
     enum ElementKeys: CodingKey { case inset }
-    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)

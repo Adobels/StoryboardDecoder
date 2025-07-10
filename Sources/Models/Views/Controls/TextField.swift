@@ -100,7 +100,6 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
     public let textInputTraits: TextInputTraits?
 
     enum ElementKeys: CodingKey { case color, string, textInputTraits }
-    enum KeysCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
