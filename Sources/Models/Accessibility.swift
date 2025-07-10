@@ -19,14 +19,14 @@ public struct Accessibility: IBDecodable, IBKeyable {
     public let traits: AccessibilityTraits?
 
     enum ExternalCodingKeys: CodingKey { case accessibilityTraits, bool }
-    enum AttributedStringCodingKeys: CodingKey { case key }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Accessibility {
         let container = xml.container(keys: CodingKeys.self)
         let accessibilityTraitsContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .accessibilityTraits, keys: AttributedStringCodingKeys.self)
+            .nestedContainerIfPresent(of: .accessibilityTraits, keys: KeyCodingKeys.self)
         let boolContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .bool, keys: AttributedStringCodingKeys.self)
+            .nestedContainerIfPresent(of: .bool, keys: KeyCodingKeys.self)
         return Accessibility(
             key: container.attributeIfPresent(of: .key),
             isElement: boolContainer?.withAttributeElement(.key, CodingKeys.isElement.stringValue),

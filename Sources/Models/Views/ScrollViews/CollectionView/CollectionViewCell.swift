@@ -85,11 +85,6 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, CollectionViewCellP
         return children
     }
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color }
-    enum ColorsCodingKeys: CodingKey { case key }
-
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
         let container = xml.container(keys: MappedCodingKey.self).map { (key: CodingKeys) in

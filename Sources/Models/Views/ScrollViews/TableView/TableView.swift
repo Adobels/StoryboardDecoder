@@ -139,20 +139,8 @@ public struct TableView: IBDecodable, TableViewProtocol, IBIdentifiable {
     public let _subviews: [AnyView]?
     public var subviews: [AnyView]? { (_subviews ?? []) + (headersFooters ?? []) }
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey {
-        case color
-        case inset
-        case viewLayoutGuide
-        case directionalEdgeInsets
-        case edgeInsets
-    }
+    enum ExternalCodingKeys: CodingKey { case color, inset }
     enum KeyCodingKeys: CodingKey { case key }
-    enum InsetCodingKeys: CodingKey { case separatorInset, scrollIndicatorInsets }
-    enum ViewLayoutGuideKeys: CodingKey { case contentLayoutGuide, frameLayoutGuide, keyboardLayoutGuide }
-    enum DirectionalEdgeInsetsKeys: CodingKey { case directionalLayoutMargins }
-    enum EdgeInsetsKeys: CodingKey { case layoutMargins }
 
     static func decode(_ xml: XMLIndexerType) throws -> TableView {
         let view = try View.decode(xml)

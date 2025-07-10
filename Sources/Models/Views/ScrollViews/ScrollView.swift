@@ -101,20 +101,16 @@ public struct ScrollView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdent
     public let contentLayoutGuide: LayoutGuide?
     public let frameLayoutGuide: LayoutGuide?
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide, keyboardLayoutGuide, inset }
-    enum ColorsCodingKeys: CodingKey { case key }
-    enum ViewLayoutCodingKeys: CodingKey { case key }
-    enum InsetCodingKeys: CodingKey { case key }
+    enum ExternalCodingKeys: CodingKey { case color, viewLayoutGuide, inset }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         let externalContainer = xml.container(keys: ExternalCodingKeys.self)
         let viewLayoutGuidesContainer = externalContainer
-            .nestedContainerIfPresent(of: .viewLayoutGuide, keys: ViewLayoutCodingKeys.self)
-        let insetContainer = externalContainer.nestedContainerIfPresent(of: .inset, keys: InsetCodingKeys.self)
+            .nestedContainerIfPresent(of: .viewLayoutGuide, keys: KeyCodingKeys.self)
+        let insetContainer = externalContainer.nestedContainerIfPresent(of: .inset, keys: KeyCodingKeys.self)
         return .init(
             id: view.id,
             key: view.key,

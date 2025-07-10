@@ -21,12 +21,12 @@ public struct Placeholder: IBDecodable, IBIdentifiable, IBCustomClassable, IBUse
     public let connections: [AnyConnection]?
 
     enum ExternalCodingKeys: CodingKey { case attributedString }
-    enum AttributedStringCodingKeys: CodingKey { case key }
+    enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> Placeholder {
         let container = xml.container(keys: CodingKeys.self)
         let attributedStringContainer = xml.container(keys: ExternalCodingKeys.self)
-            .nestedContainerIfPresent(of: .attributedString, keys: AttributedStringCodingKeys.self)
+            .nestedContainerIfPresent(of: .attributedString, keys: KeyCodingKeys.self)
         return Placeholder(
             id:                    try container.attribute(of: .id),
             placeholderIdentifier: try container.attribute(of: .placeholderIdentifier),

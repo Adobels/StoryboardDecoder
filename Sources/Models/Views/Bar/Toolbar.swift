@@ -62,10 +62,6 @@ public struct Toolbar: IBDecodable, ToolbarProtocol, ViewProtocol, IBIdentifiabl
     // MARK: Toolbar
     public let items: [BarButtonItem]?
 
-    enum ConstraintsCodingKeys: CodingKey { case constraint }
-    enum VariationCodingKey: CodingKey { case variation }
-    enum ExternalCodingKeys: CodingKey { case color }
-    enum ColorsCodingKeys: CodingKey { case key }
     enum NavigationItemsCodingKeys: CodingKey { case navigationItem }
 
     static func decode(_ xml: XMLIndexerType) throws -> Toolbar {

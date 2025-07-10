@@ -90,16 +90,7 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
     public let textColor: Color?
     public let editable: Bool?
 
-    enum ElementKey: CodingKey {
-        case color
-        case string
-        case constraint
-        case directionalEdgeInsets
-        case edgeInsets
-        case inset
-        case variation
-        case viewLayoutGuide
-    }
+    enum ElementKey: CodingKey { case color, string }
     enum KeyCodingKeys: CodingKey { case key }
 
     static func decode(_ xml: XMLIndexerType) throws -> TextView {
