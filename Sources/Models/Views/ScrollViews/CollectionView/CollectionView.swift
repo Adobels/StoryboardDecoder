@@ -9,6 +9,17 @@ import SWXMLHash
 
 // MARK: - CollectionView
 
+protocol CollectionViewProtocol {
+    var cells: [CollectionViewCell] { get }
+    var collectionReusableViews: [CollectionReusableView] { get }
+    var sectionHeaderView: CollectionReusableView? { get }
+    var sectionFooterView: CollectionReusableView? { get }
+    var layout: CollectionViewLayout? { get }
+    var flowLayout: CollectionViewFlowLayout? { get }
+    var prefetchingEnabled: Bool? { get }
+    var dataMode: String? { get }
+}
+
 public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBIdentifiable {
     // MARK: UIView
     public let id: String
@@ -89,7 +100,8 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
     }
     public let layout: CollectionViewLayout?
     public let flowLayout: CollectionViewFlowLayout?
-    public let isPrefetchingEnabled: Bool?
+    public let prefetchingEnabled: Bool?
+    public let dataMode: String?
 
     static func decode(_ xml: XMLIndexerType) throws -> Self {
         let view = try View.decode(xml)
@@ -100,7 +112,6 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
                 case .layout: return "collectionViewLayout"
                 case .flowLayout: return "collectionViewFlowLayout"
                 case .isDirectionalLockEnabled: return "directionalLockEnabled"
-                case .isPrefetchingEnabled: return "prefetchingEnabled"
                 case .collectionReusableViews: return "collectionReusableView"
                 default: return key.stringValue
                 }
@@ -177,7 +188,8 @@ public struct CollectionView: IBDecodable, ViewProtocol, ScrollViewProtocol, IBI
             collectionReusableViews: container.elementsIfPresent(of: .collectionReusableViews),
             layout: container.elementIfPresent(of: .layout),
             flowLayout: container.elementIfPresent(of: .flowLayout),
-            isPrefetchingEnabled: container.attributeIfPresent(of: .isPrefetchingEnabled),
+            prefetchingEnabled: container.attributeIfPresent(of: .prefetchingEnabled),
+            dataMode: container.attributeIfPresent(of: .dataMode),
         )
     }
 }

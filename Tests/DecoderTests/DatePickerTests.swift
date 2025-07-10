@@ -7,21 +7,38 @@
 
 import Testing
 import StoryboardDecoder
-import Foundation
 
-@Suite("DatePicker Tests")
+@Suite("DatePicker")
 struct DatePickerTests {
 
+    @Test func defaultConfiguaration() throws {
+        let rect = """
+        Rect(x: 0.0, y: 426.0, width: 393.0, height: 0.0, key: Optional("frame"))
+        """
+        let autoresizingMask = """
+        AutoresizingMask(key: Optional("autoresizingMask"), widthSizable: true, heightSizable: false, flexibleMaxX: false, flexibleMaxY: true)
+        """
+        let sut = try sut(from: "DatePicker_Default") as DatePicker
+        #expect(sut.contentMode == "scaleToFill")
+        #expect(sut.fixedFrame == true)
+        #expect(sut.contentHorizontalAlignment == "center")
+        #expect(sut.contentVerticalAlignment == "center")
+        #expect(sut.datePickerMode == "dateAndTime")
+        #expect(sut.minuteInterval == 1)
+        #expect(sut.translatesAutoresizingMaskIntoConstraints == false)
+        #expect(sut.id == "y14-R8-GOa")
+        #expect(sut.rect.testDescription == rect)
+        #expect(sut.autoresizingMask.testDescription == autoresizingMask)
+    }
+
     @Test func modifiedDataPicker() throws {
-        guard let url = Bundle.module.url(forResource: "DatePicker_Modified", withExtension: "xml") else { throw IBError.elementNotFound }
-        let sb = try StoryboardFile(url: url)
-        let vc = sb.document.scenes?.first?.viewController?.viewController
-        guard let datePickers = vc?.rootView?.children(of: DatePicker.self) else { throw IBError.elementNotFound }
-        let sut = datePickers[0]
+        let sut = try sut(from: "DatePicker_Modified") as DatePicker
         #expect(sut.style == "compact")
         #expect(sut.datePickerMode == "dateAndTime")
         #expect(sut.locale?.localeIdentifier == "zu_ZA")
         #expect(sut.minuteInterval == 1)
+        #expect(sut.countDownDuration == nil)
+        #expect(sut.useCurrentDate == false)
         #expect(sut.date?.timeIntervalSinceReferenceDate == "773160130.47646999")
         #expect(sut.minimumDate?.timeIntervalSinceReferenceDate == "-978267600")
         #expect(sut.maximumDate?.timeIntervalSinceReferenceDate == "1167562800")

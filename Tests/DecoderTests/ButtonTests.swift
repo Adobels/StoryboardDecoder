@@ -11,8 +11,30 @@ import Foundation
 
 @Suite("Button Tests")
 struct ButtonTests {
-    @Test func defaultTest() throws {
 
+    @Test func defaultTest() throws {
+        let sut = try sut(from: "Button_Default") as Button
+        let rect = """
+        Rect(x: 120.0, y: 354.0, width: 75.0, height: 35.0, key: Optional("frame"))
+        """
+        let autoresizingMask = """
+        AutoresizingMask(key: Optional("autoresizingMask"), widthSizable: false, heightSizable: false, flexibleMaxX: true, flexibleMaxY: true)
+        """
+        let state = """
+        [StoryboardDecoder.Button.State(key: Optional("normal"), title: Optional("Button"), color: nil, titleColor: nil, titleShadowColor: nil, image: nil, backgroundImage: nil, catalog: nil)]
+        """
+        #expect(sut.opaque == false)
+        #expect(sut.contentMode == "scaleToFill")
+        #expect(sut.fixedFrame == true)
+        #expect(sut.contentHorizontalAlignment == "center")
+        #expect(sut.contentVerticalAlignment == "center")
+        #expect(sut.buttonType == "system")
+        #expect(sut.lineBreakMode == "middleTruncation")
+        #expect(sut.translatesAutoresizingMaskIntoConstraints == false)
+        #expect(sut.id == "gkn-rx-Y7i")
+        #expect(sut.rect.testDescription == rect)
+        #expect(sut.autoresizingMask.testDescription == autoresizingMask)
+        #expect(sut.state.testDescription == state)
     }
 
     @Test func modifiedTest() throws {

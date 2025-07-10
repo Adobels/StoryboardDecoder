@@ -29,7 +29,7 @@ class Tests: XCTestCase {
             let file = try StoryboardFile(url: url)
             let document = file.document
             print(document.targetRuntime)
-            XCTAssertTrue(document.launchScreen)
+            XCTAssertEqual(document.launchScreen, true)
         } catch {
             XCTFail("\(error)")
         }
@@ -40,7 +40,7 @@ class Tests: XCTestCase {
         do {
             let file = try StoryboardFile(url: url)
             let document = file.document
-            XCTAssertFalse(document.launchScreen)
+            XCTAssertNil(document.launchScreen)
         } catch {
             XCTFail("\(error)")
         }
@@ -461,9 +461,9 @@ class Tests: XCTestCase {
             throw NSError(domain: "labels not found", code: 0)
         }
         let labelWithEnableDefault = labels[0]
-        XCTAssertNil(labelWithEnableDefault.isEnabled)
+        XCTAssertNil(labelWithEnableDefault.enabled)
         let labelWithEnableTrue = labels[1]
-        XCTAssertEqual(labelWithEnableTrue.isEnabled, false)
+        XCTAssertEqual(labelWithEnableTrue.enabled, false)
     }
 
     func testLabelsAttrAllowsDefaultTighteningForTruncation() throws {
@@ -636,9 +636,9 @@ class Tests: XCTestCase {
             XCTAssertEqual(customActivityIndicatorView?.style, "large")
             XCTAssertEqual(defaultActivityIndicatorView?.style, "medium")
             
-            XCTAssertTrue(customActivityIndicatorView?.isAnimating ?? false)
-            XCTAssertNil(defaultActivityIndicatorView?.isAnimating)
-            
+            XCTAssertTrue(customActivityIndicatorView?.animating ?? false)
+            XCTAssertNil(defaultActivityIndicatorView?.animating)
+
             XCTAssertTrue(customActivityIndicatorView?.hidesWhenStopped ?? false)
             XCTAssertNil(defaultActivityIndicatorView?.hidesWhenStopped)
             
@@ -741,11 +741,8 @@ class Tests: XCTestCase {
         let url = self.url(forResource:"StoryboardHidesBottomBarWhenPushed", withExtension: "storyboard")
         do {
             let file = try StoryboardFile(url: url)
-            let hidesBttomBarValues = file.document.scenes?.map { $0.viewController?.viewController.hidesBottomBarWhenPushed ?? false } ?? []
-            
-            XCTAssertEqual(hidesBttomBarValues.count, 2)
-            XCTAssertEqual(hidesBttomBarValues.filter { $0 == true }.count, 1)
-            XCTAssertEqual(hidesBttomBarValues.filter { $0 == false }.count, 1)
+            XCTAssertTrue(try XCTUnwrap(file.document.scenes?.first?.viewController?.viewController.hidesBottomBarWhenPushed))
+            XCTAssertNil(file.document.scenes?.last?.viewController?.viewController.hidesBottomBarWhenPushed)
         } catch {
             XCTFail("\(error)")
         }

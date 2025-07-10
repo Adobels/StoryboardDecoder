@@ -63,9 +63,7 @@ public struct CollectionViewCell: IBDecodable, ViewProtocol, CollectionViewCellP
     // MARK: CollectioViewCell
     public let contentView: CollectionViewContentView
     private let _subviews: [AnyView]?
-    public var subviews: [AnyView]? {
-        return (_subviews ?? []) + [AnyView(contentView)]
-    }
+    public var subviews: [AnyView]? { (_subviews ?? []) + [AnyView(contentView)] }
     public let reuseIdentifier: String?
     public let simulatedAppContext: String?
 
