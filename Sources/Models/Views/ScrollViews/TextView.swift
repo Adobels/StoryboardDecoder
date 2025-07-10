@@ -13,6 +13,7 @@ protocol TextViewProtocol: ViewProtocol, ScrollViewProtocol {
     var textAlignment: String? { get }
     var textColor: Color? { get }
     var editable: Bool? { get }
+    var textInputTraits: TextField.TextInputTraits? { get }
 }
 
 public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
@@ -89,14 +90,16 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
     public let textAlignment: String?
     public let textColor: Color?
     public let editable: Bool?
+    public let textInputTraits: TextField.TextInputTraits?
 
-    enum ElementKey: CodingKey { case color, string }
+    enum ElementKey: CodingKey { case color, string, textInputTraits }
 
     static func decode(_ xml: XMLIndexerType) throws -> TextView {
         let view = try View.decode(xml)
         let scrollView = try ScrollView.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         let elementContainer = xml.container(keys: ElementKey.self)
+        let textInputTraits = elementContainer.nestedContainerIfPresent(of: .textInputTraits, keys: KeyCodingKeys.self)
         let colors = elementContainer.nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
         let stringsContainer = elementContainer.nestedContainerIfPresent(of: .string, keys: KeyCodingKeys.self)
         var text: String? = container.attributeIfPresent(of: .text)
@@ -174,6 +177,7 @@ public struct TextView: IBDecodable, TextViewProtocol, IBIdentifiable {
             textAlignment: container.attributeIfPresent(of: .textAlignment),
             textColor: colors?.withAttributeElement(.key, CodingKeys.textColor.stringValue),
             editable: container.attributeIfPresent(of: .editable),
+            textInputTraits: textInputTraits?.withAttributeElement(.key, CodingKeys.textInputTraits.stringValue),
         )
     }
 }
