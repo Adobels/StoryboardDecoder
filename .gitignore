@@ -11,3 +11,4 @@ xcuserdata
 *.xcodeproj
 Utilities/Docker/*.tar.gz
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+ClientTests*
