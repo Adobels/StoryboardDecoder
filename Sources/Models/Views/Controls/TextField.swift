@@ -106,9 +106,9 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
         let control = try Control.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         let elements = xml.container(keys: ElementKeys.self)
-        let colors = elements.nestedContainerIfPresent(of: .color, keys: KeysCodingKeys.self)
-        let strings = elements.nestedContainerIfPresent(of: .string, keys: KeysCodingKeys.self)
-        let textInputTraits = elements.nestedContainerIfPresent(of: .textInputTraits, keys: KeysCodingKeys.self)
+        let colors = elements.nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
+        let strings = elements.nestedContainerIfPresent(of: .string, keys: KeyCodingKeys.self)
+        let textInputTraits = elements.nestedContainerIfPresent(of: .textInputTraits, keys: KeyCodingKeys.self)
         var text: String? = container.attributeIfPresent(of: .text)
         if text == nil {
             let multiLineText: StringElement? = strings?.withAttributeElement(.key, CodingKeys.text.stringValue)
