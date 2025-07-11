@@ -7,7 +7,7 @@
 
 import SWXMLHash
 
-protocol ScrollViewProtocol: ViewProtocol {
+public protocol ScrollViewProtocol: ViewProtocol {
     // Attributes Inspector
     var indicatorStyle: IndicatorStyle? { get }
     var showsHorizontalScrollIndicator: Bool? { get }
