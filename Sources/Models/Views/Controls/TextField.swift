@@ -225,7 +225,7 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
 
     public struct TextInputTraits: IBDecodable {
         public let autocapitalizationType: AutocapitalizationType?
-        public let autocorrectionType: Bool?
+        public let autocorrectionType: String?
         public let spellCheckingType: Bool?
         public let keyboardType: KeyboardType?
         public let keyboardAppearance: KeyboardAppearance?
