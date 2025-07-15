@@ -226,13 +226,13 @@ public struct TextField: IBDecodable, ViewProtocol, ControlProtocol, TextFieldPr
     public struct TextInputTraits: IBDecodable {
         public let autocapitalizationType: AutocapitalizationType?
         public let autocorrectionType: String?
-        public let spellCheckingType: Bool?
+        public let spellCheckingType: String?
         public let keyboardType: KeyboardType?
         public let keyboardAppearance: KeyboardAppearance?
         public let returnKeyType: ReturnKeyType?
-        public let smartDashesType: Bool?
-        public let smartInsertDeleteType: Bool?
-        public let smartQuotesType: Bool?
+        public let smartDashesType: String?
+        public let smartInsertDeleteType: String?
+        public let smartQuotesType: String?
         public let textContentType: TextContentType?
         public let enablesReturnKeyAutomatically: Bool?
         public let secureTextEntry: Bool?
