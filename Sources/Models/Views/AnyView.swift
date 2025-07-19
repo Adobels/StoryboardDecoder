@@ -122,11 +122,11 @@ public struct Constraint: IBDecodable, IBIdentifiable {
     public let priority: Float?
     public let multiplier: String?
     public let firstItem: String?
-    public let firstAttribute: LayoutAttribute?
+    public let firstAttribute: LayoutAttribute
     public let secondItem: String?
     public let secondAttribute: LayoutAttribute?
     public let identifier: String?
-    public let relation: Relation
+    public let relation: Relation?
 
     public enum LayoutAttribute: XMLAttributeDecodable, KeyDecodable, Equatable {
         case left, right, top, bottom, leading, trailing,
@@ -195,7 +195,7 @@ public struct Constraint: IBDecodable, IBIdentifiable {
             priority: container.attributeIfPresent(of: .priority),
             multiplier: container.attributeIfPresent(of: .multiplier),
             firstItem: container.attributeIfPresent(of: .firstItem),
-            firstAttribute: container.attributeIfPresent(of: .firstAttribute),
+            firstAttribute: try container.attribute(of: .firstAttribute),
             secondItem: container.attributeIfPresent(of: .secondItem),
             secondAttribute: container.attributeIfPresent(of: .secondAttribute),
             identifier: container.attributeIfPresent(of: .identifier),
