@@ -199,7 +199,7 @@ public struct Constraint: IBDecodable, IBIdentifiable {
             secondItem: container.attributeIfPresent(of: .secondItem),
             secondAttribute: container.attributeIfPresent(of: .secondAttribute),
             identifier: container.attributeIfPresent(of: .identifier),
-            relation: container.attributeIfPresent(of: .relation) ?? .equal
+            relation: container.attributeIfPresent(of: .relation)
         )
     }
 }
