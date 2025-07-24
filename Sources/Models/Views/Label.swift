@@ -214,7 +214,7 @@ public enum FontDescription: IBDecodable, CustomStringConvertible {
     public var description: String {
         switch self {
         case .system(let systemFont):
-            "system \(String(describing: systemFont.weight)) \(systemFont.pointSize)"
+            "system \(systemFont.type) \(String(describing: systemFont.weight)) \(systemFont.pointSize)"
         case .custom(let customFont):
             "custom \(customFont.family) \(customFont.name) \(customFont.pointSize)"
         case .textStyle(let textStyle):
@@ -245,7 +245,7 @@ public enum FontDescription: IBDecodable, CustomStringConvertible {
     }
 
     public func encode(to encoder: Encoder) throws { fatalError() }
-
+    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
     static func decode(_ xml: XMLIndexerType) throws -> FontDescription {
         let container = xml.container(keys: CodingKeys.self)
         let key: String? = container.attributeIfPresent(of: .key)
