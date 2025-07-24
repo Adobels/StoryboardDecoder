@@ -209,7 +209,19 @@ public struct Label: IBDecodable, ViewProtocol, LabelProtocol, IBIdentifiable {
 
 // MARK: - FontDescription
 
-public enum FontDescription: IBDecodable {
+public enum FontDescription: IBDecodable, CustomStringConvertible {
+
+    public var description: String {
+        switch self {
+        case .system(let systemFont):
+            "system \(String(describing: systemFont.weight)) \(systemFont.pointSize)"
+        case .custom(let customFont):
+            "custom \(customFont.family) \(customFont.name) \(customFont.pointSize)"
+        case .textStyle(let textStyle):
+            "textStyle \(textStyle.style)"
+        }
+    }
+
     public typealias SystemFont = (key: String?, type: String, weight: String?, pointSize: Float)
     public typealias CustomFont = (key: String?, name: String, family: String, pointSize: Float)
     public typealias TextStyle = (key: String?, style: String)
