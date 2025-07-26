@@ -18,6 +18,7 @@ protocol StackViewProtocol {
 }
 
 public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentifiable {
+    public let subviews: [AnyView]?
     // MARK: UIView
     public let id: String
     public let key: String?
@@ -63,7 +64,6 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
     public let misplaced: Bool?
     public let ambiguous: Bool?
     public let variations: [Variation]?
-    public let subviews: [AnyView]?
     public let fixedFrame: Bool?
     // MARK: StackView
     public let axis: String?
@@ -77,6 +77,7 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
         let view = try View.decode(xml)
         let container = xml.container(keys: CodingKeys.self)
         return StackView(
+            subviews: view.subviews,
             id: view.id,
             key: view.key,
             customClass: view.customClass,
@@ -120,7 +121,6 @@ public struct StackView: IBDecodable, ViewProtocol, StackViewProtocol, IBIdentif
             misplaced: view.misplaced,
             ambiguous: view.ambiguous,
             variations: view.variations,
-            subviews: view.subviews,
             fixedFrame: view.fixedFrame,
             axis: container.attributeIfPresent(of: .axis),
             distribution: container.attributeIfPresent(of: .distribution),

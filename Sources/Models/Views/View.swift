@@ -8,6 +8,7 @@
 import SWXMLHash
 
 public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBConnectionOwner {
+    var subviews: [AnyView]? { get }
     var key: String? { get }
     //MARK: Identity Inspector
     var id: String { get }
@@ -61,10 +62,10 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
     var fixedFrame: Bool? { get }
     // MARK: Others
     var variations: [Variation]? { get }
-    var subviews: [AnyView]? { get }
 }
 
 public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
+    public let subviews: [AnyView]?
     // MARK: Identity Inspector
     public let id: String
     public let key: String?
@@ -113,7 +114,6 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
     public let ambiguous: Bool?
     public let fixedFrame: Bool?
     public let variations: [Variation]?
-    public let subviews: [AnyView]?
 
     enum ViewElementKey: CodingKey {
         case color
@@ -129,6 +129,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
 
     static func decode(_ xml: XMLIndexerType) throws -> View {
         let container = xml.container(keys: CodingKeys.self)
+        let subviews: [AnyView]? = container.childrenIfPresent(of: .subviews)
         let constraintsContainer = container.nestedContainerIfPresent(of: .constraints, keys: ViewElementKey.self)
         let variationContainer = xml.container(keys: ViewElementKey.self)
         let colorsContainer = xml.container(keys: ViewElementKey.self).nestedContainerIfPresent(of: .color, keys: KeyCodingKeys.self)
@@ -140,6 +141,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
         let keyboardLayoutGuideContainer = xml.container(keys: ViewElementKey.self)
             .nestedContainerIfPresent(of: .keyboardLayoutGuide, keys: KeyCodingKeys.self)
         return View(
+            subviews: subviews,
             id: try container.attribute(of: .id),
             key: container.attributeIfPresent(of: .key),
             customClass: container.attributeIfPresent(of: .customClass),
@@ -184,7 +186,6 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
             ambiguous: container.attributeIfPresent(of: .ambiguous),
             fixedFrame: container.attributeIfPresent(of: .fixedFrame),
             variations: variationContainer.elementsIfPresent(of: .variation),
-            subviews: container.childrenIfPresent(of: .subviews),
         )
     }
 }

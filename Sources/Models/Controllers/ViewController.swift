@@ -34,6 +34,8 @@ extension ViewControllerProtocol {
 }
 
 public struct ViewController: IBDecodable, ViewControllerProtocol {
+    public let view: View?
+    public var rootView: ViewProtocol? { view }
     public let id: String
     public let elementClass: String = "UIViewController"
     public let customClass: String?
@@ -62,8 +64,6 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
     public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
     public let tabBarItem: TabBarItem?
-    public let view: View?
-    public var rootView: ViewProtocol? { view }
     public let size: [Size]?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
@@ -72,6 +72,7 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
         let container = xml.container(keys: CodingKeys.self)
         let layoutGuidesContainer = container.nestedContainerIfPresent(of: .layoutGuides, keys: LayoutGuidesCodingKeys.self)
         return .init(
+            view: container.elementIfPresent(of: .view),
             id: try container.attribute(of: .id),
             customClass: container.attributeIfPresent(of: .customClass),
             customModule: container.attributeIfPresent(of: .customModule),
@@ -99,7 +100,6 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
             connections: container.childrenIfPresent(of: .connections),
             keyCommands: container.childrenIfPresent(of: .keyCommands),
             tabBarItem: container.elementIfPresent(of: .tabBarItem),
-            view: container.elementIfPresent(of: .view),
             size: container.elementsIfPresent(of: .size),
         )
     }
