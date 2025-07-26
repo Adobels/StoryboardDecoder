@@ -48,7 +48,7 @@ extension AnyViewController: IBAny {
 
 // MARK: - ViewControllerLayoutGuide
 
-public struct ViewControllerLayoutGuide: IBDecodable {
+public struct ViewControllerLayoutGuide: IBDecodable, IBIdentifiable {
     public let id: String
     public let type: String
 

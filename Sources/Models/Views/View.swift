@@ -191,7 +191,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
 
 // MARK: - LayoutGuide
 
-public struct LayoutGuide: IBDecodable {
+public struct LayoutGuide: IBDecodable, IBIdentifiable {
     public let key: String
     public let id: String
 
