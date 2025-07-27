@@ -10,22 +10,37 @@ import SWXMLHash
 // MARK: - ViewControllerProtocol
 
 public protocol ViewControllerProtocol: IBIdentifiable, IBCustomClassable, IBUserLabelable, IBConnectionOwner {
-    var elementClass: String { get }
-    var storyboardIdentifier: String? { get }
-    var sceneMemberID: String? { get }
-    var layoutGuides: [ViewControllerLayoutGuide]? { get }
-    var userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]? { get }
-    var connections: [AnyConnection]? { get }
-    var keyCommands: [KeyCommand]? { get }
-    var tabBarItem: TabBarItem? { get }
     var rootView: ViewProtocol? { get }
-    var size: [Size]? { get }
-    var framework: String { get }
+    var sceneMemberID: String? { get }
+    var elementClass: String { get }
+    var customClass: String? { get }
+    var customModule: String? { get }
+    var customModuleProvider: String? { get }
+    var storyboardIdentifier: String?  { get }
+    var restorationIdentifier: String? { get }
+    var useStoryboardIdentifierAsRestorationIdentifier: Bool? { get }
+    var userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]? { get }
+    var userLabel: String? { get }
+    var colorLabel: String? { get }
+    var id: String { get }
+    var keyboardType: String? { get }
+    var title: String? { get }
+    var interactionActivityTrackingBaseName: String? { get }
     var automaticallyAdjustsScrollViewInsets: Bool? { get }
     var hidesBottomBarWhenPushed: Bool? { get }
     var autoresizesArchivedViewToFullSize: Bool? { get }
     var wantsFullScreenLayout: Bool? { get }
     var extendedLayoutIncludesOpaqueBars: Bool? { get }
+    var modalTransitionStyle: ModalTransitionStyle? { get }
+    var modalPresentationStyle: ModalPresentationStyle? { get }
+    var definesPresentationContext: Bool? { get }
+    var providesPresentationContextTransitionStyle: Bool? { get }
+    var tabBarItem: TabBarItem? { get }
+    var keyCommands: [KeyCommand]? { get }
+    var size: [Size]? { get }
+    var layoutGuides: [ViewControllerLayoutGuide]? { get }
+    var connections: [AnyConnection]? { get }
+    var framework: String { get }
 }
 
 extension ViewControllerProtocol {
@@ -34,7 +49,10 @@ extension ViewControllerProtocol {
 }
 
 public struct ViewController: IBDecodable, ViewControllerProtocol {
+    public let layoutGuides: [ViewControllerLayoutGuide]?
     public let view: View?
+    public let tabBarItem: TabBarItem?
+    public let connections: [AnyConnection]?
     public var rootView: ViewProtocol? { view }
     public let id: String
     public let elementClass: String = "UIViewController"
@@ -59,11 +77,8 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
     public let sceneMemberID: String?
     public let userLabel: String?
     public let colorLabel: String?
-    public let layoutGuides: [ViewControllerLayoutGuide]?
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
-    public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
-    public let tabBarItem: TabBarItem?
     public let size: [Size]?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
@@ -72,7 +87,10 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
         let container = xml.container(keys: CodingKeys.self)
         let layoutGuidesContainer = container.nestedContainerIfPresent(of: .layoutGuides, keys: LayoutGuidesCodingKeys.self)
         return .init(
+            layoutGuides: layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
             view: container.elementIfPresent(of: .view),
+            tabBarItem: container.elementIfPresent(of: .tabBarItem),
+            connections: container.childrenIfPresent(of: .connections),
             id: try container.attribute(of: .id),
             customClass: container.attributeIfPresent(of: .customClass),
             customModule: container.attributeIfPresent(of: .customModule),
@@ -95,11 +113,8 @@ public struct ViewController: IBDecodable, ViewControllerProtocol {
             sceneMemberID: container.attributeIfPresent(of: .sceneMemberID),
             userLabel: container.attributeIfPresent(of: .userLabel),
             colorLabel: container.attributeIfPresent(of: .colorLabel),
-            layoutGuides: layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
             userDefinedRuntimeAttributes: container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections: container.childrenIfPresent(of: .connections),
             keyCommands: container.childrenIfPresent(of: .keyCommands),
-            tabBarItem: container.elementIfPresent(of: .tabBarItem),
             size: container.elementsIfPresent(of: .size),
         )
     }

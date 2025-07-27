@@ -34,6 +34,14 @@ public struct AVPlayerViewController: IBDecodable, ViewControllerProtocol {
     public let autoresizesArchivedViewToFullSize: Bool?
     public let wantsFullScreenLayout: Bool?
     public let extendedLayoutIncludesOpaqueBars: Bool?
+    public let useStoryboardIdentifierAsRestorationIdentifier: Bool?
+    public let keyboardType: String?
+    public let title: String?
+    public let interactionActivityTrackingBaseName: String?
+    public let modalTransitionStyle: ModalTransitionStyle?
+    public let modalPresentationStyle: ModalPresentationStyle?
+    public let definesPresentationContext: Bool?
+    public let providesPresentationContextTransitionStyle: Bool?
 
     enum LayoutGuidesCodingKeys: CodingKey { case viewControllerLayoutGuide }
 
@@ -63,6 +71,14 @@ public struct AVPlayerViewController: IBDecodable, ViewControllerProtocol {
             autoresizesArchivedViewToFullSize: container.attributeIfPresent(of: .autoresizesArchivedViewToFullSize),
             wantsFullScreenLayout: container.attributeIfPresent(of: .wantsFullScreenLayout),
             extendedLayoutIncludesOpaqueBars: container.attributeIfPresent(of: .extendedLayoutIncludesOpaqueBars),
+            useStoryboardIdentifierAsRestorationIdentifier: container.attributeIfPresent(of: .useStoryboardIdentifierAsRestorationIdentifier),
+            keyboardType: container.attributeIfPresent(of: .keyboardType),
+            title: container.attributeIfPresent(of: .title),
+            interactionActivityTrackingBaseName: container.attributeIfPresent(of: .interactionActivityTrackingBaseName),
+            modalTransitionStyle: container.attributeIfPresent(of: .modalTransitionStyle),
+            modalPresentationStyle: container.attributeIfPresent(of: .modalPresentationStyle),
+            definesPresentationContext: container.attributeIfPresent(of: .definesPresentationContext),
+            providesPresentationContextTransitionStyle: container.attributeIfPresent(of: .providesPresentationContextTransitionStyle),
         )
     }
 }

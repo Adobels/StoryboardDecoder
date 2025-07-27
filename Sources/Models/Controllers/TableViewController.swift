@@ -13,6 +13,11 @@ protocol TableViewControllerProtocol {
 }
 
 public struct TableViewController: IBDecodable, ViewControllerProtocol, TableViewControllerProtocol {
+    public let layoutGuides: [ViewControllerLayoutGuide]?
+    public let tableView: TableView?
+    public let tabBarItem: TabBarItem?
+    public let connections: [AnyConnection]?
+    public var rootView: ViewProtocol? { tableView }
     public let elementClass: String = "UITableViewController"
     public let id: String
     public let customClass: String?
@@ -23,19 +28,22 @@ public struct TableViewController: IBDecodable, ViewControllerProtocol, TableVie
     public let colorLabel: String?
     public let storyboardIdentifier: String?
     public let sceneMemberID: String?
-    public let layoutGuides: [ViewControllerLayoutGuide]?
     public let userDefinedRuntimeAttributes: [UserDefinedRuntimeAttribute]?
-    public let connections: [AnyConnection]?
     public let keyCommands: [KeyCommand]?
-    public let tabBarItem: TabBarItem?
-    public let tableView: TableView?
-    public var rootView: ViewProtocol? { tableView }
     public let size: [Size]?
     public let automaticallyAdjustsScrollViewInsets: Bool?
     public let hidesBottomBarWhenPushed: Bool?
     public let autoresizesArchivedViewToFullSize: Bool?
     public let wantsFullScreenLayout: Bool?
     public let extendedLayoutIncludesOpaqueBars: Bool?
+    public let useStoryboardIdentifierAsRestorationIdentifier: Bool?
+    public let keyboardType: String?
+    public let title: String?
+    public let interactionActivityTrackingBaseName: String?
+    public let modalTransitionStyle: ModalTransitionStyle?
+    public let modalPresentationStyle: ModalPresentationStyle?
+    public let definesPresentationContext: Bool?
+    public let providesPresentationContextTransitionStyle: Bool?
     // MARK: TableViewController
     public let clearsSelectionOnViewWillAppear: Bool?
     // TODO: Add docoding
@@ -47,6 +55,10 @@ public struct TableViewController: IBDecodable, ViewControllerProtocol, TableVie
         let container = xml.container(keys: CodingKeys.self)
         let layoutGuidesContainer = container.nestedContainerIfPresent(of: .layoutGuides, keys: LayoutGuidesCodingKeys.self)
         return TableViewController(
+            layoutGuides: layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
+            tableView: container.elementIfPresent(of: .tableView),
+            tabBarItem: container.elementIfPresent(of: .tabBarItem),
+            connections: container.childrenIfPresent(of: .connections),
             id: try container.attribute(of: .id),
             customClass: container.attributeIfPresent(of: .customClass),
             customModule: container.attributeIfPresent(of: .customModule),
@@ -56,18 +68,22 @@ public struct TableViewController: IBDecodable, ViewControllerProtocol, TableVie
             colorLabel: container.attributeIfPresent(of: .colorLabel),
             storyboardIdentifier: container.attributeIfPresent(of: .storyboardIdentifier),
             sceneMemberID: container.attributeIfPresent(of: .sceneMemberID),
-            layoutGuides: layoutGuidesContainer?.elementsIfPresent(of: .viewControllerLayoutGuide),
             userDefinedRuntimeAttributes: container.childrenIfPresent(of: .userDefinedRuntimeAttributes),
-            connections: container.childrenIfPresent(of: .connections),
             keyCommands: container.childrenIfPresent(of: .keyCommands),
-            tabBarItem: container.elementIfPresent(of: .tabBarItem),
-            tableView: container.elementIfPresent(of: .tableView),
             size: container.elementsIfPresent(of: .size),
             automaticallyAdjustsScrollViewInsets: container.attributeIfPresent(of: .automaticallyAdjustsScrollViewInsets),
             hidesBottomBarWhenPushed: container.attributeIfPresent(of: .hidesBottomBarWhenPushed),
             autoresizesArchivedViewToFullSize: container.attributeIfPresent(of: .autoresizesArchivedViewToFullSize),
             wantsFullScreenLayout: container.attributeIfPresent(of: .wantsFullScreenLayout),
             extendedLayoutIncludesOpaqueBars: container.attributeIfPresent(of: .extendedLayoutIncludesOpaqueBars),
+            useStoryboardIdentifierAsRestorationIdentifier: container.attributeIfPresent(of: .useStoryboardIdentifierAsRestorationIdentifier),
+            keyboardType: container.attributeIfPresent(of: .keyboardType),
+            title: container.attributeIfPresent(of: .title),
+            interactionActivityTrackingBaseName: container.attributeIfPresent(of: .interactionActivityTrackingBaseName),
+            modalTransitionStyle: container.attributeIfPresent(of: .modalTransitionStyle),
+            modalPresentationStyle: container.attributeIfPresent(of: .modalPresentationStyle),
+            definesPresentationContext: container.attributeIfPresent(of: .definesPresentationContext),
+            providesPresentationContextTransitionStyle: container.attributeIfPresent(of: .providesPresentationContextTransitionStyle),
             clearsSelectionOnViewWillAppear: container.attributeIfPresent(of: .clearsSelectionOnViewWillAppear),
         )
     }
