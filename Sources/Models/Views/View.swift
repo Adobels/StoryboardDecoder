@@ -65,7 +65,6 @@ public protocol ViewProtocol: IBKeyable, IBCustomClassable, IBUserLabelable, IBC
 }
 
 public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
-    public let subviews: [AnyView]?
     // MARK: Identity Inspector
     public let id: String
     public let key: String?
@@ -103,6 +102,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
     public let insetsLayoutMarginsFromSafeArea: Bool?
     public let safeArea: LayoutGuide?
     public let keyboard: LayoutGuide?
+    public let subviews: [AnyView]?
     public let constraints: [Constraint]?
     public let horizontalHuggingPriority: Int?
     public let verticalHuggingPriority: Int?
@@ -141,7 +141,6 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
         let keyboardLayoutGuideContainer = xml.container(keys: ViewElementKey.self)
             .nestedContainerIfPresent(of: .keyboardLayoutGuide, keys: KeyCodingKeys.self)
         return View(
-            subviews: subviews,
             id: try container.attribute(of: .id),
             key: container.attributeIfPresent(of: .key),
             customClass: container.attributeIfPresent(of: .customClass),
@@ -175,6 +174,7 @@ public struct View: IBDecodable, ViewProtocol, IBIdentifiable {
             insetsLayoutMarginsFromSafeArea: container.attributeIfPresent(of: .insetsLayoutMarginsFromSafeArea),
             safeArea: viewLayoutGuidesContainer?.withAttributeElement(.key, CodingKeys.safeArea.stringValue),
             keyboard: keyboardLayoutGuideContainer?.withAttributeElement(.key, CodingKeys.keyboard.stringValue),
+            subviews: subviews,
             constraints: constraintsContainer?.elementsIfPresent(of: .constraint),
             horizontalHuggingPriority: container.attributeIfPresent(of: .horizontalHuggingPriority),
             verticalHuggingPriority: container.attributeIfPresent(of: .verticalHuggingPriority),
