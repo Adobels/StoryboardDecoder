@@ -11,7 +11,7 @@ protocol DatePickerProtocol: ViewProtocol, ControlProtocol {
     var style: String? { get } // IB: Preferred Style; UIKit datePickerStyle: UIDatePickerStyle
     var datePickerMode: String? { get } // IB: Mode; UIKit: datePickerMode: UIDatePicker.Mode
     var locale: DatePickerLocale? { get }
-    var minuteInterval: Int { get }
+    var minuteInterval: Int? { get }
     var date: IBDate? { get }
     var minimumDate: IBDate? { get }
     var maximumDate: IBDate? { get }
@@ -77,7 +77,7 @@ public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
     public let style: String?
     public let datePickerMode: String?
     public let locale: DatePickerLocale?
-    public let minuteInterval: Int
+    public let minuteInterval: Int?
     public let countDownDuration: Int?
     public let useCurrentDate: Bool?
     public let date: IBDate?
@@ -147,7 +147,7 @@ public struct DatePicker: IBDecodable, DatePickerProtocol, IBIdentifiable {
             style: datePicker.attributeIfPresent(of: .style),
             datePickerMode: datePicker.attributeIfPresent(of: .datePickerMode),
             locale: datePicker.elementIfPresent(of: .locale),
-            minuteInterval: try datePicker.attribute(of: .minuteInterval),
+            minuteInterval: datePicker.attributeIfPresent(of: .minuteInterval),
             countDownDuration: datePicker.attributeIfPresent(of: .countDownDuration),
             useCurrentDate: datePicker.attributeIfPresent(of: .useCurrentDate),
             date: datePickerDateContainer?.withAttributeElement(.key, CodingKeys.date.stringValue),
